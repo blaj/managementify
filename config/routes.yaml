@@ -1,5 +1,0 @@
-dashboard_controllers:
-    resource:
-        path: ../src/Dashboard/Controller/
-        namespace: App\Dashboard\Controller
-    type: attribute
