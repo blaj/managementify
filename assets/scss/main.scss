@@ -46,3 +46,8 @@ body {
   overflow-x: hidden;
   overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
 }
+
+#intro {
+  background-image: url(https://mdbootstrap.com/img/new/fluid/city/008.jpg);
+  height: 100vh;
+}
