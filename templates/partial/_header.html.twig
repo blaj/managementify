@@ -1,0 +1,62 @@
+<header>
+  <nav id="sidebarMenu" class="collapse d-lg-block sidebar collapse bg-white">
+    <div class="position-sticky">
+      <div class="list-group list-group-flush mx-3 mt-4">
+        {% include 'partial/_side-bar-item.html.twig' with { name: 'dashboard'|trans, path: path('dashboard_index') } %}
+      </div>
+    </div>
+  </nav>
+
+  <nav id="main-navbar" class="navbar navbar-expand-lg navbar-light bg-white fixed-top">
+    <div class="container-fluid">
+      <button
+          class="navbar-toggler"
+          type="button"
+          data-mdb-collapse-init data-mdb-target="#sidebarMenu"
+          aria-controls="sidebarMenu"
+          aria-expanded="false"
+          aria-label="Toggle navigation">
+        <i class="fas fa-bars"></i>
+      </button>
+
+      <a class="navbar-brand" href="#">
+        {{ 'managementify'|trans }}
+      </a>
+
+      <ul class="navbar-nav ms-auto d-flex flex-row">
+        <li class="nav-item dropdown">
+          <a
+              class="nav-link dropdown-toggle hidden-arrow d-flex align-items-center"
+              href="#"
+              id="navbarDropdownMenuLink"
+              role="button"
+              data-mdb-dropdown-init aria-expanded="false">
+            <img
+                src="https://mdbootstrap.com/img/Photos/Avatars/img (31).jpg" class="rounded-circle" height="22"
+                alt="" loading="lazy" />
+          </a>
+
+          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuLink">
+            <li>
+              <a class="dropdown-item" href="#">
+                {{ 'my-profile'|trans }}
+              </a>
+            </li>
+
+            <li>
+              <a class="dropdown-item" href="#">
+                {{ 'settings'|trans }}
+              </a>
+            </li>
+
+            <li>
+              <a class="dropdown-item" href="#">
+                {{ 'logout'|trans }}
+              </a>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </nav>
+</header>

@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    "target": "es6",
+    "module": "esnext",
+    "moduleResolution": "node",
+    "allowSyntheticDefaultImports": true,
+    "resolveJsonModule": true,
+    "allowJs": true,
+    "checkJs": false,
+    "esModuleInterop": true,
+    "paths": {
+      "~": [
+        "./node_modules"
+      ],
+      "@assets/*": [
+        "./assets/*"
+      ]
+    }
+  }
+}
