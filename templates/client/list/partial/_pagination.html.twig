@@ -1,0 +1,79 @@
+<nav aria-label="Page navigation example">
+  {% set pageNumberRaw = clientsDtoPaginatedList.page.totalItems / form.vars.value.pageCriteria.size %}
+  {% set pageNumberRound = pageNumberRaw|round(0, 'ceil') %}
+
+  <ul class="pagination">
+    <li class="page-item">
+      <a
+          class="page-link"
+          href="{% include 'client/list/partial/_table-pagination-link.html.twig' with { form: form, no: form.vars.value.pageCriteria.no != 0 ? form.vars.value.pageCriteria.no - 1 : 0, size: clientsDtoPaginatedList.page.size } only %}">
+        &laquo;
+      </a>
+    </li>
+
+    {% if form.vars.value.pageCriteria.no != 0 %}
+      {% if form.vars.value.pageCriteria.no != 1 %}
+        <li class="page-item">
+          <a
+              class="page-link"
+              href="{% include 'client/list/partial/_table-pagination-link.html.twig' with { form: form, no: 0, size: clientsDtoPaginatedList.page.size } only %}">
+            1
+          </a>
+        </li>
+      {% endif %}
+
+      {% if form.vars.value.pageCriteria.no > 2 %}
+        <li class="page-item disabled">
+          <span class="page-link">...</span>
+        </li>
+      {% endif %}
+
+      <li class="page-item">
+        <a
+            class="page-link"
+            href="{% include 'client/list/partial/_table-pagination-link.html.twig' with { form: form, no: form.vars.value.pageCriteria.no - 1 , size: clientsDtoPaginatedList.page.size } only %}">
+          {{ form.vars.value.pageCriteria.no }}
+        </a>
+      </li>
+    {% endif %}
+
+    <li class="page-item active">
+      <span class="page-link">{{ form.vars.value.pageCriteria.no + 1 }}</span>
+    </li>
+
+    {% if form.vars.value.pageCriteria.no < pageNumberRound - 1 %}
+      <li class="page-item">
+        <a
+            class="page-link"
+            href="{% include 'client/list/partial/_table-pagination-link.html.twig' with { form: form, no: form.vars.value.pageCriteria.no + 1 , size: clientsDtoPaginatedList.page.size } only %}">
+          {{ form.vars.value.pageCriteria.no + 2 }}
+        </a>
+      </li>
+
+      {% if form.vars.value.pageCriteria.no < pageNumberRound - 3 %}
+        <li class="page-item disabled">
+          <span class="page-link">...</span>
+        </li>
+      {% endif %}
+
+
+      {% if form.vars.value.pageCriteria.no != pageNumberRound - 2 %}
+        <li class="page-item">
+          <a
+              class="page-link"
+              href="{% include 'client/list/partial/_table-pagination-link.html.twig' with { form: form, no: pageNumberRound - 1, size: clientsDtoPaginatedList.page.size } only %}">
+            {{ pageNumberRound }}
+          </a>
+        </li>
+      {% endif %}
+    {% endif %}
+
+    <li class="page-item next">
+      <a
+          class="page-link"
+          href="{% include 'client/list/partial/_table-pagination-link.html.twig' with { form: form, no: form.vars.value.pageCriteria.no + 1 <= pageNumberRound ? form.vars.value.pageCriteria.no + 1 : pageNumberRound , size: clientsDtoPaginatedList.page.size } only %}">
+        &raquo;
+      </a>
+    </li>
+  </ul>
+</nav>

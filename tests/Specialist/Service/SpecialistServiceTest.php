@@ -217,7 +217,6 @@ class SpecialistServiceTest extends TestCase {
 
     // given
     $id = 123;
-
     $request = new SpecialistUpdateRequest();
 
     $this->specialistRepository

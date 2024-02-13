@@ -21,5 +21,11 @@
   "edit-specialist": "Edit specialist",
   "specialist-added-successfully": "The specialist has been added successfully",
   "specialist-edited-successfully": "The specialist has been edited successfully",
-  "specialist-deleted-successfully": "The specialist has been deleted successfully"
+  "specialist-deleted-successfully": "The specialist has been deleted successfully",
+  "clients": "Clients",
+  "add-client": "Add client",
+  "edit-client": "Edit client",
+  "client-added-successfully": "The client has been added successfully",
+  "client-edited-successfully": "The client has been edited successfully",
+  "client-deleted-successfully": "The client has been deleted successfully"
 }

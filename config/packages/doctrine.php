@@ -52,6 +52,13 @@ return static function(ContainerConfigurator $containerConfigurator): void {
                   'prefix' => 'App\Specialist\Entity',
                   'alias' => 'Specialist',
               ],
+              'Client' => [
+                  'type' => 'attribute',
+                  'is_bundle' => false,
+                  'dir' => '%kernel.project_dir%/src/Client/Entity',
+                  'prefix' => 'App\Client\Entity',
+                  'alias' => 'Client',
+              ],
           ],
       ],
   ]);

@@ -21,5 +21,11 @@
   "edit-specialist": "Edytuj specjalistę",
   "specialist-added-successfully": "Specjalista został dodany pomyślnie",
   "specialist-edited-successfully": "Specjalista został pomyślnie zaktualizowany",
-  "specialist-deleted-successfully": "Specjalista został pomyślnie usunięty"
+  "specialist-deleted-successfully": "Specjalista został pomyślnie usunięty",
+  "clients": "Klienci",
+  "add-client": "Dodaj klienta",
+  "edit-client": "Edytuj klienta",
+  "client-added-successfully": "Klient został dodany pomyślnie",
+  "client-edited-successfully": "Klient został pomyślnie zaktualizowany",
+  "client-deleted-successfully": "Klient został pomyślnie usunięty"
 }
