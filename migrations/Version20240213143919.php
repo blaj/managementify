@@ -7,19 +7,19 @@ namespace DoctrineMigrations;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
 
-final class Version20240212125127 extends AbstractMigration {
+final class Version20240213143919 extends AbstractMigration {
 
   public function getDescription(): string {
-    return 'Create specialist schema and table';
+    return 'Create client schema and table';
   }
 
   public function up(Schema $schema): void {
-    $this->addSql('CREATE SCHEMA specialist;');
-    $this->addSql('GRANT USAGE ON SCHEMA specialist TO managementify_app_user;');
+    $this->addSql('CREATE SCHEMA client;');
+    $this->addSql('GRANT USAGE ON SCHEMA client TO managementify_app_user;');
 
     $this->addSql(
         '
-        CREATE TABLE specialist.specialist (
+        CREATE TABLE client.client (
           id SERIAL PRIMARY KEY, 
           firstname VARCHAR(100) NOT NULL, 
           surname VARCHAR(100) NOT NULL,
@@ -28,13 +28,13 @@ final class Version20240212125127 extends AbstractMigration {
         );');
 
     $this->addSql(
-        'GRANT INSERT, SELECT, UPDATE ON specialist.specialist TO managementify_app_user;');
+        'GRANT INSERT, SELECT, UPDATE ON client.client TO managementify_app_user;');
     $this->addSql(
-        'GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA specialist TO managementify_app_user;');
+        'GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA client TO managementify_app_user;');
   }
 
   public function down(Schema $schema): void {
-    $this->addSql('DROP TABLE specialist.specialist;');
-    $this->addSql('DROP SCHEMA specialist;');
+    $this->addSql('DROP TABLE client.client;');
+    $this->addSql('DROP SCHEMA client;');
   }
 }

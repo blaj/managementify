@@ -28,7 +28,7 @@ class SpecialistController extends AbstractController {
   #[Route(path: '/', name: 'list', methods: ['GET'])]
   public function list(Request $request): Response {
     $specialistPaginatedListCriteria =
-        (new SpecialistPaginatedListCriteria(SpecialistPaginatedListFilter::class));
+        new SpecialistPaginatedListCriteria(SpecialistPaginatedListFilter::class);
     $specialistPaginatedListCriteria->setPageCriteria(PageCriteria::default());
 
     $form =
@@ -112,7 +112,7 @@ class SpecialistController extends AbstractController {
   }
 
   #[Route(path: '/{id}/delete', name: 'delete', requirements: ['id' => '\d+'], methods: ['DELETE'])]
-  public function delete(int $id, Request $request): Response {
+  public function delete(int $id): Response {
     $this->specialistService->delete($id);
 
     $this->addFlash(
