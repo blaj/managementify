@@ -35,5 +35,6 @@ final class Version20240212103558 extends AbstractMigration
 
   public function down(Schema $schema): void {
     $this->addSql('DROP TABLE users.users;');
+    $this->addSql('DROP SCHEMA users;');
   }
 }

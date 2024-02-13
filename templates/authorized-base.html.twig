@@ -29,6 +29,16 @@
 
     <main style="margin-top: 58px">
       <div class="container pt-4">
+        {% for message in app.flashes('success') %}
+          <div class="alert alert-success alert-dismissible">
+            <i class="fas fa-check me-2"></i>
+
+            {{ message|trans }}
+
+            <button type="button" class="btn-close ms-2"></button>
+          </div>
+        {% endfor %}
+
         {% block content %}{% endblock %}
       </div>
     </main>

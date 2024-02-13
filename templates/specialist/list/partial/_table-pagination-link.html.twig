@@ -1,0 +1,18 @@
+{{ path(
+  'specialist_list',
+  {
+    specialist_paginated_list_criteria: {
+    filter: {
+      search: form.vars.value.filter.search is defined ? form.vars.value.filter.search : null
+    },
+    sort: {
+      by: form.vars.value.sort.by is defined ? form.vars.value.sort.by : null,
+      order: form.vars.value.sort.order is defined ? form.vars.value.sort.order : null,
+    },
+    pageCriteria: {
+      no: no,
+      size: size
+    },
+    _token: form._token.vars.value
+  }
+  }) }}

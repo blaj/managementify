@@ -1,2 +1,16 @@
 parameters:
-  ignoreErrors:
+	ignoreErrors:
+		-
+			message: "#^Property App\\\\Common\\\\Dto\\\\EntityPage\\:\\:\\$className is never read, only written\\.$#"
+			count: 1
+			path: ../src/Common/Dto/EntityPage.php
+
+		-
+			message: "#^Property App\\\\Common\\\\PaginatedList\\\\Dto\\\\PaginatedList\\:\\:\\$className is never read, only written\\.$#"
+			count: 1
+			path: ../src/Common/PaginatedList/Dto/PaginatedList.php
+
+		-
+			message: "#^Property App\\\\Common\\\\PaginatedList\\\\Dto\\\\PaginatedListCriteria\\:\\:\\$filterClassName is never read, only written\\.$#"
+			count: 1
+			path: ../src/Common/PaginatedList/Dto/PaginatedListCriteria.php

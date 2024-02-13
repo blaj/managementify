@@ -1,0 +1,52 @@
+<tr>
+  <td>
+    {{ loop.index }}
+  </td>
+
+  <td>
+    {{ specialistPaginatedListItemDto.firstname }}
+  </td>
+
+  <td>
+    {{ specialistPaginatedListItemDto.surname }}
+  </td>
+
+  <td>
+    {{ specialistPaginatedListItemDto.foreignId }}
+  </td>
+
+  <td>
+    <div class="btn-group">
+      <button
+          type="button"
+          class="btn btn-primary btn-sm dropdown-toggle"
+          data-mdb-dropdown-init data-mdb-ripple-init aria-expanded="false">
+        {{ 'actions'|trans }}
+      </button>
+
+      <ul class="dropdown-menu">
+        <li>
+          <a class="dropdown-item" href="{{ path('specialist_details', { id: specialistPaginatedListItemDto.id }) }}">
+            {{ 'view'|trans }}
+          </a>
+        </li>
+
+        <li>
+          <a class="dropdown-item" href="{{ path('specialist_update', { id: specialistPaginatedListItemDto.id }) }}">
+            {{ 'edit'|trans }}
+          </a>
+        </li>
+
+        <li>
+          <form action="{{ path('specialist_delete', { id: specialistPaginatedListItemDto.id }) }}" method="post">
+            <button type="submit" class="dropdown-item">
+              {{ 'delete'|trans }}
+            </button>
+
+            <input type="hidden" name="_method" value="DELETE">
+          </form>
+        </li>
+      </ul>
+    </div>
+  </td>
+</tr>
