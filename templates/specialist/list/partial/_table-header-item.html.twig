@@ -1,0 +1,20 @@
+<th
+    class="sort align-middle text-nowrap">
+  <div class="d-flex align-items-center">
+    {{ nameKey|trans }}
+
+    {% if sortKolumnKey is defined %}
+      {% if sortKolumnKey in sortableFields %}
+        <div class="align-middle ms-1">
+          <a
+              href="{% include 'specialist/list/partial/_sort-link.html.twig' with { form: form, by: sortKolumnKey, order: 'ASC' } only %}"
+              class="sort-icon sort-icon-asc"></a>
+
+          <a
+              href="{% include 'specialist/list/partial/_sort-link.html.twig' with { form: form, by: sortKolumnKey, order: 'DESC' } only %}"
+              class="sort-icon sort-icon-desc"></a>
+        </div>
+      {% endif %}
+    {% endif %}
+  </div>
+</th>

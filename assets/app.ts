@@ -1,9 +1,15 @@
 import './scss/main.scss';
 import { startStimulusApp } from '@symfony/stimulus-bridge';
 import { Application } from '@hotwired/stimulus';
-import { Input, initMDB } from 'mdb-ui-kit';
+import * as mdb from 'mdb-ui-kit/js/mdb.umd.min';
 
-initMDB({ Input });
+declare global {
+  interface Window {
+    mdb: any;
+  }
+}
+
+window.mdb = mdb;
 
 const app: Application = startStimulusApp(
   require.context(

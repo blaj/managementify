@@ -16,6 +16,11 @@ return static function(RoutingConfigurator $routingConfigurator): void {
   ], 'attribute');
 
   $routingConfigurator->import([
+      'path' => '../src/Specialist/Controller/',
+      'namespace' => 'App\Specialist\Controller',
+  ], 'attribute');
+
+  $routingConfigurator->import([
       'path' => '../src/Security/Controller/',
       'namespace' => 'App\Security\Controller',
   ], 'attribute');

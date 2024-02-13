@@ -1,0 +1,27 @@
+{% extends 'authorized-base.html.twig' %}
+
+{% block content %}
+  <div class="card">
+    <div class="card-header py-3 d-flex justify-content-between align-items-center">
+      <h5 class="mb-0">
+        <strong>
+          {{ 'specialists'|trans }}
+        </strong>
+      </h5>
+
+      <a class="btn btn-primary btn-sm" data-mdb-ripple-init href="{{ path('specialist_create') }}" role="button">
+        <i class="fa fa-plus me-2"></i>
+
+        {{ 'add-specialist'|trans }}
+      </a>
+    </div>
+
+    <div class="card-body">
+      {% include 'specialist/list/partial/_filter.html.twig' %}
+
+      {% include 'specialist/list/partial/_table.html.twig' %}
+
+      {% include 'specialist/list/partial/_pagination.html.twig' %}
+    </div>
+  </div>
+{% endblock %}

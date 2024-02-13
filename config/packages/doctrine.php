@@ -2,6 +2,7 @@
 
 declare(strict_types = 1);
 
+use App\Common\Doctrine\Type\BigIntType;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 return static function(ContainerConfigurator $containerConfigurator): void {
@@ -25,6 +26,9 @@ return static function(ContainerConfigurator $containerConfigurator): void {
                   'use_savepoints' => true,
               ],
           ],
+          'types' => [
+              'bigint' => BigIntType::class
+          ],
       ],
       'orm' => [
           'auto_generate_proxy_classes' => true,
@@ -40,6 +44,13 @@ return static function(ContainerConfigurator $containerConfigurator): void {
                   'dir' => '%kernel.project_dir%/src/User/Entity',
                   'prefix' => 'App\User\Entity',
                   'alias' => 'User',
+              ],
+              'Specialist' => [
+                  'type' => 'attribute',
+                  'is_bundle' => false,
+                  'dir' => '%kernel.project_dir%/src/Specialist/Entity',
+                  'prefix' => 'App\Specialist\Entity',
+                  'alias' => 'Specialist',
               ],
           ],
       ],

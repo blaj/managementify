@@ -8,6 +8,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $containerConfigurator->extension('framework', [
         'secret' => '%env(APP_SECRET)%',
         'session' => true,
+        'http_method_override' => true
     ]);
     if ($containerConfigurator->env() === 'test') {
         $containerConfigurator->extension('framework', [

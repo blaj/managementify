@@ -3,6 +3,8 @@
     <div class="position-sticky">
       <div class="list-group list-group-flush mx-3 mt-4">
         {% include 'partial/_side-bar-item.html.twig' with { name: 'dashboard'|trans, path: path('dashboard_index') } %}
+
+        {% include 'partial/_side-bar-item.html.twig' with { name: 'specialists'|trans, path: path('specialist_list') } %}
       </div>
     </div>
   </nav>
