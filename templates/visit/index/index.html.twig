@@ -1,0 +1,21 @@
+{% extends 'authorized-base.html.twig' %}
+
+{% block content %}
+  <div class="card">
+    <div class="card-header py-3 d-flex justify-content-between align-items-center">
+      <h5 class="mb-0">
+        <strong>
+          {{ 'visits'|trans }}
+        </strong>
+      </h5>
+    </div>
+
+    <div class="card-body">
+      {% include 'visit/index/partial/_filter.html.twig' %}
+
+      <div class="table-responsive">
+        {% include 'visit/index/partial/_table.html.twig' %}
+      </div>
+    </div>
+  </div>
+{% endblock %}

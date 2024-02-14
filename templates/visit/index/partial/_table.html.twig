@@ -1,0 +1,33 @@
+<table class="table table-bordered border-primary">
+  <thead class="table-dark">
+    <tr>
+      <th></th>
+
+      {% for headerDto in calendarDto.headerCols %}
+        <th>
+          {{ headerDto.date|dateFormat }}
+        </th>
+      {% endfor %}
+    </tr>
+  </thead>
+
+  <tbody>
+    {% for rowDto in calendarDto.rows %}
+      <tr>
+        <td>
+          {{ rowDto.infoCol.specialistFirstname }} {{ rowDto.infoCol.specialistSurname }}
+        </td>
+
+        {% for dataColDto in rowDto.dataCols %}
+          <td>
+            {% for dataVisitDto in dataColDto.visits %}
+              {{ dataVisitDto.range.from|dateFormat('H:i') }}
+              -
+              {{ dataVisitDto.range.to|dateFormat('H:i') }}
+            {% endfor %}
+          </td>
+        {% endfor %}
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>

@@ -27,5 +27,6 @@
   "edit-client": "Edytuj klienta",
   "client-added-successfully": "Klient został dodany pomyślnie",
   "client-edited-successfully": "Klient został pomyślnie zaktualizowany",
-  "client-deleted-successfully": "Klient został pomyślnie usunięty"
+  "client-deleted-successfully": "Klient został pomyślnie usunięty",
+  "visits": "Wizyty"
 }

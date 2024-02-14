@@ -14,3 +14,13 @@ parameters:
 			message: "#^Property App\\\\Common\\\\PaginatedList\\\\Dto\\\\PaginatedListCriteria\\:\\:\\$filterClassName is never read, only written\\.$#"
 			count: 1
 			path: ../src/Common/PaginatedList/Dto/PaginatedListCriteria.php
+
+		-
+			message: "#^Return type \\(array\\<T of App\\\\Common\\\\Entity\\\\SoftDeleteEntity\\>\\) of method App\\\\Common\\\\Repository\\\\AbstractSoftDeleteRepository\\:\\:findAll\\(\\) should be covariant with return type \\(array\\<int, App\\\\Common\\\\Entity\\\\SoftDeleteEntity\\>\\) of method Doctrine\\\\ORM\\\\EntityRepository\\<T of App\\\\Common\\\\Entity\\\\SoftDeleteEntity\\>\\:\\:findAll\\(\\)$#"
+			count: 1
+			path: ../src/Common/Repository/AbstractSoftDeleteRepository.php
+
+		-
+			message: "#^Return type \\(array\\<T of App\\\\Common\\\\Entity\\\\SoftDeleteEntity\\>\\) of method App\\\\Common\\\\Repository\\\\AbstractSoftDeleteRepository\\:\\:findAll\\(\\) should be covariant with return type \\(array\\<int, App\\\\Common\\\\Entity\\\\SoftDeleteEntity\\>\\) of method Doctrine\\\\Persistence\\\\ObjectRepository\\<T of App\\\\Common\\\\Entity\\\\SoftDeleteEntity\\>\\:\\:findAll\\(\\)$#"
+			count: 1
+			path: ../src/Common/Repository/AbstractSoftDeleteRepository.php

@@ -2,11 +2,13 @@
   <nav id="sidebarMenu" class="collapse d-lg-block sidebar collapse bg-white">
     <div class="position-sticky">
       <div class="list-group list-group-flush mx-3 mt-4">
-        {% include 'partial/_side-bar-item.html.twig' with { name: 'dashboard'|trans, path: path('dashboard_index') } %}
+        {% include 'partial/_side-bar-item.html.twig' with { name: 'dashboard'|trans, path: path('dashboard_index'), iconClass: 'fas fa-tachometer-alt' } %}
 
-        {% include 'partial/_side-bar-item.html.twig' with { name: 'specialists'|trans, path: path('specialist_list') } %}
+        {% include 'partial/_side-bar-item.html.twig' with { name: 'visits'|trans, path: path('visit_index'), iconClass: 'fas fa-calendar-days' } %}
 
-        {% include 'partial/_side-bar-item.html.twig' with { name: 'clients'|trans, path: path('client_list') } %}
+        {% include 'partial/_side-bar-item.html.twig' with { name: 'specialists'|trans, path: path('specialist_list'), iconClass: 'fas fa-user-graduate' } %}
+
+        {% include 'partial/_side-bar-item.html.twig' with { name: 'clients'|trans, path: path('client_list'), iconClass: 'fas fa-users' } %}
       </div>
     </div>
   </nav>

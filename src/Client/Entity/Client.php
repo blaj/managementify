@@ -4,9 +4,13 @@ namespace App\Client\Entity;
 
 use App\Client\Repository\ClientRepository;
 use App\Common\Entity\SoftDeleteEntity;
+use App\Visit\Entity\Visit;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
+use Doctrine\ORM\Mapping\OneToMany;
 use Doctrine\ORM\Mapping\Table;
 
 #[Entity(repositoryClass: ClientRepository::class)]
@@ -21,6 +25,16 @@ class Client extends SoftDeleteEntity {
 
   #[Column(name: 'foreign_id', type: Types::STRING, length: 100, nullable: true)]
   private ?string $foreignId = null;
+
+  /**
+   * @var Collection<int, Visit>
+   */
+  #[OneToMany(targetEntity: Visit::class, mappedBy: 'client')]
+  private Collection $visits;
+
+  public function __construct() {
+    $this->visits = new ArrayCollection();
+  }
 
   public function getFirstname(): string {
     return $this->firstname;
@@ -48,6 +62,36 @@ class Client extends SoftDeleteEntity {
 
   public function setForeignId(?string $foreignId): self {
     $this->foreignId = $foreignId;
+
+    return $this;
+  }
+
+  /**
+   * @return Collection<int, Visit>
+   */
+  public function getVisits(): Collection {
+    return $this->visits;
+  }
+
+  /**
+   * @param Collection<int, Visit> $visits
+   */
+  public function setVisits(Collection $visits): self {
+    $this->visits = $visits;
+
+    return $this;
+  }
+
+  public function addVisit(Visit $visit): self {
+    if (!$this->visits->contains($visit)) {
+      $this->visits->add($visit);
+    }
+
+    return $this;
+  }
+
+  public function removeVisit(Visit $visit): self {
+    $this->visits->removeElement($visit);
 
     return $this;
   }

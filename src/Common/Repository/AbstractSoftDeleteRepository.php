@@ -26,6 +26,23 @@ abstract class AbstractSoftDeleteRepository extends ServiceEntityRepository {
   }
 
   /**
+   * @return array<T>
+   */
+  public function findAll(): array {
+    /** @phpstan-ignore-next-line */
+    return $this->getEntityManager()
+        ->createQuery(
+            '
+            SELECT 
+              entity 
+            FROM 
+              ' . $this->getClassName() . ' entity 
+            WHERE 
+              entity.deleted = false ')
+        ->getResult();
+  }
+
+  /**
    * @return T|null
    * @throws NonUniqueResultException
    */
@@ -37,7 +54,7 @@ abstract class AbstractSoftDeleteRepository extends ServiceEntityRepository {
             SELECT 
               entity 
             FROM 
-              ' . $this->getClassName() .' entity 
+              ' . $this->getClassName() . ' entity 
             WHERE 
               entity.deleted = false 
               AND entity.id = :id ')
@@ -47,15 +64,15 @@ abstract class AbstractSoftDeleteRepository extends ServiceEntityRepository {
 
   public function softDeleteById(int $id): void {
     $this->getEntityManager()
-      ->createQuery(
-          '
+        ->createQuery(
+            '
           UPDATE 
             ' . $this->getClassName() . ' entity
           SET 
             entity.deleted = true 
           WHERE 
             entity.id = :id ')
-      ->setParameter('id', $id, Types::INTEGER)
-      ->execute();
+        ->setParameter('id', $id, Types::INTEGER)
+        ->execute();
   }
 }

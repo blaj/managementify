@@ -27,5 +27,6 @@
   "edit-client": "Edit client",
   "client-added-successfully": "The client has been added successfully",
   "client-edited-successfully": "The client has been edited successfully",
-  "client-deleted-successfully": "The client has been deleted successfully"
+  "client-deleted-successfully": "The client has been deleted successfully",
+  "visits": "Visits"
 }
