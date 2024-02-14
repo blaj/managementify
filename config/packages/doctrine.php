@@ -2,6 +2,7 @@
 
 declare(strict_types = 1);
 
+use App\Common\Doctrine\Function\CastFunction;
 use App\Common\Doctrine\Type\BigIntType;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
@@ -59,7 +60,19 @@ return static function(ContainerConfigurator $containerConfigurator): void {
                   'prefix' => 'App\Client\Entity',
                   'alias' => 'Client',
               ],
+              'Visit' => [
+                  'type' => 'attribute',
+                  'is_bundle' => false,
+                  'dir' => '%kernel.project_dir%/src/Visit/Entity',
+                  'prefix' => 'App\Visit\Entity',
+                  'alias' => 'Visit',
+              ],
           ],
+          'dql' => [
+              'string_functions' => [
+                  'CAST' => CastFunction::class
+              ]
+          ]
       ],
   ]);
   if ($containerConfigurator->env() === 'test') {
