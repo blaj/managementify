@@ -3,19 +3,23 @@
 namespace App\Client\Entity;
 
 use App\Client\Repository\ClientRepository;
+use App\Common\Entity\CompanyContextInterface;
 use App\Common\Entity\SoftDeleteEntity;
+use App\Company\Entity\Company;
 use App\Visit\Entity\Visit;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
+use Doctrine\ORM\Mapping\JoinColumn;
+use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\OneToMany;
 use Doctrine\ORM\Mapping\Table;
 
 #[Entity(repositoryClass: ClientRepository::class)]
 #[Table(name: 'client', schema: 'client')]
-class Client extends SoftDeleteEntity {
+class Client extends SoftDeleteEntity implements CompanyContextInterface {
 
   #[Column(name: 'firstname', type: Types::STRING, length: 100, nullable: false)]
   private string $firstname;
@@ -31,6 +35,10 @@ class Client extends SoftDeleteEntity {
    */
   #[OneToMany(targetEntity: Visit::class, mappedBy: 'client')]
   private Collection $visits;
+
+  #[JoinColumn(name: 'company_id', referencedColumnName: 'id', nullable: false, columnDefinition: 'BIGINT NOT NULL')]
+  #[ManyToOne(targetEntity: Company::class, fetch: 'LAZY')]
+  private Company $company;
 
   public function __construct() {
     $this->visits = new ArrayCollection();
@@ -92,6 +100,16 @@ class Client extends SoftDeleteEntity {
 
   public function removeVisit(Visit $visit): self {
     $this->visits->removeElement($visit);
+
+    return $this;
+  }
+
+  public function getCompany(): Company {
+    return $this->company;
+  }
+
+  public function setCompany(Company $company): self {
+    $this->company = $company;
 
     return $this;
   }

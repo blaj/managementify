@@ -2,6 +2,9 @@
 
 namespace App\Tests\User\Repository;
 
+use App\Common\Entity\Address;
+use App\Company\Entity\Company;
+use App\Company\Repository\CompanyRepository;
 use App\Tests\RepositoryTestCase;
 use App\User\Entity\User;
 use App\User\Repository\UserRepository;
@@ -10,11 +13,20 @@ use PHPUnit\Framework\Assert;
 class UserRepositoryTest extends RepositoryTestCase {
 
   private UserRepository $userRepository;
+  private CompanyRepository $companyRepository;
+
+  private Company $company;
 
   public function setUp(): void {
     parent::setUp();
 
     $this->userRepository = self::getService(UserRepository::class);
+    $this->companyRepository = self::getService(CompanyRepository::class);
+
+    $this->company = (new Company())
+        ->setName('name')
+        ->setAddress((new Address())->setStreet('street')->setCity('city')->setPostcode('00-00'));
+    $this->companyRepository->save($this->company);
   }
 
   /**
@@ -53,6 +65,9 @@ class UserRepositoryTest extends RepositoryTestCase {
   }
 
   private function user(string $username): User {
-    return (new User())->setUsername($username)->setPassword('password');
+    return (new User())
+        ->setUsername($username)
+        ->setPassword('password')
+        ->setCompany($this->company);
   }
 }

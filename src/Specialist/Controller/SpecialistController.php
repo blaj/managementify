@@ -4,6 +4,7 @@ namespace App\Specialist\Controller;
 
 use App\Common\Const\FlashMessageConst;
 use App\Common\PaginatedList\Dto\PageCriteria;
+use App\Security\Dto\UserData;
 use App\Specialist\Dto\SpecialistCreateRequest;
 use App\Specialist\Dto\SpecialistPaginatedListCriteria;
 use App\Specialist\Dto\SpecialistPaginatedListFilter;
@@ -26,7 +27,7 @@ class SpecialistController extends AbstractController {
   public function __construct(private readonly SpecialistService $specialistService) {}
 
   #[Route(path: '/', name: 'list', methods: ['GET'])]
-  public function list(Request $request): Response {
+  public function list(UserData $userData, Request $request): Response {
     $specialistPaginatedListCriteria =
         new SpecialistPaginatedListCriteria(SpecialistPaginatedListFilter::class);
     $specialistPaginatedListCriteria->setPageCriteria(PageCriteria::default());
@@ -42,13 +43,14 @@ class SpecialistController extends AbstractController {
         [
             'form' => $form,
             'specialistsDtoPaginatedList' => $this->specialistService->getPaginatedListByCriteria(
-                $specialistPaginatedListCriteria),
+                $specialistPaginatedListCriteria,
+                $userData->getCompanyId()),
             'sortableFields' => SpecialistPaginatedListCriteria::sortableFields]);
   }
 
   #[Route(path: '/{id}', name: 'details', requirements: ['id' => '\d+'], methods: ['GET'])]
-  public function details(int $id): Response {
-    $specialistDetailsDto = $this->specialistService->getDetails($id);
+  public function details(int $id, UserData $userData): Response {
+    $specialistDetailsDto = $this->specialistService->getDetails($id, $userData->getCompanyId());
 
     if ($specialistDetailsDto === null) {
       throw new NotFoundHttpException();
@@ -60,7 +62,7 @@ class SpecialistController extends AbstractController {
   }
 
   #[Route(path: '/create', name: 'create', methods: ['GET', 'POST'])]
-  public function create(Request $request): Response {
+  public function create(UserData $userData, Request $request): Response {
     $form =
         $this->createForm(
             SpecialistCreateType::class,
@@ -68,7 +70,7 @@ class SpecialistController extends AbstractController {
     $form->handleRequest($request);
 
     if ($form->isSubmitted() && $form->isValid()) {
-      $this->specialistService->create($specialistCreateRequest);
+      $this->specialistService->create($specialistCreateRequest, $userData->getCompanyId());
 
       $this->addFlash(
           FlashMessageConst::$success,
@@ -84,8 +86,9 @@ class SpecialistController extends AbstractController {
   #[Route(path: '/{id}/update', name: 'update', requirements: ['id' => '\d+'], methods: [
       'GET',
       'PUT'])]
-  public function update(int $id, Request $request): Response {
-    $specialistUpdateRequest = $this->specialistService->getUpdateRequest($id);
+  public function update(int $id, UserData $userData, Request $request): Response {
+    $specialistUpdateRequest =
+        $this->specialistService->getUpdateRequest($id, $userData->getCompanyId());
 
     if ($specialistUpdateRequest === null) {
       throw new NotFoundHttpException();
@@ -99,7 +102,7 @@ class SpecialistController extends AbstractController {
     $form->handleRequest($request);
 
     if ($form->isSubmitted() && $form->isValid()) {
-      $this->specialistService->update($id, $specialistUpdateRequest);
+      $this->specialistService->update($id, $specialistUpdateRequest, $userData->getCompanyId());
 
       $this->addFlash(
           FlashMessageConst::$success,
@@ -112,8 +115,8 @@ class SpecialistController extends AbstractController {
   }
 
   #[Route(path: '/{id}/delete', name: 'delete', requirements: ['id' => '\d+'], methods: ['DELETE'])]
-  public function delete(int $id): Response {
-    $this->specialistService->delete($id);
+  public function delete(int $id, UserData $userData): Response {
+    $this->specialistService->delete($id, $userData->getCompanyId());
 
     $this->addFlash(
         FlashMessageConst::$success,

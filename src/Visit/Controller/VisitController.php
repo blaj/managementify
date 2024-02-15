@@ -2,6 +2,7 @@
 
 namespace App\Visit\Controller;
 
+use App\Security\Dto\UserData;
 use App\Visit\Dto\VisitFilterRequest;
 use App\Visit\Form\Type\VisitFilterType;
 use App\Visit\Service\VisitCalendarService;
@@ -19,7 +20,7 @@ class VisitController extends AbstractController {
       private readonly VisitCalendarService $visitCalendarService) {}
 
   #[Route(path: '/', name: 'index', methods: ['GET'])]
-  public function index(Request $request): Response {
+  public function index(UserData $userData, Request $request): Response {
     $form =
         $this->createForm(VisitFilterType::class, $visitFilterRequest = new VisitFilterRequest());
     $form->handleRequest($request);
@@ -28,6 +29,8 @@ class VisitController extends AbstractController {
         'visit/index/index.html.twig',
         [
             'form' => $form,
-            'calendarDto' => $this->visitCalendarService->getCalendar($visitFilterRequest)]);
+            'calendarDto' => $this->visitCalendarService->getCalendar(
+                $visitFilterRequest,
+                $userData->getCompanyId())]);
   }
 }

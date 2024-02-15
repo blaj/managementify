@@ -16,18 +16,23 @@ use App\Client\Repository\ClientRepository;
 use App\Common\PaginatedList\Dto\CriteriaWithEntityPageWrapper;
 use App\Common\PaginatedList\Dto\PaginatedList;
 use App\Common\PaginatedList\Mapper\PageMapper;
+use App\Company\Service\CompanyFetchService;
 use Doctrine\ORM\EntityNotFoundException;
 
 class ClientService {
 
-  public function __construct(private readonly ClientRepository $clientRepository) {}
+  public function __construct(
+      private readonly ClientRepository $clientRepository,
+      private readonly CompanyFetchService $companyFetchService) {}
 
   /**
    * @return PaginatedList<ClientListItemDto>
    */
   public function getPaginatedListByCriteria(
-      ClientPaginatedListCriteria $clientPaginatedListCriteria): PaginatedList {
-    $clientsPage = $this->clientRepository->findAllByCriteria($clientPaginatedListCriteria);
+      ClientPaginatedListCriteria $clientPaginatedListCriteria,
+      int $companyId): PaginatedList {
+    $clientsPage =
+        $this->clientRepository->findAllByCriteria($clientPaginatedListCriteria, $companyId);
 
     return (new PaginatedList(ClientListItemDto::class))
         ->setItems(
@@ -48,37 +53,40 @@ class ClientService {
         ->setSort($clientPaginatedListCriteria->getSort());
   }
 
-  public function getDetails(int $id): ?ClientDetailsDto {
-    return ClientDetailsDtoMapper::map($this->clientRepository->findOneById($id));
+  public function getDetails(int $id, int $companyId): ?ClientDetailsDto {
+    return ClientDetailsDtoMapper::map(
+        $this->clientRepository->findOneByIdAndCompany($id, $companyId));
   }
 
-  public function create(ClientCreateRequest $clientCreateRequest): void {
+  public function create(ClientCreateRequest $clientCreateRequest, int $companyId): void {
     $client = (new Client())
         ->setFirstname($clientCreateRequest->getFirstname())
         ->setSurname($clientCreateRequest->getSurname())
-        ->setForeignId($clientCreateRequest->getForeignId());
+        ->setForeignId($clientCreateRequest->getForeignId())
+        ->setCompany($this->companyFetchService->fetchCompany($companyId));
 
     $this->clientRepository->save($client);
   }
 
-  public function getUpdateRequest(int $id): ?ClientUpdateRequest {
-    return ClientUpdateRequestMapper::map($this->clientRepository->findOneById($id));
+  public function getUpdateRequest(int $id, int $companyId): ?ClientUpdateRequest {
+    return ClientUpdateRequestMapper::map(
+        $this->clientRepository->findOneByIdAndCompany($id, $companyId));
   }
 
-  public function update(int $id, ClientUpdateRequest $clientUpdateRequest): void {
+  public function update(int $id, ClientUpdateRequest $clientUpdateRequest, int $companyId): void {
     $this->clientRepository->save(
-        ($this->fetchClient($id))
+        ($this->fetchClient($id, $companyId))
             ->setFirstname($clientUpdateRequest->getFirstname())
             ->setSurname($clientUpdateRequest->getSurname())
             ->setForeignId($clientUpdateRequest->getForeignId()));
   }
 
-  public function delete(int $id): void {
-    $this->clientRepository->softDeleteById($this->fetchClient($id)->getId());
+  public function delete(int $id, int $companyId): void {
+    $this->clientRepository->softDeleteById($this->fetchClient($id, $companyId)->getId());
   }
 
-  private function fetchClient(int $id): Client {
-    return $this->clientRepository->findOneById($id)
+  private function fetchClient(int $id, int $companyId): Client {
+    return $this->clientRepository->findOneByIdAndCompany($id, $companyId)
         ??
         throw new EntityNotFoundException('Client not found');
   }

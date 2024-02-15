@@ -11,6 +11,7 @@ use App\Client\Form\Type\ClientUpdateType;
 use App\Client\Service\ClientService;
 use App\Common\Const\FlashMessageConst;
 use App\Common\PaginatedList\Dto\PageCriteria;
+use App\Security\Dto\UserData;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -26,7 +27,7 @@ class ClientController extends AbstractController {
   public function __construct(private readonly ClientService $clientService) {}
 
   #[Route(path: '/', name: 'list', methods: ['GET'])]
-  public function list(Request $request): Response {
+  public function list(UserData $userData, Request $request): Response {
     $clientPaginatedListCriteria =
         new ClientPaginatedListCriteria(ClientPaginatedListFilter::class);
     $clientPaginatedListCriteria->setPageCriteria(PageCriteria::default());
@@ -39,13 +40,13 @@ class ClientController extends AbstractController {
         [
             'form' => $form,
             'clientsDtoPaginatedList' => $this->clientService->getPaginatedListByCriteria(
-                $clientPaginatedListCriteria),
+                $clientPaginatedListCriteria, $userData->getCompanyId()),
             'sortableFields' => ClientPaginatedListCriteria::sortableFields]);
   }
 
   #[Route(path: '/{id}', name: 'details', requirements: ['id' => '\d+'], methods: ['GET'])]
-  public function details(int $id): Response {
-    $clientDetailsDto = $this->clientService->getDetails($id);
+  public function details(int $id, UserData $userData): Response {
+    $clientDetailsDto = $this->clientService->getDetails($id, $userData->getCompanyId());
 
     if ($clientDetailsDto === null) {
       throw new NotFoundHttpException();
@@ -57,7 +58,7 @@ class ClientController extends AbstractController {
   }
 
   #[Route(path: '/create', name: 'create', methods: ['GET', 'POST'])]
-  public function create(Request $request): Response {
+  public function create(UserData $userData, Request $request): Response {
     $form =
         $this->createForm(
             ClientCreateType::class,
@@ -65,7 +66,7 @@ class ClientController extends AbstractController {
     $form->handleRequest($request);
 
     if ($form->isSubmitted() && $form->isValid()) {
-      $this->clientService->create($clientCreateRequest);
+      $this->clientService->create($clientCreateRequest, $userData->getCompanyId());
 
       $this->addFlash(
           FlashMessageConst::$success,
@@ -80,8 +81,8 @@ class ClientController extends AbstractController {
   #[Route(path: '/{id}/update', name: 'update', requirements: ['id' => '\d+'], methods: [
       'GET',
       'PUT'])]
-  public function update(int $id, Request $request): Response {
-    $clientUpdateRequest = $this->clientService->getUpdateRequest($id);
+  public function update(int $id, UserData $userData, Request $request): Response {
+    $clientUpdateRequest = $this->clientService->getUpdateRequest($id, $userData->getCompanyId());
 
     if ($clientUpdateRequest === null) {
       throw new NotFoundHttpException();
@@ -91,7 +92,7 @@ class ClientController extends AbstractController {
     $form->handleRequest($request);
 
     if ($form->isSubmitted() && $form->isValid()) {
-      $this->clientService->update($id, $clientUpdateRequest);
+      $this->clientService->update($id, $clientUpdateRequest, $userData->getCompanyId());
 
       $this->addFlash(
           FlashMessageConst::$success,
@@ -104,8 +105,8 @@ class ClientController extends AbstractController {
   }
 
   #[Route(path: '/{id}/delete', name: 'delete', requirements: ['id' => '\d+'], methods: ['DELETE'])]
-  public function delete(int $id): Response {
-    $this->clientService->delete($id);
+  public function delete(int $id, UserData $userData): Response {
+    $this->clientService->delete($id, $userData->getCompanyId());
 
     $this->addFlash(
         FlashMessageConst::$success,

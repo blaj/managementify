@@ -5,6 +5,9 @@ namespace App\Specialist\Service;
 use App\Common\PaginatedList\Dto\CriteriaWithEntityPageWrapper;
 use App\Common\PaginatedList\Dto\PaginatedList;
 use App\Common\PaginatedList\Mapper\PageMapper;
+use App\Company\Entity\Company;
+use App\Company\Repository\CompanyRepository;
+use App\Company\Service\CompanyFetchService;
 use App\Specialist\Dto\SpecialistCreateRequest;
 use App\Specialist\Dto\SpecialistDetailsDto;
 use App\Specialist\Dto\SpecialistListItemDto;
@@ -20,15 +23,20 @@ use Doctrine\ORM\EntityNotFoundException;
 
 class SpecialistService {
 
-  public function __construct(private readonly SpecialistRepository $specialistRepository) {}
+  public function __construct(
+      private readonly SpecialistRepository $specialistRepository,
+      private readonly CompanyFetchService $companyFetchService) {}
 
   /**
    * @return PaginatedList<SpecialistListItemDto>
    */
   public function getPaginatedListByCriteria(
-      SpecialistPaginatedListCriteria $specialistPaginatedListCriteria): PaginatedList {
+      SpecialistPaginatedListCriteria $specialistPaginatedListCriteria,
+      int $companyId): PaginatedList {
     $specialistsPage =
-        $this->specialistRepository->findAllByCriteria($specialistPaginatedListCriteria);
+        $this->specialistRepository->findAllByCriteria(
+            $specialistPaginatedListCriteria,
+            $companyId);
 
     return (new PaginatedList(SpecialistListItemDto::class))
         ->setItems(
@@ -49,37 +57,43 @@ class SpecialistService {
         ->setSort($specialistPaginatedListCriteria->getSort());
   }
 
-  public function getDetails(int $id): ?SpecialistDetailsDto {
-    return SpecialistDetailsDtoMapper::map($this->specialistRepository->findOneById($id));
+  public function getDetails(int $id, int $companyId): ?SpecialistDetailsDto {
+    return SpecialistDetailsDtoMapper::map(
+        $this->specialistRepository->findOneByIdAndCompany($id, $companyId));
   }
 
-  public function create(SpecialistCreateRequest $specialistCreateRequest): void {
+  public function create(SpecialistCreateRequest $specialistCreateRequest, int $companyId): void {
     $specialist = (new Specialist())
         ->setFirstname($specialistCreateRequest->getFirstname())
         ->setSurname($specialistCreateRequest->getSurname())
-        ->setForeignId($specialistCreateRequest->getForeignId());
+        ->setForeignId($specialistCreateRequest->getForeignId())
+        ->setCompany($this->companyFetchService->fetchCompany($companyId));
 
     $this->specialistRepository->save($specialist);
   }
 
-  public function getUpdateRequest(int $id): ?SpecialistUpdateRequest {
-    return SpecialistUpdateRequestMapper::map($this->specialistRepository->findOneById($id));
+  public function getUpdateRequest(int $id, int $companyId): ?SpecialistUpdateRequest {
+    return SpecialistUpdateRequestMapper::map(
+        $this->specialistRepository->findOneByIdAndCompany($id, $companyId));
   }
 
-  public function update(int $id, SpecialistUpdateRequest $specialistUpdateRequest): void {
+  public function update(
+      int $id,
+      SpecialistUpdateRequest $specialistUpdateRequest,
+      int $companyId): void {
     $this->specialistRepository->save(
-        ($this->fetchSpecialist($id))
+        ($this->fetchSpecialist($id, $companyId))
             ->setFirstname($specialistUpdateRequest->getFirstname())
             ->setSurname($specialistUpdateRequest->getSurname())
             ->setForeignId($specialistUpdateRequest->getForeignId()));
   }
 
-  public function delete(int $id): void {
-    $this->specialistRepository->softDeleteById($this->fetchSpecialist($id)->getId());
+  public function delete(int $id, int $companyId): void {
+    $this->specialistRepository->softDeleteById($this->fetchSpecialist($id, $companyId)->getId());
   }
 
-  private function fetchSpecialist(int $id): Specialist {
-    return $this->specialistRepository->findOneById($id)
+  private function fetchSpecialist(int $id, int $companyId): Specialist {
+    return $this->specialistRepository->findOneByIdAndCompany($id, $companyId)
         ??
         throw new EntityNotFoundException('Specialist not found');
   }

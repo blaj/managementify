@@ -2,6 +2,7 @@
 
 namespace App\Tests\Security\Service;
 
+use App\Company\Entity\Company;
 use App\Security\Dto\UserData;
 use App\Security\Service\UserDataProviderService;
 use App\User\Entity\User;
@@ -53,8 +54,9 @@ class UserDataProviderServiceTest extends TestCase {
     // given
     $identifier = 'username';
     $password = 'password';
+    $companyId = 123;
 
-    $user = $this->user($identifier, $password);
+    $user = $this->user($identifier, $password, $companyId);
 
     $this->userRepository
         ->expects(static::once())
@@ -69,6 +71,7 @@ class UserDataProviderServiceTest extends TestCase {
     Assert::assertNotNull($dto);
     Assert::assertEquals($dto->getUserIdentifier(), $identifier);
     Assert::assertEquals($dto->getPassword(), $password);
+    Assert::assertEquals($dto->getCompanyId(), $companyId);
     Assert::assertEquals(['ROLE_USER'], $dto->getRoles());
   }
 
@@ -119,8 +122,9 @@ class UserDataProviderServiceTest extends TestCase {
     // given
     $identifier = 'username';
     $password = 'password';
+    $companyId = 123;
 
-    $user = $this->user($identifier, $password);
+    $user = $this->user($identifier, $password, $companyId);
 
     $this->userRepository
         ->expects(static::once())
@@ -137,6 +141,7 @@ class UserDataProviderServiceTest extends TestCase {
     Assert::assertNotNull($dto);
     Assert::assertEquals($dto->getUserIdentifier(), $identifier);
     Assert::assertEquals($dto->getPassword(), $password);
+    Assert::assertEquals($dto->getCompanyId(), $companyId);
     Assert::assertEquals(['ROLE_USER'], $dto->getRoles());
   }
 
@@ -168,7 +173,10 @@ class UserDataProviderServiceTest extends TestCase {
     Assert::assertTrue($isSupports);
   }
 
-  private function user(string $username, string $password): User {
-    return (new User())->setUsername($username)->setPassword($password);
+  private function user(string $username, string $password, int $companyId): User {
+    return (new User())
+        ->setUsername($username)
+        ->setPassword($password)
+        ->setCompany((new Company())->setId($companyId));
   }
 }

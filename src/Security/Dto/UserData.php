@@ -11,6 +11,8 @@ class UserData implements UserInterface, PasswordAuthenticatedUserInterface {
 
   private string $password;
 
+  private int $companyId;
+
   public function eraseCredentials(): void {
   }
 
@@ -37,6 +39,16 @@ class UserData implements UserInterface, PasswordAuthenticatedUserInterface {
 
   public function setPassword(string $password): self {
     $this->password = $password;
+
+    return $this;
+  }
+
+  public function getCompanyId(): int {
+    return $this->companyId;
+  }
+
+  public function setCompanyId(int $companyId): self {
+    $this->companyId = $companyId;
 
     return $this;
   }

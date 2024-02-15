@@ -7,6 +7,8 @@ use App\Common\PaginatedList\Dto\CriteriaWithEntityPageWrapper;
 use App\Common\PaginatedList\Dto\Order;
 use App\Common\PaginatedList\Dto\Sort;
 use App\Common\PaginatedList\Mapper\PageMapper;
+use App\Company\Entity\Company;
+use App\Company\Service\CompanyFetchService;
 use App\Specialist\Dto\SpecialistCreateRequest;
 use App\Specialist\Dto\SpecialistPaginatedListCriteria;
 use App\Specialist\Dto\SpecialistPaginatedListFilter;
@@ -24,13 +26,16 @@ use PHPUnit\Framework\TestCase;
 class SpecialistServiceTest extends TestCase {
 
   private SpecialistRepository $specialistRepository;
+  private CompanyFetchService $companyFetchService;
 
   private SpecialistService $specialistService;
 
   public function setUp(): void {
     $this->specialistRepository = $this->createMock(SpecialistRepository::class);
+    $this->companyFetchService = $this->createMock(CompanyFetchService::class);
 
-    $this->specialistService = new SpecialistService($this->specialistRepository);
+    $this->specialistService =
+        new SpecialistService($this->specialistRepository, $this->companyFetchService);
   }
 
   /**
@@ -39,15 +44,16 @@ class SpecialistServiceTest extends TestCase {
   public function givenNonExistingSpecialists_whenGetPaginatedListByCriteria_shouldReturnEmptyPaginatedList(): void {
     // given
     $criteria = new SpecialistPaginatedListCriteria(SpecialistPaginatedListFilter::class);
+    $companyId = 123;
 
     $this->specialistRepository
         ->expects(static::once())
         ->method('findAllByCriteria')
-        ->with($criteria)
+        ->with($criteria, $companyId)
         ->willReturn(EntityPage::empty(Specialist::class));
 
     // when
-    $paginatedList = $this->specialistService->getPaginatedListByCriteria($criteria);
+    $paginatedList = $this->specialistService->getPaginatedListByCriteria($criteria, $companyId);
 
     // then
     Assert::assertEmpty($paginatedList->getItems());
@@ -61,6 +67,7 @@ class SpecialistServiceTest extends TestCase {
     $criteria = (new SpecialistPaginatedListCriteria(SpecialistPaginatedListFilter::class))
         ->setFilter((new SpecialistPaginatedListFilter())->setSearch('search'))
         ->setSort((new Sort())->setBy('by')->setOrder(Order::DESC));
+    $companyId = 123;
 
     $specialist1 = $this->specialist(1);
     $specialist2 = $this->specialist(2);
@@ -70,11 +77,11 @@ class SpecialistServiceTest extends TestCase {
     $this->specialistRepository
         ->expects(static::once())
         ->method('findAllByCriteria')
-        ->with($criteria)
+        ->with($criteria, $companyId)
         ->willReturn($entityPage);
 
     // when
-    $paginatedList = $this->specialistService->getPaginatedListByCriteria($criteria);
+    $paginatedList = $this->specialistService->getPaginatedListByCriteria($criteria, $companyId);
 
     // then
     Assert::assertNotEmpty($paginatedList->getItems());
@@ -103,15 +110,16 @@ class SpecialistServiceTest extends TestCase {
   public function givenNonExistingSpecialist_whenGetDetails_shouldReturnNull(): void {
     // given
     $id = 123;
+    $companyId = 123;
 
     $this->specialistRepository
         ->expects(static::once())
-        ->method('findOneById')
-        ->with($id)
+        ->method('findOneByIdAndCompany')
+        ->with($id, $companyId)
         ->willReturn(null);
 
     // when
-    $dto = $this->specialistService->getDetails($id);
+    $dto = $this->specialistService->getDetails($id, $companyId);
 
     // then
     Assert::assertNull($dto);
@@ -124,15 +132,16 @@ class SpecialistServiceTest extends TestCase {
     // given
     $id = 123;
     $specialist = $this->specialist($id);
+    $companyId = 123;
 
     $this->specialistRepository
         ->expects(static::once())
-        ->method('findOneById')
-        ->with($id)
+        ->method('findOneByIdAndCompany')
+        ->with($id, $companyId)
         ->willReturn($specialist);
 
     // when
-    $dto = $this->specialistService->getDetails($id);
+    $dto = $this->specialistService->getDetails($id, $companyId);
 
     // then
     Assert::assertNotNull($dto);
@@ -149,6 +158,13 @@ class SpecialistServiceTest extends TestCase {
             ->setFirstname('firstname')
             ->setSurname('surname')
             ->setForeignId('foreignId');
+    $companyId = 123;
+
+    $this->companyFetchService
+        ->expects(static::once())
+        ->method('fetchCompany')
+        ->with($companyId)
+        ->willReturn((new Company())->setId($companyId));
 
     $this->specialistRepository
         ->expects(static::once())
@@ -158,10 +174,11 @@ class SpecialistServiceTest extends TestCase {
                 fn (Specialist $specialist) => $specialist->getFirstname()
                     === $request->getFirstname()
                     && $specialist->getSurname() === $request->getSurname()
-                    && $specialist->getForeignId() === $request->getForeignId()));
+                    && $specialist->getForeignId() === $request->getForeignId()
+                    && $specialist->getCompany()->getId() === $companyId));
 
     // when
-    $this->specialistService->create($request);
+    $this->specialistService->create($request, $companyId);
 
     // then
   }
@@ -172,15 +189,16 @@ class SpecialistServiceTest extends TestCase {
   public function givenNonExistingSpecialist_whenGetUpdateRequest_shouldReturnNull(): void {
     // given
     $id = 123;
+    $companyId = 123;
 
     $this->specialistRepository
         ->expects(static::once())
-        ->method('findOneById')
-        ->with($id)
+        ->method('findOneByIdAndCompany')
+        ->with($id, $companyId)
         ->willReturn(null);
 
     // when
-    $dto = $this->specialistService->getUpdateRequest($id);
+    $dto = $this->specialistService->getUpdateRequest($id, $companyId);
 
     // then
     Assert::assertNull($dto);
@@ -193,15 +211,16 @@ class SpecialistServiceTest extends TestCase {
     // given
     $id = 123;
     $specialist = $this->specialist($id);
+    $companyId = 123;
 
     $this->specialistRepository
         ->expects(static::once())
-        ->method('findOneById')
-        ->with($id)
+        ->method('findOneByIdAndCompany')
+        ->with($id, $companyId)
         ->willReturn($specialist);
 
     // when
-    $dto = $this->specialistService->getUpdateRequest($id);
+    $dto = $this->specialistService->getUpdateRequest($id, $companyId);
 
     // then
     Assert::assertNotNull($dto);
@@ -218,15 +237,16 @@ class SpecialistServiceTest extends TestCase {
     // given
     $id = 123;
     $request = new SpecialistUpdateRequest();
+    $companyId = 123;
 
     $this->specialistRepository
         ->expects(static::once())
-        ->method('findOneById')
-        ->with($id)
+        ->method('findOneByIdAndCompany')
+        ->with($id, $companyId)
         ->willReturn(null);
 
     // when
-    $this->specialistService->update($id, $request);
+    $this->specialistService->update($id, $request, $companyId);
 
     // then
   }
@@ -243,11 +263,12 @@ class SpecialistServiceTest extends TestCase {
             ->setFirstname('newFirstname')
             ->setSurname('newSurname')
             ->setForeignId('newForeignId');
+    $companyId = 123;
 
     $this->specialistRepository
         ->expects(static::once())
-        ->method('findOneById')
-        ->with($id)
+        ->method('findOneByIdAndCompany')
+        ->with($id, $companyId)
         ->willReturn($specialist);
 
     $this->specialistRepository
@@ -261,7 +282,7 @@ class SpecialistServiceTest extends TestCase {
                     && $specialist->getForeignId() === $request->getForeignId()));
 
     // when
-    $this->specialistService->update($id, $request);
+    $this->specialistService->update($id, $request, $companyId);
 
     // then
   }
@@ -275,15 +296,16 @@ class SpecialistServiceTest extends TestCase {
 
     // given
     $id = 123;
+    $companyId = 123;
 
     $this->specialistRepository
         ->expects(static::once())
-        ->method('findOneById')
-        ->with($id)
+        ->method('findOneByIdAndCompany')
+        ->with($id, $companyId)
         ->willReturn(null);
 
     // when
-    $this->specialistService->delete($id);
+    $this->specialistService->delete($id, $companyId);
 
     // then
   }
@@ -295,11 +317,12 @@ class SpecialistServiceTest extends TestCase {
     // given
     $id = 123;
     $specialist = $this->specialist($id);
+    $companyId = 123;
 
     $this->specialistRepository
         ->expects(static::once())
-        ->method('findOneById')
-        ->with($id)
+        ->method('findOneByIdAndCompany')
+        ->with($id, $companyId)
         ->willReturn($specialist);
 
     $this->specialistRepository
@@ -308,7 +331,7 @@ class SpecialistServiceTest extends TestCase {
         ->with($id);
 
     // when
-    $this->specialistService->delete($id);
+    $this->specialistService->delete($id, $companyId);
 
     // then
   }
