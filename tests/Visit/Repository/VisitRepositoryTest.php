@@ -4,7 +4,10 @@ namespace App\Tests\Visit\Repository;
 
 use App\Client\Entity\Client;
 use App\Client\Repository\ClientRepository;
+use App\Common\Entity\Address;
 use App\Common\Utils\DateTimeImmutableUtils;
+use App\Company\Entity\Company;
+use App\Company\Repository\CompanyRepository;
 use App\Specialist\Entity\Specialist;
 use App\Specialist\Repository\SpecialistRepository;
 use App\Tests\RepositoryTestCase;
@@ -18,21 +21,35 @@ class VisitRepositoryTest extends RepositoryTestCase {
   private VisitRepository $visitRepository;
   private SpecialistRepository $specialistRepository;
   private ClientRepository $clientRepository;
+  private CompanyRepository $companyRepository;
 
   private Specialist $specialist;
   private Client $client;
+  private Company $company;
 
   public function setUp(): void {
     parent::setUp();
 
     $this->visitRepository = self::getService(VisitRepository::class);
+    $this->companyRepository = self::getService(CompanyRepository::class);
     $this->specialistRepository = self::getService(SpecialistRepository::class);
     $this->clientRepository = self::getService(ClientRepository::class);
 
-    $this->specialist = (new Specialist())->setFirstname('firstname')->setSurname('surname');
+    $this->company = (new Company())
+        ->setName('name')
+        ->setAddress((new Address())->setStreet('street')->setCity('city')->setPostcode('00-00'));
+    $this->companyRepository->save($this->company);
+
+    $this->specialist = (new Specialist())
+        ->setFirstname('firstname')
+        ->setSurname('surname')
+        ->setCompany($this->company);
     $this->specialistRepository->save($this->specialist);
 
-    $this->client = (new Client())->setFirstname('firstname')->setSurname('surname');
+    $this->client = (new Client())
+        ->setFirstname('firstname')
+        ->setSurname('surname')
+        ->setCompany($this->company);
     $this->clientRepository->save($this->client);
   }
 
@@ -51,7 +68,10 @@ class VisitRepositoryTest extends RepositoryTestCase {
 
     // when
     $entities =
-        $this->visitRepository->findAllBySpecialistIdAndOnDate($nonExistingSpecialistId, $fromTime);
+        $this->visitRepository->findAllBySpecialistIdAndOnDateAndCompanyId(
+            $nonExistingSpecialistId,
+            $fromTime,
+            $this->company->getId());
 
     // then
     Assert::assertEmpty($entities);
@@ -72,9 +92,34 @@ class VisitRepositoryTest extends RepositoryTestCase {
 
     // when
     $entities =
-        $this->visitRepository->findAllBySpecialistIdAndOnDate(
+        $this->visitRepository->findAllBySpecialistIdAndOnDateAndCompanyId(
             $this->specialist->getId(),
-            $nonExistingDate);
+            $nonExistingDate,
+            $this->company->getId());
+
+    // then
+    Assert::assertEmpty($entities);
+  }
+
+  /**
+   * @test
+   */
+  public function givenNonExistingCompanyId_whenFindAllBySpecialistIdAndOnDate_shouldReturnEmptyArray(): void {
+    // given
+    $fromTime = new DateTimeImmutable('2023-01-01 10:00:00');
+    $toTime = new DateTimeImmutable('2023-01-01 12:00:00');
+    $visit = $this->visit($fromTime, $toTime);
+
+    $this->visitRepository->save($visit);
+
+    $nonExistingCompanyId = $this->company->getId() + 1;
+
+    // when
+    $entities =
+        $this->visitRepository->findAllBySpecialistIdAndOnDateAndCompanyId(
+            $this->specialist->getId(),
+            $fromTime,
+            $nonExistingCompanyId);
 
     // then
     Assert::assertEmpty($entities);
@@ -96,9 +141,10 @@ class VisitRepositoryTest extends RepositoryTestCase {
 
     // when
     $entities =
-        $this->visitRepository->findAllBySpecialistIdAndOnDate(
+        $this->visitRepository->findAllBySpecialistIdAndOnDateAndCompanyId(
             $this->specialist->getId(),
-            $fromTime);
+            $fromTime,
+            $this->company->getId());
 
     // then
     Assert::assertNotEmpty($entities);
@@ -112,6 +158,7 @@ class VisitRepositoryTest extends RepositoryTestCase {
         ->setToTime($toTime)
         ->setNote('note')
         ->setSpecialist($this->specialist)
-        ->setClient($this->client);
+        ->setClient($this->client)
+        ->setCompany($this->company);
   }
 }

@@ -3,7 +3,9 @@
 namespace App\Visit\Entity;
 
 use App\Client\Entity\Client;
+use App\Common\Entity\CompanyContextInterface;
 use App\Common\Entity\SoftDeleteEntity;
+use App\Company\Entity\Company;
 use App\Specialist\Entity\Specialist;
 use App\Visit\Repository\VisitRepository;
 use DateTimeImmutable;
@@ -16,7 +18,7 @@ use Doctrine\ORM\Mapping\Table;
 
 #[Entity(repositoryClass: VisitRepository::class)]
 #[Table(name: 'visit', schema: 'visit')]
-class Visit extends SoftDeleteEntity {
+class Visit extends SoftDeleteEntity implements CompanyContextInterface {
 
   #[Column(name: 'from_time', type: Types::DATETIME_IMMUTABLE, nullable: false)]
   private DateTimeImmutable $fromTime;
@@ -34,6 +36,10 @@ class Visit extends SoftDeleteEntity {
   #[JoinColumn(name: 'specialist_id', referencedColumnName: 'id', nullable: false, columnDefinition: 'BIGINT NOT NULL')]
   #[ManyToOne(targetEntity: Specialist::class, fetch: 'LAZY', inversedBy: 'visits')]
   private Specialist $specialist;
+
+  #[JoinColumn(name: 'company_id', referencedColumnName: 'id', nullable: false, columnDefinition: 'BIGINT NOT NULL')]
+  #[ManyToOne(targetEntity: Company::class, fetch: 'LAZY')]
+  private Company $company;
 
   public function getFromTime(): DateTimeImmutable {
     return $this->fromTime;
@@ -81,6 +87,16 @@ class Visit extends SoftDeleteEntity {
 
   public function setSpecialist(Specialist $specialist): self {
     $this->specialist = $specialist;
+
+    return $this;
+  }
+
+  public function getCompany(): Company {
+    return $this->company;
+  }
+
+  public function setCompany(Company $company): self {
+    $this->company = $company;
 
     return $this;
   }

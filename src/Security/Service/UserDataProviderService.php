@@ -38,7 +38,7 @@ class UserDataProviderService implements UserProviderInterface {
   /**
    * @throws NonUniqueResultException
    */
-  public function refreshUser(UserInterface $user): UserInterface {
+  public function refreshUser(UserInterface $user): UserData {
     if (!$user instanceof UserData) {
       throw new UnsupportedUserException('User instance is not supported.');
     }
@@ -63,6 +63,7 @@ class UserDataProviderService implements UserProviderInterface {
   private static function userData(User $user): UserData {
     return (new UserData())
         ->setUserIdentifier($user->getUsername())
-        ->setPassword($user->getPassword());
+        ->setPassword($user->getPassword())
+        ->setCompanyId($user->getCompany()->getId());
   }
 }

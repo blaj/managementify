@@ -10,13 +10,13 @@ use App\Common\Dto\QueryWithCriteriaWrapper;
 use App\Common\Mapper\QueryPaginationMapper;
 use App\Common\Mapper\QueryWithCriteriaWrapperStatementMapper;
 use App\Common\PaginatedList\Mapper\SortMapper;
-use App\Common\Repository\AbstractSoftDeleteRepository;
+use App\Common\Repository\AbstractSoftDeleteCompanyContextRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends AbstractSoftDeleteRepository<Client>
+ * @extends AbstractSoftDeleteCompanyContextRepository<Client>
  */
-class ClientRepository extends AbstractSoftDeleteRepository {
+class ClientRepository extends AbstractSoftDeleteCompanyContextRepository {
 
   public function __construct(ManagerRegistry $registry) {
     parent::__construct($registry, Client::class);
@@ -25,10 +25,15 @@ class ClientRepository extends AbstractSoftDeleteRepository {
   /**
    * @return EntityPage<Client>
    */
-  public function findAllByCriteria(ClientPaginatedListCriteria $criteria): EntityPage {
-    $statement = 'SELECT client FROM App\Client\Entity\Client client WHERE client.deleted = false ';
+  public function findAllByCriteria(
+      ClientPaginatedListCriteria $criteria,
+      int $companyId): EntityPage {
+    $statement =
+        'SELECT client FROM App\Client\Entity\Client client WHERE client.deleted = false AND client.company = :companyId ';
 
-    $parameters = [];
+    $parameters = [
+        'companyId' => $companyId
+    ];
 
     $queryWithCriteriaWrapper = self::getQueryWithCriteriaWrapper($criteria->getFilter());
 
@@ -46,13 +51,16 @@ class ClientRepository extends AbstractSoftDeleteRepository {
     return (new EntityPage(Client::class))
         /** @phpstan-ignore-next-line */
         ->setItems($result)
-        ->setTotalItems($this->countAllByCriteria($criteria));
+        ->setTotalItems($this->countAllByCriteria($criteria, $companyId));
   }
 
-  private function countAllByCriteria(ClientPaginatedListCriteria $criteria): int {
-    $statement = 'SELECT COUNT(client) FROM App\Client\Entity\Client client WHERE client.deleted = false';
+  private function countAllByCriteria(ClientPaginatedListCriteria $criteria, int $companyId): int {
+    $statement =
+        ' SELECT COUNT(client) FROM App\Client\Entity\Client client WHERE client.deleted = false AND client.company = :companyId ';
 
-    $parameters = [];
+    $parameters = [
+        'companyId' => $companyId
+    ];
 
     $queryWithCriteriaWrapper = self::getQueryWithCriteriaWrapper($criteria->getFilter());
 

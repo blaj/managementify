@@ -2,16 +2,16 @@
 
 namespace App\Visit\Repository;
 
-use App\Common\Repository\AbstractSoftDeleteRepository;
+use App\Common\Repository\AbstractSoftDeleteCompanyContextRepository;
 use App\Visit\Entity\Visit;
 use DateTimeImmutable;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends AbstractSoftDeleteRepository<Visit>
+ * @extends AbstractSoftDeleteCompanyContextRepository<Visit>
  */
-class VisitRepository extends AbstractSoftDeleteRepository {
+class VisitRepository extends AbstractSoftDeleteCompanyContextRepository {
 
   public function __construct(ManagerRegistry $registry) {
     parent::__construct($registry, Visit::class);
@@ -20,9 +20,9 @@ class VisitRepository extends AbstractSoftDeleteRepository {
   /**
    * @return array<Visit>
    */
-  public function findAllBySpecialistIdAndOnDate(
+  public function findAllBySpecialistIdAndOnDateAndCompanyId(
       int $specialistId,
-      DateTimeImmutable $date): array {
+      DateTimeImmutable $date, int $companyId): array {
     return $this->getEntityManager()
         ->createQuery(
             '
@@ -33,9 +33,11 @@ class VisitRepository extends AbstractSoftDeleteRepository {
             WHERE 
               visit.deleted = false 
               AND visit.specialist = :specialistId 
-              AND CAST(visit.fromTime AS DATE) = :date')
+              AND CAST(visit.fromTime AS DATE) = :date 
+              AND visit.company = :companyId ')
         ->setParameter('specialistId', $specialistId, Types::INTEGER)
         ->setParameter('date', $date, Types::DATE_IMMUTABLE)
+        ->setParameter('companyId', $companyId, Types::INTEGER)
         ->getResult();
   }
 }

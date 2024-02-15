@@ -22,9 +22,9 @@ class VisitCalendarService {
       private readonly SpecialistRepository $specialistRepository,
       private readonly VisitRepository $visitRepository) {}
 
-  public function getCalendar(VisitFilterRequest $visitFilterRequest): CalendarDto {
+  public function getCalendar(VisitFilterRequest $visitFilterRequest, int $companyId): CalendarDto {
     $range = DateTimeImmutableRangeUtils::weekRange(new DateTimeImmutable());
-    $specialists = $this->specialistRepository->findAll();
+    $specialists = $this->specialistRepository->findAllByCompanyId($companyId);
     $calendarRows = [];
 
     foreach ($specialists as $specialist) {
@@ -32,11 +32,12 @@ class VisitCalendarService {
           DateTimeImmutableRangeUtils::mapDays(
               CalendarDataColDto::class,
               $range,
-              function(DateTimeImmutable $date) use ($specialist) {
+              function(DateTimeImmutable $date) use ($companyId, $specialist) {
                 $visits =
-                    $this->visitRepository->findAllBySpecialistIdAndOnDate(
+                    $this->visitRepository->findAllBySpecialistIdAndOnDateAndCompanyId(
                         $specialist->getId(),
-                        $date);
+                        $date,
+                        $companyId);
 
                 return new CalendarDataColDto(
                     array_map(

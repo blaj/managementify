@@ -39,6 +39,13 @@ return static function(ContainerConfigurator $containerConfigurator): void {
           'naming_strategy' => 'doctrine.orm.naming_strategy.underscore_number_aware',
           'auto_mapping' => true,
           'mappings' => [
+              'Common' => [
+                  'type' => 'attribute',
+                  'is_bundle' => false,
+                  'dir' => '%kernel.project_dir%/src/Common/Entity',
+                  'prefix' => 'App\Common\Entity',
+                  'alias' => 'Common',
+              ],
               'User' => [
                   'type' => 'attribute',
                   'is_bundle' => false,
@@ -66,6 +73,13 @@ return static function(ContainerConfigurator $containerConfigurator): void {
                   'dir' => '%kernel.project_dir%/src/Visit/Entity',
                   'prefix' => 'App\Visit\Entity',
                   'alias' => 'Visit',
+              ],
+              'Company' => [
+                  'type' => 'attribute',
+                  'is_bundle' => false,
+                  'dir' => '%kernel.project_dir%/src/Company/Entity',
+                  'prefix' => 'App\Company\Entity',
+                  'alias' => 'Company',
               ],
           ],
           'dql' => [

@@ -2,7 +2,7 @@
 
 namespace App\User\Repository;
 
-use App\Common\Repository\AbstractSoftDeleteRepository;
+use App\Common\Repository\AbstractSoftDeleteCompanyContextRepository;
 use App\User\Entity\User;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\AbstractQuery;
@@ -10,9 +10,9 @@ use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends AbstractSoftDeleteRepository<User>
+ * @extends AbstractSoftDeleteCompanyContextRepository<User>
  */
-class UserRepository extends AbstractSoftDeleteRepository {
+class UserRepository extends AbstractSoftDeleteCompanyContextRepository {
 
   public function __construct(ManagerRegistry $registry) {
     parent::__construct($registry, User::class);

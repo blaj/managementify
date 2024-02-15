@@ -7,17 +7,16 @@ use App\Common\Dto\QueryWithCriteriaWrapper;
 use App\Common\Mapper\QueryPaginationMapper;
 use App\Common\Mapper\QueryWithCriteriaWrapperStatementMapper;
 use App\Common\PaginatedList\Mapper\SortMapper;
-use App\Common\Repository\AbstractSoftDeleteRepository;
+use App\Common\Repository\AbstractSoftDeleteCompanyContextRepository;
 use App\Specialist\Dto\SpecialistPaginatedListCriteria;
 use App\Specialist\Dto\SpecialistPaginatedListFilter;
 use App\Specialist\Entity\Specialist;
-use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends AbstractSoftDeleteRepository<Specialist>
+ * @extends AbstractSoftDeleteCompanyContextRepository<Specialist>
  */
-class SpecialistRepository extends AbstractSoftDeleteRepository {
+class SpecialistRepository extends AbstractSoftDeleteCompanyContextRepository {
 
   public function __construct(ManagerRegistry $registry) {
     parent::__construct($registry, Specialist::class);
@@ -26,10 +25,15 @@ class SpecialistRepository extends AbstractSoftDeleteRepository {
   /**
    * @return EntityPage<Specialist>
    */
-  public function findAllByCriteria(SpecialistPaginatedListCriteria $criteria): EntityPage {
-    $statement = 'SELECT specialist FROM App\Specialist\Entity\Specialist specialist WHERE specialist.deleted = false ';
+  public function findAllByCriteria(
+      SpecialistPaginatedListCriteria $criteria,
+      int $companyId): EntityPage {
+    $statement =
+        ' SELECT specialist FROM App\Specialist\Entity\Specialist specialist WHERE specialist.deleted = false AND specialist.company = :companyId ';
 
-    $parameters = [];
+    $parameters = [
+        'companyId' => $companyId
+    ];
 
     $queryWithCriteriaWrapper = self::getQueryWithCriteriaWrapper($criteria->getFilter());
 
@@ -47,13 +51,18 @@ class SpecialistRepository extends AbstractSoftDeleteRepository {
     return (new EntityPage(Specialist::class))
         /** @phpstan-ignore-next-line */
         ->setItems($result)
-        ->setTotalItems($this->countAllByCriteria($criteria));
+        ->setTotalItems($this->countAllByCriteria($criteria, $companyId));
   }
 
-  private function countAllByCriteria(SpecialistPaginatedListCriteria $criteria): int {
-    $statement = 'SELECT COUNT(specialist) FROM App\Specialist\Entity\Specialist specialist WHERE specialist.deleted = false';
+  private function countAllByCriteria(
+      SpecialistPaginatedListCriteria $criteria,
+      int $companyId): int {
+    $statement =
+        ' SELECT COUNT(specialist) FROM App\Specialist\Entity\Specialist specialist WHERE specialist.deleted = false AND specialist.company = :companyId';
 
-    $parameters = [];
+    $parameters = [
+        'companyId' => $companyId
+    ];
 
     $queryWithCriteriaWrapper = self::getQueryWithCriteriaWrapper($criteria->getFilter());
 

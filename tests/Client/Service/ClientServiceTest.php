@@ -17,6 +17,8 @@ use App\Common\PaginatedList\Dto\CriteriaWithEntityPageWrapper;
 use App\Common\PaginatedList\Dto\Order;
 use App\Common\PaginatedList\Dto\Sort;
 use App\Common\PaginatedList\Mapper\PageMapper;
+use App\Company\Entity\Company;
+use App\Company\Service\CompanyFetchService;
 use Doctrine\ORM\EntityNotFoundException;
 use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
@@ -24,13 +26,15 @@ use PHPUnit\Framework\TestCase;
 class ClientServiceTest extends TestCase {
 
   private ClientRepository $clientRepository;
+  private CompanyFetchService $companyFetchService;
 
   private ClientService $clientService;
 
   public function setUp(): void {
     $this->clientRepository = $this->createMock(ClientRepository::class);
+    $this->companyFetchService = $this->createMock(CompanyFetchService::class);
 
-    $this->clientService = new ClientService($this->clientRepository);
+    $this->clientService = new ClientService($this->clientRepository, $this->companyFetchService);
   }
 
   /**
@@ -39,15 +43,16 @@ class ClientServiceTest extends TestCase {
   public function givenNonExistingClients_whenGetPaginatedListByCriteria_shouldReturnEmptyPaginatedList(): void {
     // given
     $criteria = new ClientPaginatedListCriteria(ClientPaginatedListFilter::class);
+    $companyId = 123;
 
     $this->clientRepository
         ->expects(static::once())
         ->method('findAllByCriteria')
-        ->with($criteria)
+        ->with($criteria, $companyId)
         ->willReturn(EntityPage::empty(Client::class));
 
     // when
-    $paginatedList = $this->clientService->getPaginatedListByCriteria($criteria);
+    $paginatedList = $this->clientService->getPaginatedListByCriteria($criteria, $companyId);
 
     // then
     Assert::assertEmpty($paginatedList->getItems());
@@ -61,6 +66,7 @@ class ClientServiceTest extends TestCase {
     $criteria = (new ClientPaginatedListCriteria(ClientPaginatedListFilter::class))
         ->setFilter((new ClientPaginatedListFilter())->setSearch('search'))
         ->setSort((new Sort())->setBy('by')->setOrder(Order::DESC));
+    $companyId = 123;
 
     $client1 = $this->client(1);
     $client2 = $this->client(2);
@@ -70,11 +76,11 @@ class ClientServiceTest extends TestCase {
     $this->clientRepository
         ->expects(static::once())
         ->method('findAllByCriteria')
-        ->with($criteria)
+        ->with($criteria, $companyId)
         ->willReturn($entityPage);
 
     // when
-    $paginatedList = $this->clientService->getPaginatedListByCriteria($criteria);
+    $paginatedList = $this->clientService->getPaginatedListByCriteria($criteria, $companyId);
 
     // then
     Assert::assertNotEmpty($paginatedList->getItems());
@@ -103,15 +109,16 @@ class ClientServiceTest extends TestCase {
   public function givenNonExistingClient_whenGetDetails_shouldReturnNull(): void {
     // given
     $id = 123;
+    $companyId = 123;
 
     $this->clientRepository
         ->expects(static::once())
-        ->method('findOneById')
-        ->with($id)
+        ->method('findOneByIdAndCompany')
+        ->with($id, $companyId)
         ->willReturn(null);
 
     // when
-    $dto = $this->clientService->getDetails($id);
+    $dto = $this->clientService->getDetails($id, $companyId);
 
     // then
     Assert::assertNull($dto);
@@ -124,15 +131,16 @@ class ClientServiceTest extends TestCase {
     // given
     $id = 123;
     $client = $this->client($id);
+    $companyId = 123;
 
     $this->clientRepository
         ->expects(static::once())
-        ->method('findOneById')
-        ->with($id)
+        ->method('findOneByIdAndCompany')
+        ->with($id, $companyId)
         ->willReturn($client);
 
     // when
-    $dto = $this->clientService->getDetails($id);
+    $dto = $this->clientService->getDetails($id, $companyId);
 
     // then
     Assert::assertNotNull($dto);
@@ -148,6 +156,13 @@ class ClientServiceTest extends TestCase {
         ->setFirstname('firstname')
         ->setSurname('surname')
         ->setForeignId('foreignId');
+    $companyId = 123;
+
+    $this->companyFetchService
+        ->expects(static::once())
+        ->method('fetchCompany')
+        ->with($companyId)
+        ->willReturn((new Company())->setId($companyId));
 
     $this->clientRepository
         ->expects(static::once())
@@ -156,10 +171,11 @@ class ClientServiceTest extends TestCase {
             Assert::callback(
                 fn (Client $client) => $client->getFirstname() === $request->getFirstname()
                     && $client->getSurname() === $request->getSurname()
-                    && $client->getForeignId() === $request->getForeignId()));
+                    && $client->getForeignId() === $request->getForeignId()
+                    && $client->getCompany()->getId() === $companyId));
 
     // when
-    $this->clientService->create($request);
+    $this->clientService->create($request, $companyId);
 
     // then
   }
@@ -170,15 +186,16 @@ class ClientServiceTest extends TestCase {
   public function givenNonExistingClient_whenGetUpdateRequest_shouldReturnNull(): void {
     // given
     $id = 123;
+    $companyId = 123;
 
     $this->clientRepository
         ->expects(static::once())
-        ->method('findOneById')
-        ->with($id)
+        ->method('findOneByIdAndCompany')
+        ->with($id, $companyId)
         ->willReturn(null);
 
     // when
-    $dto = $this->clientService->getUpdateRequest($id);
+    $dto = $this->clientService->getUpdateRequest($id, $companyId);
 
     // then
     Assert::assertNull($dto);
@@ -191,15 +208,16 @@ class ClientServiceTest extends TestCase {
     // given
     $id = 123;
     $client = $this->client($id);
+    $companyId = 123;
 
     $this->clientRepository
         ->expects(static::once())
-        ->method('findOneById')
-        ->with($id)
+        ->method('findOneByIdAndCompany')
+        ->with($id, $companyId)
         ->willReturn($client);
 
     // when
-    $dto = $this->clientService->getUpdateRequest($id);
+    $dto = $this->clientService->getUpdateRequest($id, $companyId);
 
     // then
     Assert::assertNotNull($dto);
@@ -216,15 +234,16 @@ class ClientServiceTest extends TestCase {
     // given
     $id = 123;
     $request = new ClientUpdateRequest();
+    $companyId = 123;
 
     $this->clientRepository
         ->expects(static::once())
-        ->method('findOneById')
-        ->with($id)
+        ->method('findOneByIdAndCompany')
+        ->with($id, $companyId)
         ->willReturn(null);
 
     // when
-    $this->clientService->update($id, $request);
+    $this->clientService->update($id, $request, $companyId);
 
     // then
   }
@@ -240,11 +259,12 @@ class ClientServiceTest extends TestCase {
         ->setFirstname('newFirstname')
         ->setSurname('newSurname')
         ->setForeignId('newForeignId');
+    $companyId = 123;
 
     $this->clientRepository
         ->expects(static::once())
-        ->method('findOneById')
-        ->with($id)
+        ->method('findOneByIdAndCompany')
+        ->with($id, $companyId)
         ->willReturn($client);
 
     $this->clientRepository
@@ -258,7 +278,7 @@ class ClientServiceTest extends TestCase {
                     && $client->getForeignId() === $request->getForeignId()));
 
     // when
-    $this->clientService->update($id, $request);
+    $this->clientService->update($id, $request, $companyId);
 
     // then
   }
@@ -272,15 +292,16 @@ class ClientServiceTest extends TestCase {
 
     // given
     $id = 123;
+    $companyId = 123;
 
     $this->clientRepository
         ->expects(static::once())
-        ->method('findOneById')
-        ->with($id)
+        ->method('findOneByIdAndCompany')
+        ->with($id, $companyId)
         ->willReturn(null);
 
     // when
-    $this->clientService->delete($id);
+    $this->clientService->delete($id, $companyId);
 
     // then
   }
@@ -292,11 +313,12 @@ class ClientServiceTest extends TestCase {
     // given
     $id = 123;
     $specialist = $this->client($id);
+    $companyId = 123;
 
     $this->clientRepository
         ->expects(static::once())
-        ->method('findOneById')
-        ->with($id)
+        ->method('findOneByIdAndCompany')
+        ->with($id, $companyId)
         ->willReturn($specialist);
 
     $this->clientRepository
@@ -305,7 +327,7 @@ class ClientServiceTest extends TestCase {
         ->with($id);
 
     // when
-    $this->clientService->delete($id);
+    $this->clientService->delete($id, $companyId);
 
     // then
   }
