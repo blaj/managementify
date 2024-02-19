@@ -64,10 +64,75 @@ class UserRepositoryTest extends RepositoryTestCase {
     Assert::assertEquals($user, $persistedUser);
   }
 
+  /**
+   * @test
+   */
+  public function givenNonExistingUsername_whenExistsByUsername_shouldReturnFalse(): void {
+    // given
+    $persistedUser = $this->user('username');
+    $this->userRepository->save($persistedUser);
+
+    $nonExistingUsername = $persistedUser->getUsername() . '#nonExisting';
+
+    // when
+    $isExists = $this->userRepository->existsByUsername($nonExistingUsername);
+
+    // then
+    Assert::assertFalse($isExists);
+  }
+
+  /**
+   * @test
+   */
+  public function givenExistingUsername_whenExistsByUsername_shouldReturnTrue(): void {
+    // given
+    $persistedUser = $this->user('username');
+    $this->userRepository->save($persistedUser);
+
+    // when
+    $isExists = $this->userRepository->existsByUsername($persistedUser->getUsername());
+
+    // then
+    Assert::assertTrue($isExists);
+  }
+
+  /**
+   * @test
+   */
+  public function givenNonExistingEmail_whenExistsByUsername_shouldReturnFalse(): void {
+    // given
+    $persistedUser = $this->user('username');
+    $this->userRepository->save($persistedUser);
+
+    $nonExistingEmail = $persistedUser->getEmail() . '#nonExisting';
+
+    // when
+    $isExists = $this->userRepository->existsByEmail($nonExistingEmail);
+
+    // then
+    Assert::assertFalse($isExists);
+  }
+
+  /**
+   * @test
+   */
+  public function givenExistingEmail_whenExistsByUsername_shouldReturnTrue(): void {
+    // given
+    $persistedUser = $this->user('username');
+    $this->userRepository->save($persistedUser);
+
+    // when
+    $isExists = $this->userRepository->existsByEmail($persistedUser->getEmail());
+
+    // then
+    Assert::assertTrue($isExists);
+  }
+
   private function user(string $username): User {
     return (new User())
         ->setUsername($username)
         ->setPassword('password')
+        ->setEmail('email@example.com')
         ->setCompany($this->company);
   }
 }

@@ -2,7 +2,6 @@
 
 {% block content %}
   <header>
-    <!-- Background image -->
     <div id="intro" class="bg-image shadow-2-strong">
       <div class="mask d-flex align-items-center h-100" style="background-color: rgba(0, 0, 0, 0.8);">
         <div class="container">
@@ -10,6 +9,10 @@
             <div class="col-xl-5 col-md-8">
               <form class="bg-white rounded shadow-5-strong p-5" action="{{ path('security_login') }}" method="post">
                 <input type="hidden" name="_target_path" value="/" />
+
+                <h1 class="text-center text-primary mb-5">
+                  {{ 'login'|trans }}
+                </h1>
 
                 {% if error %}
                   <div class="alert alert-danger">
@@ -21,7 +24,7 @@
                   <input id="username" type="text" class="form-control" name="_username" value="{{ lastUsername }}" />
 
                   <label class="form-label" for="username">
-                    Email address
+                    {{ 'username'|trans }}
                   </label>
                 </div>
 
@@ -29,7 +32,7 @@
                   <input id="password" type="password" class="form-control" name="_password" />
 
                   <label class="form-label" for="password">
-                    Password
+                    {{ 'password'|trans }}
                   </label>
                 </div>
 
@@ -39,17 +42,31 @@
                       <input id="remember-me" class="form-check-input" type="checkbox" name="_remember_me" />
 
                       <label class="form-check-label" for="remember-me">
-                        Remember me
+                        {{ 'remember-me'|trans }}
                       </label>
                     </div>
                   </div>
 
                   <div class="col text-center">
-                    <a href="#!">Forgot password?</a>
+                    <a href="#!">
+                      {{ 'forgot-password'|trans }}?
+                    </a>
                   </div>
                 </div>
 
-                <button type="submit" class="btn btn-primary btn-block" data-mdb-ripple-init>Sign in</button>
+                <button type="submit" class="btn btn-primary btn-block" data-mdb-ripple-init>
+                  {{ 'login'|trans }}
+                </button>
+
+                <div class="mt-3 text-center">
+                  Kliknij
+
+                  <a href="{{ path('user_register') }}" class="fw-bold">
+                    tutaj
+                  </a>
+
+                  aby założyć darmowe konto.
+                </div>
               </form>
             </div>
           </div>

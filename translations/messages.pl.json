@@ -28,5 +28,19 @@
   "client-added-successfully": "Klient został dodany pomyślnie",
   "client-edited-successfully": "Klient został pomyślnie zaktualizowany",
   "client-deleted-successfully": "Klient został pomyślnie usunięty",
-  "visits": "Wizyty"
+  "visits": "Wizyty",
+  "username": "Nazwa użytkownika",
+  "password": "Hasło",
+  "re-password": "Powtórz hasło",
+  "remember-me": "Zapamiętaj mnie",
+  "forgot-password": "Zapomniałeś hasła",
+  "login": "Zaloguj się",
+  "email": "Email",
+  "register": "Zarejestruj się",
+  "account-data": "Dane konta",
+  "company-data": "Dane firmy",
+  "company-name": "Nazwa firmy",
+  "city": "Miasto",
+  "street": "Ulica",
+  "postcode": "Kod pocztowy"
 }
