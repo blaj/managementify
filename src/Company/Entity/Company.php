@@ -5,6 +5,8 @@ namespace App\Company\Entity;
 use App\Common\Entity\Address;
 use App\Common\Entity\SoftDeleteEntity;
 use App\Company\Repository\CompanyRepository;
+use Doctrine\DBAL\Types\Types;
+use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Embedded;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\Table;
@@ -13,6 +15,7 @@ use Doctrine\ORM\Mapping\Table;
 #[Table(name: 'company', schema: 'company')]
 class Company extends SoftDeleteEntity {
 
+  #[Column(name: 'name', type: Types::STRING, length: 100, nullable: false)]
   private string $name;
 
   #[Embedded(class: Address::class, columnPrefix: false)]

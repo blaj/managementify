@@ -28,5 +28,19 @@
   "client-added-successfully": "The client has been added successfully",
   "client-edited-successfully": "The client has been edited successfully",
   "client-deleted-successfully": "The client has been deleted successfully",
-  "visits": "Visits"
+  "visits": "Visits",
+  "username": "Username",
+  "password": "Password",
+  "re-password": "Repeat password",
+  "remember-me": "Remember me",
+  "forgot-password": "Forgot password",
+  "login": "Login",
+  "email": "Email",
+  "register": "Register",
+  "account-data": "Account data",
+  "company-data": "Company data",
+  "company-name": "Company name",
+  "city": "City",
+  "street": "Street",
+  "postcode": "Postcode"
 }

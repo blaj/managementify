@@ -1,0 +1,143 @@
+{% extends 'unauthorized-base.html.twig' %}
+
+{% block content %}
+  <header>
+    <div id="intro" class="bg-image shadow-2-strong">
+      <div class="mask d-flex align-items-center h-100" style="background-color: rgba(0, 0, 0, 0.8);">
+        <div class="container">
+          <div class="row justify-content-center">
+            <div class="col-xl-5 col-md-8">
+              {{ form_start(form, { attr: { class: 'bg-white rounded shadow-5-strong p-5' } }) }}
+
+              <h1 class="text-center text-primary mb-5">
+                {{ 'register'|trans }}
+              </h1>
+
+              {{ form_errors(form) }}
+
+              <fieldset>
+                <legend>
+                  {{ 'account-data'|trans }}
+                </legend>
+
+                <div data-mdb-input-init class="form-outline mb-4">
+                  {{ form_widget(form.username, { attr: { class: 'form-control' ~ (form.username.vars.valid ? '' : ' is-invalid') } }) }}
+
+                  {{ form_label(form.username, 'username', { label_attr: { class: 'form-label' } }) }}
+
+                  {% if not form.username.vars.valid %}
+                    <div class="invalid-feedback">
+                      {{ form_errors(form.username) }}
+                    </div>
+                  {% endif %}
+                </div>
+
+                <div data-mdb-input-init class="form-outline mb-4">
+                  {{ form_widget(form.email, { attr: { class: 'form-control' ~ (form.email.vars.valid ? '' : ' is-invalid') } }) }}
+
+                  {{ form_label(form.email, 'email', { label_attr: {class: 'form-label'} }) }}
+
+                  {% if not form.email.vars.valid %}
+                    <div class="invalid-feedback">
+                      {{ form_errors(form.email) }}
+                    </div>
+                  {% endif %}
+                </div>
+
+                <div data-mdb-input-init class="form-outline mb-4">
+                  {{ form_widget(form.password.first, { attr: { class: 'form-control' ~ (form.password.first.vars.valid ? '' : ' is-invalid') } }) }}
+
+                  {{ form_label(form.password.first, 'password', { label_attr: {class: 'form-label'} }) }}
+
+                  {% if not form.password.first.vars.valid %}
+                    <div class="invalid-feedback">
+                      {{ form_errors(form.password.first) }}
+                    </div>
+                  {% endif %}
+                </div>
+
+                <div data-mdb-input-init class="form-outline mb-4">
+                  {{ form_widget(form.password.second, { attr: { class: 'form-control' ~ (form.password.second.vars.valid ? '' : ' is-invalid') } }) }}
+
+                  {{ form_label(form.password.second, 're-password', { label_attr: {class: 'form-label'} }) }}
+
+                  {% if not form.password.second.vars.valid %}
+                    <div class="invalid-feedback">
+                      {{ form_errors(form.password.second) }}
+                    </div>
+                  {% endif %}
+                </div>
+              </fieldset>
+
+              <fieldset class="form-group">
+                <legend>
+                  {{ 'company-data'|trans }}
+                </legend>
+
+                <div data-mdb-input-init class="form-outline mb-4">
+                  {{ form_widget(form.companyName, { attr: { class: 'form-control' ~ (form.companyName.vars.valid ? '' : ' is-invalid') } }) }}
+
+                  {{ form_label(form.companyName, 'company-name', { label_attr: {class: 'form-label'} }) }}
+
+                  {% if not form.companyName.vars.valid %}
+                    <div class="invalid-feedback">
+                      {{ form_errors(form.companyName) }}
+                    </div>
+                  {% endif %}
+                </div>
+
+                <div data-mdb-input-init class="form-outline mb-4">
+                  {{ form_widget(form.companyCity, { attr: { class: 'form-control' ~ (form.companyCity.vars.valid ? '' : ' is-invalid') } }) }}
+
+                  {{ form_label(form.companyCity, 'city', { label_attr: {class: 'form-label'} }) }}
+
+                  {% if not form.companyCity.vars.valid %}
+                    <div class="invalid-feedback">
+                      {{ form_errors(form.companyCity) }}
+                    </div>
+                  {% endif %}
+                </div>
+
+                <div data-mdb-input-init class="form-outline mb-4">
+                  {{ form_widget(form.companyStreet, { attr: { class: 'form-control' ~ (form.companyStreet.vars.valid ? '' : ' is-invalid') } }) }}
+
+                  {{ form_label(form.companyStreet, 'street', { label_attr: {class: 'form-label'} }) }}
+
+                  {% if not form.companyStreet.vars.valid %}
+                    <div class="invalid-feedback">
+                      {{ form_errors(form.companyStreet) }}
+                    </div>
+                  {% endif %}
+                </div>
+
+                <div data-mdb-input-init class="form-outline mb-4">
+                  {{ form_widget(form.companyPostcode, { attr: { class: 'form-control' ~ (form.companyPostcode.vars.valid ? '' : ' is-invalid') } }) }}
+
+                  {{ form_label(form.companyPostcode, 'postcode', { label_attr: {class: 'form-label'} }) }}
+
+                  {% if not form.companyPostcode.vars.valid %}
+                    <div class="invalid-feedback">
+                      {{ form_errors(form.companyPostcode) }}
+                    </div>
+                  {% endif %}
+                </div>
+              </fieldset>
+
+              {{ form_row(form.submit, { attr: { 'data-mdb-ripple-init': '', class: 'btn btn-primary btn-block' } }) }}
+
+              <div class="mt-3 text-center">
+                Wróc na stronę logowania - kliknij
+
+                <a href="{{ path('security_login') }}" class="fw-bold">
+                  tutaj.
+                </a>
+              </div>
+
+              {{ form_end(form) }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+{% endblock %}
