@@ -42,5 +42,21 @@
   "company-name": "Company name",
   "city": "City",
   "street": "Street",
-  "postcode": "Postcode"
+  "postcode": "Postcode",
+  "dictionaries": "Dictionaries",
+  "application": "Application",
+  "visit-types": "Visit types",
+  "name": "Name",
+  "code": "Code",
+  "preferred-price": "Preferred price",
+  "add-visit-type": "Add visit type",
+  "visit-type-added-successfully": "The visit type has been added successfully",
+  "visit-type-edited-successfully": "The visit type has been edited successfully",
+  "visit-type-archived-successfully": "The visit type has been archived successfully",
+  "visit-type-un-archived-successfully": "The visit type has been deleted from archive successfully",
+  "archive": "Archive",
+  "un-archive": "Delete from archive",
+  "archived": "Archived",
+  "yes": "Yes",
+  "no": "No"
 }

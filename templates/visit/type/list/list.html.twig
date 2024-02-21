@@ -1,0 +1,23 @@
+{% extends 'authorized-base.html.twig' %}
+
+{% block content %}
+  <div class="card">
+    <div class="card-header py-3 d-flex justify-content-between align-items-center">
+      <h5 class="mb-0">
+        <strong>
+          {{ 'visit-types'|trans }}
+        </strong>
+      </h5>
+
+      <a class="btn btn-primary btn-sm" data-mdb-ripple-init href="{{ path('visit_type_create') }}" role="button">
+        <i class="fa fa-plus me-2"></i>
+
+        {{ 'add-visit-type'|trans }}
+      </a>
+    </div>
+
+    <div class="card-body">
+      {% include 'visit/type/list/partial/_table.html.twig' %}
+    </div>
+  </div>
+{% endblock %}

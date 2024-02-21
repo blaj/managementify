@@ -1,0 +1,62 @@
+<tr class="{{ visitTypeDto.archived ? 'table-danger' : '' }}">
+  <td>
+    {{ loop.index }}
+  </td>
+
+  <td>
+    {{ visitTypeDto.name }}
+  </td>
+
+  <td>
+    {{ visitTypeDto.code }}
+  </td>
+
+  <td>
+    {{ visitTypeDto.preferredPrice }}
+  </td>
+
+  <td>
+    <div class="btn-group">
+      <button
+          type="button"
+          class="btn btn-primary btn-sm dropdown-toggle"
+          data-mdb-dropdown-init data-mdb-ripple-init aria-expanded="false">
+        {{ 'actions'|trans }}
+      </button>
+
+      <ul class="dropdown-menu">
+        <li>
+          <a class="dropdown-item" href="{{ path('visit_type_details', { id: visitTypeDto.id }) }}">
+            {{ 'view'|trans }}
+          </a>
+        </li>
+
+        <li>
+          <a class="dropdown-item" href="{{ path('visit_type_update', { id: visitTypeDto.id }) }}">
+            {{ 'edit'|trans }}
+          </a>
+        </li>
+
+        <li>
+          {% if visitTypeDto.archived %}
+            <form action="{{ path('visit_type_un_archive', { id: visitTypeDto.id }) }}" method="post">
+              <button type="submit" class="dropdown-item">
+                {{ 'un-archive'|trans }}
+              </button>
+
+              <input type="hidden" name="_method" value="PUT">
+            </form>
+          {% else %}
+            <form action="{{ path('visit_type_archive', { id: visitTypeDto.id }) }}" method="post">
+              <button type="submit" class="dropdown-item">
+                {{ 'archive'|trans }}
+              </button>
+
+              <input type="hidden" name="_method" value="PUT">
+            </form>
+          {% endif %}
+        </li>
+      </ul>
+    </div>
+  </td>
+</tr>

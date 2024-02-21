@@ -42,5 +42,21 @@
   "company-name": "Nazwa firmy",
   "city": "Miasto",
   "street": "Ulica",
-  "postcode": "Kod pocztowy"
+  "postcode": "Kod pocztowy",
+  "dictionaries": "Słowniki",
+  "application": "Aplikacja",
+  "visit-types": "Typy wizyt",
+  "name": "Nazwa",
+  "code": "Kod",
+  "preferred-price": "Preferowana cena",
+  "add-visit-type": "Dodaj typ wizyty",
+  "visit-type-added-successfully": "Typ wizyty został dodany pomyślnie",
+  "visit-type-edited-successfully": "Typ wizyty został pomyślnie zaktualizowany",
+  "visit-type-archived-successfully": "Typ wizyty został pomyślnie zarchiwizowany",
+  "visit-type-un-archived-successfully": "Typ wizyty został pomyślnie usunięty z archiwum",
+  "archive": "Archiwizuj",
+  "un-archive": "Usuń z archiwum",
+  "archived": "Archiwalny",
+  "yes": "Tak",
+  "no": "Nie"
 }

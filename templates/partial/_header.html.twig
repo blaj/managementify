@@ -4,11 +4,21 @@
       <div class="list-group list-group-flush mx-3 mt-4">
         {% include 'partial/_side-bar-item.html.twig' with { name: 'dashboard'|trans, path: path('dashboard_index'), iconClass: 'fas fa-tachometer-alt' } %}
 
+        <h6 class="bg-body-tertiary p-2 border-bottom">
+          {{ 'application'|trans }}
+        </h6>
+
         {% include 'partial/_side-bar-item.html.twig' with { name: 'visits'|trans, path: path('visit_index'), iconClass: 'fas fa-calendar-days' } %}
 
         {% include 'partial/_side-bar-item.html.twig' with { name: 'specialists'|trans, path: path('specialist_list'), iconClass: 'fas fa-user-graduate' } %}
 
         {% include 'partial/_side-bar-item.html.twig' with { name: 'clients'|trans, path: path('client_list'), iconClass: 'fas fa-users' } %}
+
+        <h6 class="bg-body-tertiary p-2 border-bottom">
+          {{ 'dictionaries'|trans }}
+        </h6>
+
+        {% include 'partial/_side-bar-item.html.twig' with { name: 'visit-types'|trans, path: path('visit_type_list'), iconClass: 'fas fa-users' } %}
       </div>
     </div>
   </nav>
