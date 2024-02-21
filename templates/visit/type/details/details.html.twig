@@ -1,0 +1,59 @@
+{% extends 'authorized-base.html.twig' %}
+
+{% block content %}
+  <div class="card">
+    <div class="card-header py-3">
+      <h5 class="mb-0">
+        <strong>
+          {{ visitTypeDetailsDto.name }}
+        </strong>
+      </h5>
+    </div>
+
+    <div class="card-body">
+      <table class="table">
+        <tr>
+          <td>
+            {{ 'name'|trans }}:
+          </td>
+
+          <td>
+            {{ visitTypeDetailsDto.name }}
+          </td>
+        </tr>
+
+        <tr>
+          <td>
+            {{ 'code'|trans }}:
+          </td>
+
+          <td>
+            {{ visitTypeDetailsDto.code }}
+          </td>
+        </tr>
+
+        <tr>
+          <td>
+            {{ 'preferred-price'|trans }}:
+          </td>
+
+          <td>
+            {{ visitTypeDetailsDto.preferredPrice }}
+          </td>
+        </tr>
+
+        <tr>
+          <td>
+            {{ 'archived'|trans }}:
+          </td>
+
+          <td>
+            {{ visitTypeDetailsDto.archived|yesOrNo }}
+          </td>
+        </tr>
+      </table>
+    </div>
+
+    {% include 'partial/_back-to-list.html.twig' with { route: path('visit_type_list') } %}
+  </div>
+{% endblock %}
