@@ -7,6 +7,7 @@ use App\Common\Dto\CompanyIdInterface;
 use App\Common\Service\DictionaryExistsService;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
+use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 use Symfony\Component\Validator\Exception\UnexpectedValueException;
 
 class CodeIsNotTakenCreateValidator extends ConstraintValidator {
@@ -15,7 +16,7 @@ class CodeIsNotTakenCreateValidator extends ConstraintValidator {
 
   public function validate(mixed $value, Constraint $constraint): void {
     if (!$constraint instanceof CodeIsNotTaken) {
-      throw new UnexpectedValueException($constraint, CodeIsNotTaken::class);
+      throw new UnexpectedTypeException($constraint, CodeIsNotTaken::class);
     }
 
     if (!is_object($value)) {

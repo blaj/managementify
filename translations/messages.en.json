@@ -58,5 +58,21 @@
   "un-archive": "Delete from archive",
   "archived": "Archived",
   "yes": "Yes",
-  "no": "No"
+  "no": "No",
+  "preferred-hours": "Preferred hours",
+  "monday": "Monday",
+  "tuesday": "Tuesday",
+  "wednesday": "Wednesday",
+  "thursday": "Thursday",
+  "friday": "Friday",
+  "saturday": "Saturday",
+  "sunday": "Sunday",
+  "add-preferred-hour": "Add preferred hour",
+  "edit-preferred-hour": "Edit preferred hour",
+  "day-of-week": "Day of week",
+  "from-time": "From time",
+  "to-time": "To time",
+  "client-preferred-hour-added-successfully": "The preferred hour has been added successfully",
+  "client-preferred-hour-edited-successfully": "The preferred hour has been edited successfully",
+  "client-preferred-hour-deleted-successfully": "The preferred hour has been deleted successfully"
 }

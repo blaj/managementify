@@ -1,5 +1,6 @@
 {
   "username-is-already-taken": "The username is already taken",
   "email-is-already-taken": "Email is already taken",
-  "code-is-already-taken": "Code is already taken"
+  "code-is-already-taken": "Code is already taken",
+  "preferred-hour-is-exists-in-range": "The time on {{ day }} is already booked"
 }

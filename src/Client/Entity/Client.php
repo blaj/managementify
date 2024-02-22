@@ -40,8 +40,15 @@ class Client extends SoftDeleteEntity implements CompanyContextInterface {
   #[ManyToOne(targetEntity: Company::class, fetch: 'LAZY')]
   private Company $company;
 
+  /**
+   * @var Collection<int, PreferredHour>
+   */
+  #[OneToMany(targetEntity: PreferredHour::class, mappedBy: 'client')]
+  private Collection $preferredHours;
+
   public function __construct() {
     $this->visits = new ArrayCollection();
+    $this->preferredHours = new ArrayCollection();
   }
 
   public function getFirstname(): string {
@@ -110,6 +117,36 @@ class Client extends SoftDeleteEntity implements CompanyContextInterface {
 
   public function setCompany(Company $company): self {
     $this->company = $company;
+
+    return $this;
+  }
+
+  /**
+   * @return Collection<int, PreferredHour>
+   */
+  public function getPreferredHours(): Collection {
+    return $this->preferredHours;
+  }
+
+  /**
+   * @param Collection<int, PreferredHour> $preferredHours
+   */
+  public function setPreferredHours(Collection $preferredHours): self {
+    $this->preferredHours = $preferredHours;
+
+    return $this;
+  }
+
+  public function addPreferredHour(PreferredHour $preferredHour): self {
+    if (!$this->preferredHours->contains($preferredHour)) {
+      $this->preferredHours->add($preferredHour);
+    }
+
+    return $this;
+  }
+
+  public function removePreferredHour(PreferredHour $preferredHour): self {
+    $this->preferredHours->removeElement($preferredHour);
 
     return $this;
   }

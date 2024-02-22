@@ -1,72 +1,35 @@
-{% extends 'authorized-base.html.twig' %}
+{% extends 'client/client-base.html.twig' %}
 
-{% block content %}
-  <div class="card">
-    <div class="card-header py-3">
-      <h5 class="mb-0">
-        <strong>
-          {{ clientDetailsDto.firstname }} {{ clientDetailsDto.surname }}
-        </strong>
-      </h5>
-    </div>
+{% block tabContent %}
+  <table class="table">
+    <tr>
+      <td>
+        {{ 'firstname'|trans }}:
+      </td>
 
-    <div class="card-body">
-      <ul class="nav nav-tabs mb-3" role="tablist">
-        <li class="nav-item" role="presentation">
-          <a
-              data-mdb-tab-init
-              class="nav-link active"
-              id="basic-data-button"
-              href="#basic-data"
-              role="tab"
-              aria-controls="basic-data"
-              aria-selected="true">
-            {{ 'basic-data'|trans }}
-          </a>
-        </li>
-      </ul>
+      <td>
+        {{ clientDetailsDto.firstname }}
+      </td>
+    </tr>
 
-      <div class="tab-content">
-        <div
-            class="tab-pane fade show active"
-            id="basic-data"
-            role="tabpanel"
-            aria-labelledby="basic-data-button">
-          <table class="table">
-            <tr>
-              <td>
-                {{ 'firstname'|trans }}:
-              </td>
+    <tr>
+      <td>
+        {{ 'surname'|trans }}:
+      </td>
 
-              <td>
-                {{ clientDetailsDto.firstname }}
-              </td>
-            </tr>
+      <td>
+        {{ clientDetailsDto.surname }}
+      </td>
+    </tr>
 
-            <tr>
-              <td>
-                {{ 'surname'|trans }}:
-              </td>
+    <tr>
+      <td>
+        {{ 'foreign-id'|trans }}:
+      </td>
 
-              <td>
-                {{ clientDetailsDto.surname }}
-              </td>
-            </tr>
-
-            <tr>
-              <td>
-                {{ 'foreign-id'|trans }}:
-              </td>
-
-              <td>
-                {{ clientDetailsDto.foreignId }}
-              </td>
-            </tr>
-          </table>
-        </div>
-      </div>
-    </div>
-
-    {% include 'partial/_back-to-list.html.twig' with { route: path('client_list') } %}
-  </div>
+      <td>
+        {{ clientDetailsDto.foreignId }}
+      </td>
+    </tr>
+  </table>
 {% endblock %}
