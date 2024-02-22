@@ -58,5 +58,21 @@
   "un-archive": "Usuń z archiwum",
   "archived": "Archiwalny",
   "yes": "Tak",
-  "no": "Nie"
+  "no": "Nie",
+  "preferred-hours": "Preferowane godziny",
+  "monday": "Poniedziałek",
+  "tuesday": "Wtorek",
+  "wednesday": "Środa",
+  "thursday": "Czwartek",
+  "friday": "Piątek",
+  "saturday": "Sobota",
+  "sunday": "Niedziela",
+  "add-preferred-hour": "Dodaj preferowaną godzinę",
+  "edit-preferred-hour": "Edytuj preferowaną godzinę",
+  "day-of-week": "Dzień tygodnia",
+  "from-time": "Od godziny",
+  "to-time": "Do godziny",
+  "client-preferred-hour-added-successfully": "Preferowana godzina została dodana pomyślnie",
+  "client-preferred-hour-edited-successfully": "Preferowana godzina została pomyślnie zaktualizowana",
+  "client-preferred-hour-deleted-successfully": "Preferowana godzina została pomyślnie usunięta"
 }

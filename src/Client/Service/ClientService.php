@@ -23,7 +23,8 @@ class ClientService {
 
   public function __construct(
       private readonly ClientRepository $clientRepository,
-      private readonly CompanyFetchService $companyFetchService) {}
+      private readonly CompanyFetchService $companyFetchService,
+      private readonly ClientFetchService $clientFetchService) {}
 
   /**
    * @return PaginatedList<ClientListItemDto>
@@ -75,19 +76,13 @@ class ClientService {
 
   public function update(int $id, ClientUpdateRequest $clientUpdateRequest, int $companyId): void {
     $this->clientRepository->save(
-        ($this->fetchClient($id, $companyId))
+        ($this->clientFetchService->fetchClient($id, $companyId))
             ->setFirstname($clientUpdateRequest->getFirstname())
             ->setSurname($clientUpdateRequest->getSurname())
             ->setForeignId($clientUpdateRequest->getForeignId()));
   }
 
   public function delete(int $id, int $companyId): void {
-    $this->clientRepository->softDeleteById($this->fetchClient($id, $companyId)->getId());
-  }
-
-  private function fetchClient(int $id, int $companyId): Client {
-    return $this->clientRepository->findOneByIdAndCompany($id, $companyId)
-        ??
-        throw new EntityNotFoundException('Client not found');
+    $this->clientRepository->softDeleteById($this->clientFetchService->fetchClient($id, $companyId)->getId());
   }
 }

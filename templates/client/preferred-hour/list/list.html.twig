@@ -1,0 +1,56 @@
+{% extends 'client/client-base.html.twig' %}
+
+{% block heading %}
+  <a
+      class="btn btn-primary btn-sm"
+      data-mdb-ripple-init
+      href="{{ path('client_preferred_hour_create', { clientId: clientDetailsDto.id }) }}"
+      role="button">
+    <i class="fa fa-plus me-2"></i>
+
+    {{ 'add-preferred-hour'|trans }}
+  </a>
+{% endblock %}
+
+{% block tabContent %}
+  <table class="table table-striped">
+    {% for preferredHourGroupDto in preferredHoursGroupsDtoList %}
+      <tr class="table-primary">
+        <td colspan="2">
+          {{ preferredHourGroupDto.dayOfWeek|dayOfWeekTranslate }}
+        </td>
+      </tr>
+
+      {% for preferredHourRowDto in preferredHourGroupDto.rows %}
+        <tr>
+          <td>
+            {{ preferredHourRowDto.fromTime|dateFormat('H:i') }}
+
+            -
+
+            {{ preferredHourRowDto.toTime|dateFormat('H:i') }}
+          </td>
+
+          <td>
+            <a
+                href="{{ path('client_preferred_hour_update', { id: preferredHourRowDto.id, clientId: clientDetailsDto.id }) }}"
+                class="btn btn-sm btn-warning text-white">
+              <i class="fa-solid fa-pencil"></i>
+            </a>
+
+            <form
+                class="d-inline-block"
+                action="{{ path('client_preferred_hour_delete', { id: preferredHourRowDto.id, clientId: clientDetailsDto.id }) }}"
+                method="post">
+              <button type="submit" class="btn btn-sm btn-danger text-white">
+                <i class="fa-solid fa-trash"></i>
+              </button>
+
+              <input type="hidden" name="_method" value="DELETE">
+            </form>
+          </td>
+        </tr>
+      {% endfor %}
+    {% endfor %}
+  </table>
+{% endblock %}

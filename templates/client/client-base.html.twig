@@ -1,0 +1,43 @@
+{% extends 'authorized-base.html.twig' %}
+
+{% block content %}
+  <div class="card">
+    <div class="card-header py-3 d-flex justify-content-between align-items-center">
+      <h5 class="mb-0">
+        <strong>
+          {{ clientDetailsDto.firstname }} {{ clientDetailsDto.surname }}
+        </strong>
+      </h5>
+
+      {% block heading %}
+      {% endblock %}
+    </div>
+
+    <div class="card-body">
+      <ul class="nav nav-tabs mb-3" role="tablist">
+        <li class="nav-item" role="presentation">
+          <a
+              class="nav-link {{ getActualRouteName()|activeRouteName('client_details', 'active') }}"
+              href="{{ path('client_details', { id: clientDetailsDto.id }) }}">
+            {{ 'basic-data'|trans }}
+          </a>
+        </li>
+
+        <li class="nav-item" role="presentation">
+          <a
+              class="nav-link {{ getActualRouteName()|activeRouteName('client_preferred_hour_list', 'active') }}"
+              href="{{ path('client_preferred_hour_list', { clientId: clientDetailsDto.id }) }}">
+            {{ 'preferred-hours'|trans }}
+          </a>
+        </li>
+      </ul>
+
+      <div class="tab-content">
+        {% block tabContent %}
+        {% endblock %}
+      </div>
+    </div>
+
+    {% include 'partial/_back-to-list.html.twig' with { route: path('client_list') } %}
+  </div>
+{% endblock %}

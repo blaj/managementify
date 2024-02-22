@@ -11,6 +11,7 @@ use App\Client\Mapper\ClientDetailsDtoMapper;
 use App\Client\Mapper\ClientListItemDtoMapper;
 use App\Client\Mapper\ClientUpdateRequestMapper;
 use App\Client\Repository\ClientRepository;
+use App\Client\Service\ClientFetchService;
 use App\Client\Service\ClientService;
 use App\Common\Dto\EntityPage;
 use App\Common\PaginatedList\Dto\CriteriaWithEntityPageWrapper;
@@ -27,14 +28,16 @@ class ClientServiceTest extends TestCase {
 
   private ClientRepository $clientRepository;
   private CompanyFetchService $companyFetchService;
+  private ClientFetchService $clientFetchService;
 
   private ClientService $clientService;
 
   public function setUp(): void {
     $this->clientRepository = $this->createMock(ClientRepository::class);
     $this->companyFetchService = $this->createMock(CompanyFetchService::class);
+    $this->clientFetchService = $this->createMock(ClientFetchService::class);
 
-    $this->clientService = new ClientService($this->clientRepository, $this->companyFetchService);
+    $this->clientService = new ClientService($this->clientRepository, $this->companyFetchService, $this->clientFetchService);
   }
 
   /**
@@ -227,30 +230,6 @@ class ClientServiceTest extends TestCase {
   /**
    * @test
    */
-  public function givenNonExistingClient_whenUpdate_shouldReturnThrowException(): void {
-    $this->expectException(EntityNotFoundException::class);
-    $this->expectExceptionMessage('Client not found');
-
-    // given
-    $id = 123;
-    $request = new ClientUpdateRequest();
-    $companyId = 123;
-
-    $this->clientRepository
-        ->expects(static::once())
-        ->method('findOneByIdAndCompany')
-        ->with($id, $companyId)
-        ->willReturn(null);
-
-    // when
-    $this->clientService->update($id, $request, $companyId);
-
-    // then
-  }
-
-  /**
-   * @test
-   */
   public function givenExistingClient_whenUpdate_shouldReturnSave(): void {
     // given
     $id = 123;
@@ -261,9 +240,9 @@ class ClientServiceTest extends TestCase {
         ->setForeignId('newForeignId');
     $companyId = 123;
 
-    $this->clientRepository
+    $this->clientFetchService
         ->expects(static::once())
-        ->method('findOneByIdAndCompany')
+        ->method('fetchClient')
         ->with($id, $companyId)
         ->willReturn($client);
 
@@ -286,38 +265,15 @@ class ClientServiceTest extends TestCase {
   /**
    * @test
    */
-  public function givenNonExistingClient_whenDelete_shouldThrowException(): void {
-    $this->expectException(EntityNotFoundException::class);
-    $this->expectExceptionMessage('Client not found');
-
-    // given
-    $id = 123;
-    $companyId = 123;
-
-    $this->clientRepository
-        ->expects(static::once())
-        ->method('findOneByIdAndCompany')
-        ->with($id, $companyId)
-        ->willReturn(null);
-
-    // when
-    $this->clientService->delete($id, $companyId);
-
-    // then
-  }
-
-  /**
-   * @test
-   */
   public function givenExistingClient_whenDelete_shouldSoftDelete(): void {
     // given
     $id = 123;
     $specialist = $this->client($id);
     $companyId = 123;
 
-    $this->clientRepository
+    $this->clientFetchService
         ->expects(static::once())
-        ->method('findOneByIdAndCompany')
+        ->method('fetchClient')
         ->with($id, $companyId)
         ->willReturn($specialist);
 
