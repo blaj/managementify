@@ -74,5 +74,17 @@
   "to-time": "Do godziny",
   "client-preferred-hour-added-successfully": "Preferowana godzina została dodana pomyślnie",
   "client-preferred-hour-edited-successfully": "Preferowana godzina została pomyślnie zaktualizowana",
-  "client-preferred-hour-deleted-successfully": "Preferowana godzina została pomyślnie usunięta"
+  "client-preferred-hour-deleted-successfully": "Preferowana godzina została pomyślnie usunięta",
+  "assigned-specialists": "Przypisani specjaliści",
+  "specialist-name": "Nazwa specjalisty",
+  "from-date": "Od daty",
+  "to-date": "Do daty",
+  "assign-type": "Typ",
+  "assign-specialist": "Przypisz specjalistę",
+  "main": "Główny",
+  "secondary": "Poboczny",
+  "specialist": "Specjalista",
+  "client-specialist-added-successfully": "Specjalista został dodany pomyślnie",
+  "client-specialist-edited-successfully": "Specjalista został pomyślnie zaktualizowany",
+  "client-specialist-deleted-successfully": "Specjalista został pomyślnie usunięty"
 }

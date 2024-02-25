@@ -31,7 +31,7 @@ class PreferredHour extends SoftDeleteEntity
   private DayOfWeek $dayOfWeek;
 
   #[JoinColumn(name: 'client_id', referencedColumnName: 'id', nullable: false, columnDefinition: 'BIGINT NOT NULL')]
-  #[ManyToOne(targetEntity: Client::class, fetch: 'LAZY')]
+  #[ManyToOne(targetEntity: Client::class, fetch: 'LAZY', inversedBy: 'preferredHours')]
   private Client $client;
 
   #[JoinColumn(name: 'company_id', referencedColumnName: 'id', nullable: false, columnDefinition: 'BIGINT NOT NULL')]

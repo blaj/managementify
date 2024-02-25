@@ -1,0 +1,90 @@
+{% extends 'client/client-base.html.twig' %}
+
+{% block heading %}
+  <a
+      class="btn btn-primary btn-sm"
+      data-mdb-ripple-init
+      href="{{ path('client_specialist_create', { clientId: clientDetailsDto.id }) }}"
+      role="button">
+    <i class="fa fa-plus me-2"></i>
+
+    {{ 'assign-specialist'|trans }}
+  </a>
+{% endblock %}
+
+{% block tabContent %}
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>
+          #
+        </th>
+
+        <th>
+          {{ 'specialist-name'|trans }}
+        </th>
+
+        <th>
+          {{ 'assign-type'|trans }}
+        </th>
+
+        <th>
+          {{ 'from-date'|trans }}
+        </th>
+
+        <th>
+          {{ 'to-date'|trans }}
+        </th>
+
+        <th>
+          {{ 'actions'|trans }}
+        </th>
+      </tr>
+    </thead>
+
+    <tbody>
+      {% for clientSpecialistsDto in clientSpecialistsDtoList %}
+        <tr>
+          <td>
+            {{ loop.index }}
+          </td>
+
+          <td>
+            {{ clientSpecialistsDto.specialistName }}
+          </td>
+
+          <td>
+            {{ clientSpecialistsDto.assignType|trans }}
+          </td>
+
+          <td>
+            {{ clientSpecialistsDto.fromDate|dateFormat('Y-m-d') }}
+          </td>
+
+          <td>
+            {{ clientSpecialistsDto.toDate|dateFormat('Y-m-d') }}
+          </td>
+
+          <td>
+            <a
+                href="{{ path('client_specialist_update', { id: clientSpecialistsDto.id, clientId: clientDetailsDto.id }) }}"
+                class="btn btn-sm btn-warning text-white">
+              <i class="fa-solid fa-pencil"></i>
+            </a>
+
+            <form
+                class="d-inline-block"
+                action="{{ path('client_specialist_delete', { id: clientSpecialistsDto.id, clientId: clientDetailsDto.id }) }}"
+                method="post">
+              <button type="submit" class="btn btn-sm btn-danger text-white">
+                <i class="fa-solid fa-trash"></i>
+              </button>
+
+              <input type="hidden" name="_method" value="DELETE">
+            </form>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

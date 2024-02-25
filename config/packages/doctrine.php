@@ -81,6 +81,13 @@ return static function(ContainerConfigurator $containerConfigurator): void {
                   'prefix' => 'App\Company\Entity',
                   'alias' => 'Company',
               ],
+              'ClientSpecialist' => [
+                  'type' => 'attribute',
+                  'is_bundle' => false,
+                  'dir' => '%kernel.project_dir%/src/ClientSpecialist/Entity',
+                  'prefix' => 'App\ClientSpecialist\Entity',
+                  'alias' => 'ClientSpecialist',
+              ],
           ],
           'dql' => [
               'string_functions' => [
