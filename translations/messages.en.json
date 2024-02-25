@@ -74,5 +74,17 @@
   "to-time": "To time",
   "client-preferred-hour-added-successfully": "The preferred hour has been added successfully",
   "client-preferred-hour-edited-successfully": "The preferred hour has been edited successfully",
-  "client-preferred-hour-deleted-successfully": "The preferred hour has been deleted successfully"
+  "client-preferred-hour-deleted-successfully": "The preferred hour has been deleted successfully",
+  "assigned-specialists": "Assigned specialists",
+  "specialist-name": "Specialist name",
+  "from-date": "From date",
+  "to-date": "To date",
+  "assign-type": "Type",
+  "assign-specialist": "Assign specialist",
+  "main": "Main",
+  "secondary": "Secondary",
+  "specialist": "Specialist",
+  "client-specialist-added-successfully": "The specialist has been added successfully",
+  "client-specialist-edited-successfully": "The specialist has been edited successfully",
+  "client-specialist-deleted-successfully": "The specialist has been deleted successfully"
 }

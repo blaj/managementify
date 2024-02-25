@@ -30,6 +30,14 @@
             {{ 'preferred-hours'|trans }}
           </a>
         </li>
+
+        <li class="nav-item" role="presentation">
+          <a
+              class="nav-link {{ getActualRouteName()|activeRouteName('client_specialist_list', 'active') }}"
+              href="{{ path('client_specialist_list', { clientId: clientDetailsDto.id }) }}">
+            {{ 'assigned-specialists'|trans }}
+          </a>
+        </li>
       </ul>
 
       <div class="tab-content">

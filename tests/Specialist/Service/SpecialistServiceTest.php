@@ -18,6 +18,7 @@ use App\Specialist\Mapper\SpecialistDetailsDtoMapper;
 use App\Specialist\Mapper\SpecialistListItemDtoMapper;
 use App\Specialist\Mapper\SpecialistUpdateRequestMapper;
 use App\Specialist\Repository\SpecialistRepository;
+use App\Specialist\Service\SpecialistFetchService;
 use App\Specialist\Service\SpecialistService;
 use Doctrine\ORM\EntityNotFoundException;
 use PHPUnit\Framework\Assert;
@@ -26,16 +27,21 @@ use PHPUnit\Framework\TestCase;
 class SpecialistServiceTest extends TestCase {
 
   private SpecialistRepository $specialistRepository;
+  private SpecialistFetchService $specialistFetchService;
   private CompanyFetchService $companyFetchService;
 
   private SpecialistService $specialistService;
 
   public function setUp(): void {
     $this->specialistRepository = $this->createMock(SpecialistRepository::class);
+    $this->specialistFetchService = $this->createMock(SpecialistFetchService::class);
     $this->companyFetchService = $this->createMock(CompanyFetchService::class);
 
     $this->specialistService =
-        new SpecialistService($this->specialistRepository, $this->companyFetchService);
+        new SpecialistService(
+            $this->specialistRepository,
+            $this->specialistFetchService,
+            $this->companyFetchService);
   }
 
   /**
@@ -230,30 +236,6 @@ class SpecialistServiceTest extends TestCase {
   /**
    * @test
    */
-  public function givenNonExistingSpecialist_whenUpdate_shouldThrowException(): void {
-    $this->expectException(EntityNotFoundException::class);
-    $this->expectExceptionMessage('Specialist not found');
-
-    // given
-    $id = 123;
-    $request = new SpecialistUpdateRequest();
-    $companyId = 123;
-
-    $this->specialistRepository
-        ->expects(static::once())
-        ->method('findOneByIdAndCompany')
-        ->with($id, $companyId)
-        ->willReturn(null);
-
-    // when
-    $this->specialistService->update($id, $request, $companyId);
-
-    // then
-  }
-
-  /**
-   * @test
-   */
   public function givenExistingSpecialist_whenUpdate_shouldSave(): void {
     // given
     $id = 123;
@@ -265,9 +247,9 @@ class SpecialistServiceTest extends TestCase {
             ->setForeignId('newForeignId');
     $companyId = 123;
 
-    $this->specialistRepository
+    $this->specialistFetchService
         ->expects(static::once())
-        ->method('findOneByIdAndCompany')
+        ->method('fetchSpecialist')
         ->with($id, $companyId)
         ->willReturn($specialist);
 
@@ -290,38 +272,15 @@ class SpecialistServiceTest extends TestCase {
   /**
    * @test
    */
-  public function givenNonExistingSpecialist_whenDelete_shouldThrowException(): void {
-    $this->expectException(EntityNotFoundException::class);
-    $this->expectExceptionMessage('Specialist not found');
-
-    // given
-    $id = 123;
-    $companyId = 123;
-
-    $this->specialistRepository
-        ->expects(static::once())
-        ->method('findOneByIdAndCompany')
-        ->with($id, $companyId)
-        ->willReturn(null);
-
-    // when
-    $this->specialistService->delete($id, $companyId);
-
-    // then
-  }
-
-  /**
-   * @test
-   */
   public function givenExistingSpecialist_whenDelete_shouldSoftDelete(): void {
     // given
     $id = 123;
     $specialist = $this->specialist($id);
     $companyId = 123;
 
-    $this->specialistRepository
+    $this->specialistFetchService
         ->expects(static::once())
-        ->method('findOneByIdAndCompany')
+        ->method('fetchSpecialist')
         ->with($id, $companyId)
         ->willReturn($specialist);
 

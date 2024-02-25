@@ -2,5 +2,6 @@
   "username-is-already-taken": "Nazwa użytkownika jest już zajęta",
   "email-is-already-taken": "Email jest już zajęty",
   "code-is-already-taken": "Kod jest już zajęty",
-  "preferred-hour-is-exists-in-range": "W dniu {{ day }} jest już zajęta godzina"
+  "preferred-hour-is-exists-in-range": "W dniu {{ day }} jest już zajęta godzina",
+  "main-assign-type-is-exists": "W jednym czasie może być tylko jeden główny specjalista"
 }
