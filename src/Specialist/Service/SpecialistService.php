@@ -25,12 +25,15 @@ class SpecialistService {
       private readonly SpecialistFetchService $specialistFetchService,
       private readonly CompanyFetchService $companyFetchService) {}
 
+  /**
+   * @return array<SpecialistListItemDto>
+   */
   public function getList(int $companyId): array {
     return array_filter(
         array_map(
-            fn (Specialist $specialist) => SpecialistListItemDtoMapper::map($specialist),
+            fn (?Specialist $specialist) => SpecialistListItemDtoMapper::map($specialist),
             $this->specialistRepository->findAllByCompanyId($companyId)),
-        fn (SpecialistListItemDto $dto) => $dto !== null);
+        fn (?SpecialistListItemDto $dto) => $dto !== null);
   }
 
   /**

@@ -43,6 +43,7 @@ class ClientSpecialistRepository extends AbstractSoftDeleteCompanyContextReposit
       AssignType $assignType,
       DateTimeImmutableRange $range,
       int $companyId): bool {
+    /** @phpstan-ignore-next-line */
     return $this->getEntityManager()
         ->createQuery(
             '
@@ -71,6 +72,7 @@ class ClientSpecialistRepository extends AbstractSoftDeleteCompanyContextReposit
       AssignType $assignType,
       DateTimeImmutableRange $range,
       int $companyId): bool {
+    /** @phpstan-ignore-next-line */
     return $this->getEntityManager()
         ->createQuery(
             '

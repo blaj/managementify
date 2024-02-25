@@ -22,9 +22,9 @@ class SpecialistChoiceType extends AbstractType {
         ->setDefaults([
             'companyId' => null,
             'choice_value' => fn (?SpecialistListItemDto $dto) => $dto?->id,
-            'choice_label' => fn (?SpecialistListItemDto $dto) => $dto->surname
+            'choice_label' => fn (?SpecialistListItemDto $dto) => $dto?->surname
                 . ' '
-                . $dto->firstname,
+                . $dto?->firstname,
             'choices' => fn (Options $options) => $this->specialistService->getList(
                 $options['companyId'])
         ]);
@@ -35,21 +35,26 @@ class SpecialistChoiceType extends AbstractType {
 
     $builder->addModelTransformer(
         new CallbackTransformer(
-            fn (?int $id) => $this->selectChoiceById($options['choices'], $id),
-            fn (?SpecialistListItemDto $dto) => $dto->id));
+            fn (?int $id) => $this->selectChoiceById(
+                is_array($options['choices']) ? $options['choices'] : [],
+                $id),
+            fn (?SpecialistListItemDto $dto) => $dto?->id));
   }
 
   public function getParent(): string {
     return ChoiceType::class;
   }
 
+  /**
+   * @param array<SpecialistListItemDto> $choices
+   */
   private function selectChoiceById(array $choices, ?int $id): ?SpecialistListItemDto {
     if ($id === null) {
       return null;
     }
 
-    $selectedChoice = array_filter($choices, fn (?SpecialistListItemDto $dto) => $dto->id === $id);
+    $selectedChoice = array_filter($choices, fn (?SpecialistListItemDto $dto) => $dto?->id === $id);
 
-    return reset($selectedChoice);
+    return array_key_exists(0, $selectedChoice) ? $selectedChoice[0] : null;
   }
 }
