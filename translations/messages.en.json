@@ -86,5 +86,15 @@
   "specialist": "Specialist",
   "client-specialist-added-successfully": "The specialist has been added successfully",
   "client-specialist-edited-successfully": "The specialist has been edited successfully",
-  "client-specialist-deleted-successfully": "The specialist has been deleted successfully"
+  "client-specialist-deleted-successfully": "The specialist has been deleted successfully",
+  "contacts": "Contacts",
+  "content": "Content",
+  "type": "Type",
+  "add-contact": "Add contact",
+  "edit-contact": "Edit contact",
+  "phone": "Phone",
+  "other": "Other",
+  "client-contact-added-successfully": "The contact has been added successfully",
+  "client-contact-edited-successfully": "The contact has been edited successfully",
+  "client-contact-deleted-successfully": "The contact has been deleted successfully"
 }
