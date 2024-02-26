@@ -9,7 +9,7 @@ use Doctrine\ORM\AbstractQuery;
 use Doctrine\ORM\NonUniqueResultException;
 
 /**
- * @template T of SoftDeleteEntity & CompanyContextInterface
+ * @template T of SoftDeleteEntity&CompanyContextInterface
  * @extends AbstractSoftDeleteRepository<T>
  */
 abstract class AbstractSoftDeleteCompanyContextRepository extends AbstractSoftDeleteRepository {

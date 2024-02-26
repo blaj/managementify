@@ -38,6 +38,14 @@
             {{ 'assigned-specialists'|trans }}
           </a>
         </li>
+
+        <li class="nav-item" role="presentation">
+          <a
+              class="nav-link {{ getActualRouteName()|activeRouteName('client_contact_list', 'active') }}"
+              href="{{ path('client_contact_list', { clientId: clientDetailsDto.id }) }}">
+            {{ 'contacts'|trans }}
+          </a>
+        </li>
       </ul>
 
       <div class="tab-content">

@@ -5,37 +5,17 @@ namespace App\Client\Repository;
 use App\Client\Entity\PreferredHour;
 use App\Common\Dto\DateTimeImmutableRange;
 use App\Common\Entity\DayOfWeek;
-use App\Common\Repository\AbstractSoftDeleteCompanyContextRepository;
+use App\Common\Repository\AbstractSoftDeleteClientCompanyContextRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends AbstractSoftDeleteCompanyContextRepository<PreferredHour>
+ * @extends AbstractSoftDeleteClientCompanyContextRepository<PreferredHour>
  */
-class PreferredHourRepository extends AbstractSoftDeleteCompanyContextRepository {
+class PreferredHourRepository extends AbstractSoftDeleteClientCompanyContextRepository {
 
   public function __construct(ManagerRegistry $registry) {
     parent::__construct($registry, PreferredHour::class);
-  }
-
-  /**
-   * @return array<PreferredHour>
-   */
-  public function findAllByClientIdAndCompanyId(int $clientId, int $companyId): array {
-    return $this->getEntityManager()
-        ->createQuery(
-            '
-            SELECT 
-              preferredHour 
-            FROM 
-              App\Client\Entity\PreferredHour preferredHour 
-            WHERE 
-              preferredHour.deleted = false 
-              AND preferredHour.client = :clientId
-              AND preferredHour.company = :companyId ')
-        ->setParameter('clientId', $clientId, Types::INTEGER)
-        ->setParameter('companyId', $companyId, Types::INTEGER)
-        ->getResult();
   }
 
   public function existsByClientIdAndDayOfWeekAndRangeOverlapAndCompanyId(

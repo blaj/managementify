@@ -1,0 +1,74 @@
+{% extends 'client/client-base.html.twig' %}
+
+{% block heading %}
+  <a
+      class="btn btn-primary btn-sm"
+      data-mdb-ripple-init
+      href="{{ path('client_contact_create', { clientId: clientDetailsDto.id }) }}"
+      role="button">
+    <i class="fa fa-plus me-2"></i>
+
+    {{ 'add-contact'|trans }}
+  </a>
+{% endblock %}
+
+{% block tabContent %}
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>
+          #
+        </th>
+
+        <th>
+          {{ 'content'|trans }}
+        </th>
+
+        <th>
+          {{ 'type'|trans }}
+        </th>
+
+        <th>
+          {{ 'actions'|trans }}
+        </th>
+      </tr>
+    </thead>
+
+    <tbody>
+      {% for contactDto in contactsDtoList %}
+        <tr>
+          <td>
+            {{ loop.index }}
+          </td>
+
+          <td>
+            {{ contactDto.content }}
+          </td>
+
+          <td>
+            {{ contactDto.type|trans }}
+          </td>
+
+          <td>
+            <a
+                href="{{ path('client_contact_update', { id: contactDto.id, clientId: clientDetailsDto.id }) }}"
+                class="btn btn-sm btn-warning text-white">
+              <i class="fa-solid fa-pencil"></i>
+            </a>
+
+            <form
+                class="d-inline-block"
+                action="{{ path('client_contact_delete', { id: contactDto.id, clientId: clientDetailsDto.id }) }}"
+                method="post">
+              <button type="submit" class="btn btn-sm btn-danger text-white">
+                <i class="fa-solid fa-trash"></i>
+              </button>
+
+              <input type="hidden" name="_method" value="DELETE">
+            </form>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

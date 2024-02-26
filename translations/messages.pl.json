@@ -86,5 +86,15 @@
   "specialist": "Specjalista",
   "client-specialist-added-successfully": "Specjalista został dodany pomyślnie",
   "client-specialist-edited-successfully": "Specjalista został pomyślnie zaktualizowany",
-  "client-specialist-deleted-successfully": "Specjalista został pomyślnie usunięty"
+  "client-specialist-deleted-successfully": "Specjalista został pomyślnie usunięty",
+  "contacts": "Kontakty",
+  "content": "Treść",
+  "type": "Typ",
+  "add-contact": "Dodaj kontakt",
+  "edit-contact": "Edytuj kontakt",
+  "phone": "Telefon",
+  "other": "Inny",
+  "client-contact-added-successfully": "Kontakt został dodany pomyślnie",
+  "client-contact-edited-successfully": "Kontakt został pomyślnie zaktualizowany",
+  "client-contact-deleted-successfully": "Kontakt został pomyślnie usunięty"
 }
