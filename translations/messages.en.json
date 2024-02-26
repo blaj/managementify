@@ -111,6 +111,7 @@
   "permissions-to-client-contact": "Permissions to client contact",
   "permissions-to-visit-type": "Permissions to visit type",
   "permissions-to-role": "Permission to role",
+  "permissions-to-company": "Permission to company",
   "add-role": "Add role",
   "edit-role": "Edit role",
   "role-added-successfully": "The role has been added successfully",
@@ -151,5 +152,10 @@
   "role-create": "Create role",
   "role-update": "Edit role",
   "role-archive": "Archive role",
-  "role-un-archive": "Un archive role"
+  "role-un-archive": "Un archive role",
+  "company-details": "Company details",
+  "company-update": "Edit company",
+  "company": "Company",
+  "edit-company": "Edit company data",
+  "company-edited-successfully": "The company has been edited successfully"
 }

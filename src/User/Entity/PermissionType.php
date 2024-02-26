@@ -51,6 +51,9 @@ enum PermissionType: string implements TranslatableInterface {
   case ROLE_ARCHIVE = 'ROLE_ARCHIVE';
   case ROLE_UN_ARCHIVE = 'ROLE_UN_ARCHIVE';
 
+  case COMPANY_DETAILS = 'COMPANY_DETAILS';
+  case COMPANY_UPDATE = 'COMPANY_UPDATE';
+
   public function trans(TranslatorInterface $translator, string $locale = null): string {
     return $translator->trans(strtolower(str_replace('_', '-', $this->value)), locale: $locale);
   }

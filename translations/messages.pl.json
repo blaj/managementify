@@ -111,6 +111,7 @@
   "permissions-to-client-contact": "Uprawnienia do kontaktów klienta",
   "permissions-to-visit-type": "Uprawnienia do typów wizyt",
   "permissions-to-role": "Uprawnienia do roli",
+  "permissions-to-company": "Uprawnienia do firmy",
   "add-role": "Dodaj rolę",
   "edit-role": "Edytuj rolę",
   "role-added-successfully": "Rola została dodana pomyślnie",
@@ -151,5 +152,9 @@
   "role-create": "Dodawanie roli",
   "role-update": "Edycja roli",
   "role-archive": "Archiwizacja roli",
-  "role-un-archive": "Usuwanie z archiwum roli"
-}
+  "role-un-archive": "Usuwanie z archiwum roli",
+  "company-details": "Szczegóły firmy",
+  "company-update": "Edycja firmy",
+  "company": "Firma",
+  "edit-company": "Edytuj dane firmy",
+  "company-edited-successfully": "Firma została pomyślnie zaktualizowana"}

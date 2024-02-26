@@ -25,6 +25,8 @@
         </h6>
 
         {% include 'partial/_side-bar-item.html.twig' with { name: 'roles'|trans, path: path('user_role_list'), iconClass: 'fas fa-users' } %}
+
+        {% include 'partial/_side-bar-item.html.twig' with { name: 'company'|trans, path: path('company_details', { id: app.user.companyId }), iconClass: 'fas fa-users' } %}
       </div>
     </div>
   </nav>
