@@ -17,7 +17,6 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\Translation\TranslatableMessage;
 
-#[IsGranted('ROLE_USER')]
 #[Route(path: '/client/{clientId}/specialist', name: 'client_specialist_', requirements: ['clientId' => '\d+'])]
 class ClientSpecialistController extends AbstractController {
 
@@ -25,6 +24,7 @@ class ClientSpecialistController extends AbstractController {
       private readonly ClientService $clientService,
       private readonly ClientSpecialistService $clientSpecialistService) {}
 
+  #[IsGranted('ROLE_CLIENT_SPECIALIST_LIST')]
   #[Route(path: '/', name: 'list', methods: ['GET'])]
   public function list(int $clientId, UserData $userData): Response {
     $clientDetailsDto = $this->clientService->getDetails($clientId, $userData->getCompanyId());
@@ -42,6 +42,7 @@ class ClientSpecialistController extends AbstractController {
                 $userData->getCompanyId())]);
   }
 
+  #[IsGranted('ROLE_CLIENT_SPECIALIST_CREATE')]
   #[Route(path: '/create', name: 'create', methods: ['GET', 'POST'])]
   public function create(int $clientId, UserData $userData, Request $request): Response {
     $clientSpecialistCreateRequest =
@@ -74,6 +75,7 @@ class ClientSpecialistController extends AbstractController {
         ['clientId' => $clientId, 'form' => $form]);
   }
 
+  #[IsGranted('ROLE_CLIENT_SPECIALIST_UPDATE')]
   #[Route(path: '/{id}/update', name: 'update', requirements: ['id' => '\d+'], methods: [
       'GET',
       'PUT'])]
@@ -110,6 +112,7 @@ class ClientSpecialistController extends AbstractController {
         ['clientId' => $clientId, 'form' => $form]);
   }
 
+  #[IsGranted('ROLE_CLIENT_SPECIALIST_DELETE')]
   #[Route(path: '/{id}/delete', name: 'delete', requirements: ['id' => '\d+'], methods: [
       'GET',
       'DELETE'])]

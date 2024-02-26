@@ -2,6 +2,7 @@
 
 declare(strict_types = 1);
 
+use App\Common\Doctrine\Filter\SoftDeleteFilter;
 use App\Common\Doctrine\Function\CastFunction;
 use App\Common\Doctrine\Type\BigIntType;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
@@ -38,6 +39,12 @@ return static function(ContainerConfigurator $containerConfigurator): void {
           'validate_xml_mapping' => true,
           'naming_strategy' => 'doctrine.orm.naming_strategy.underscore_number_aware',
           'auto_mapping' => true,
+          'filters' => [
+              'soft_delete' => [
+                  'class' => SoftDeleteFilter::class,
+                  'enabled' => true
+              ]
+          ],
           'mappings' => [
               'Common' => [
                   'type' => 'attribute',

@@ -20,12 +20,12 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\Translation\TranslatableMessage;
 
-#[IsGranted('ROLE_USER')]
 #[Route(path: '/client', name: 'client_')]
 class ClientController extends AbstractController {
 
   public function __construct(private readonly ClientService $clientService) {}
 
+  #[IsGranted('ROLE_CLIENT_LIST')]
   #[Route(path: '/', name: 'list', methods: ['GET'])]
   public function list(UserData $userData, Request $request): Response {
     $clientPaginatedListCriteria =
@@ -44,6 +44,7 @@ class ClientController extends AbstractController {
             'sortableFields' => ClientPaginatedListCriteria::sortableFields]);
   }
 
+  #[IsGranted('ROLE_CLIENT_DETAILS')]
   #[Route(path: '/{id}', name: 'details', requirements: ['id' => '\d+'], methods: ['GET'])]
   public function details(int $id, UserData $userData): Response {
     $clientDetailsDto = $this->clientService->getDetails($id, $userData->getCompanyId());
@@ -57,6 +58,7 @@ class ClientController extends AbstractController {
         ['clientDetailsDto' => $clientDetailsDto]);
   }
 
+  #[IsGranted('ROLE_CLIENT_CREATE')]
   #[Route(path: '/create', name: 'create', methods: ['GET', 'POST'])]
   public function create(UserData $userData, Request $request): Response {
     $form =
@@ -78,6 +80,7 @@ class ClientController extends AbstractController {
     return $this->render('client/create/create.html.twig', ['form' => $form]);
   }
 
+  #[IsGranted('ROLE_CLIENT_UPDATE')]
   #[Route(path: '/{id}/update', name: 'update', requirements: ['id' => '\d+'], methods: [
       'GET',
       'PUT'])]
@@ -104,6 +107,7 @@ class ClientController extends AbstractController {
     return $this->render('client/update/update.html.twig', ['form' => $form]);
   }
 
+  #[IsGranted('ROLE_CLIENT_DELETE')]
   #[Route(path: '/{id}/delete', name: 'delete', requirements: ['id' => '\d+'], methods: ['DELETE'])]
   public function delete(int $id, UserData $userData): Response {
     $this->clientService->delete($id, $userData->getCompanyId());

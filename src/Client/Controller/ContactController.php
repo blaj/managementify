@@ -17,7 +17,6 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\Translation\TranslatableMessage;
 
-#[IsGranted('ROLE_USER')]
 #[Route(path: '/client/{clientId}/contact', name: 'client_contact_', requirements: ['clientId' => '\d+'])]
 class ContactController extends AbstractController {
 
@@ -25,6 +24,7 @@ class ContactController extends AbstractController {
       private readonly ClientService $clientService,
       private readonly ContactService $contactService) {}
 
+  #[IsGranted('ROLE_CLIENT_CONTACT_LIST')]
   #[Route(path: '/', name: 'list', methods: ['GET'])]
   public function list(int $clientId, UserData $userData): Response {
     $clientDetailsDto = $this->clientService->getDetails($clientId, $userData->getCompanyId());
@@ -42,6 +42,7 @@ class ContactController extends AbstractController {
                 $userData->getCompanyId())]);
   }
 
+  #[IsGranted('ROLE_CLIENT_CONTACT_UPDATE')]
   #[Route(path: '/{id}/update', name: 'update', requirements: ['id' => '\d+'], methods: [
       'GET',
       'PUT'])]
@@ -73,6 +74,7 @@ class ContactController extends AbstractController {
         ['clientId' => $clientId, 'form' => $form]);
   }
 
+  #[IsGranted('ROLE_CLIENT_CONTACT_CREATE')]
   #[Route(path: '/create', name: 'create', methods: ['GET', 'POST'])]
   public function create(int $clientId, UserData $userData, Request $request): Response {
     $contactCreateRequest =
@@ -101,6 +103,7 @@ class ContactController extends AbstractController {
         ['clientId' => $clientId, 'form' => $form]);
   }
 
+  #[IsGranted('ROLE_CLIENT_CONTACT_DELETE')]
   #[Route(path: '/{id}/delete', name: 'delete', requirements: ['id' => '\d+'], methods: [
       'GET',
       'DELETE'])]

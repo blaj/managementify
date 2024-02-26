@@ -3,6 +3,8 @@
 namespace App\Security\Service;
 
 use App\Security\Dto\UserData;
+use App\User\Entity\Role;
+use App\User\Entity\RolePermission;
 use App\User\Entity\User;
 use App\User\Repository\UserRepository;
 use Doctrine\ORM\NonUniqueResultException;
@@ -15,6 +17,8 @@ use Symfony\Component\Security\Core\User\UserProviderInterface;
  * @implements UserProviderInterface<UserData>
  */
 class UserDataProviderService implements UserProviderInterface {
+
+  private static string $rolePrefix = 'ROLE_';
 
   public function __construct(private readonly UserRepository $userRepository) {}
 
@@ -64,6 +68,21 @@ class UserDataProviderService implements UserProviderInterface {
     return (new UserData())
         ->setUserIdentifier($user->getUsername())
         ->setPassword($user->getPassword())
-        ->setCompanyId($user->getCompany()->getId());
+        ->setCompanyId($user->getCompany()->getId())
+        ->setRoles(self::roles($user->getRole()));
+  }
+
+  /**
+   * @return array<string>
+   */
+  private static function roles(?Role $role): array {
+    if ($role === null) {
+      return [];
+    }
+
+    return array_map(
+        fn (RolePermission $rolePermission) => strtoupper(
+            self::$rolePrefix . $rolePermission->getType()->value),
+        $role->getPermissions()->toArray());
   }
 }

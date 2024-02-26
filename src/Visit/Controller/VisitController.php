@@ -12,13 +12,13 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-#[IsGranted('ROLE_USER')]
 #[Route(path: '/visit', name: 'visit_')]
 class VisitController extends AbstractController {
 
   public function __construct(
       private readonly VisitCalendarService $visitCalendarService) {}
 
+  #[IsGranted('ROLE_VISIT')]
   #[Route(path: '/', name: 'index', methods: ['GET'])]
   public function index(UserData $userData, Request $request): Response {
     $form =

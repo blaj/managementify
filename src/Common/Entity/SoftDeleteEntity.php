@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\MappedSuperclass;
 
 #[MappedSuperclass]
-class SoftDeleteEntity extends IdEntity {
+class SoftDeleteEntity extends IdEntity implements SoftDeleteInterface {
 
   #[Column(name: 'deleted', type: Types::BOOLEAN, nullable: false, options: ['default' => false])]
   protected bool $deleted = false;

@@ -1,0 +1,81 @@
+{% extends 'authorized-base.html.twig' %}
+
+{% block content %}
+  <div class="card">
+    <div class="card-header py-3">
+      <h5 class="mb-0">
+        <strong>
+          {{ 'add-role'|trans }}
+        </strong>
+      </h5>
+    </div>
+
+    <div class="card-body">
+      {{ form_start(form) }}
+
+      {% if not form.vars.valid %}
+        <div class="alert alert-danger">
+          {{ form_errors(form) }}
+        </div>
+      {% endif %}
+
+      <div class="row mb-1">
+        <div class="col-lg-3 col-md-6 col-12">
+          <div data-mdb-input-init class="form-outline">
+            {{ form_widget(form.code, { attr: { class: 'form-control' ~ (form.code.vars.valid ? '' : ' is-invalid') } }) }}
+
+            {{ form_label(form.code, 'code', { label_attr: { class: 'form-label' } }) }}
+
+            {% if not form.code.vars.valid %}
+              <div class="invalid-feedback">
+                {{ form_errors(form.code) }}
+              </div>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+
+      <div class="row mb-1">
+        <div class="col-lg-3 col-md-6 col-12">
+          <div data-mdb-input-init class="form-outline">
+            {{ form_widget(form.name, { attr: { class: 'form-control' ~ (form.name.vars.valid ? '' : ' is-invalid') } }) }}
+
+            {{ form_label(form.name, 'name', { label_attr: { class: 'form-label' } }) }}
+
+            {% if not form.name.vars.valid %}
+              <div class="invalid-feedback">
+                {{ form_errors(form.name) }}
+              </div>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+
+      <div class="row mb-1">
+        <div class="col-lg-3 col-md-6 col-12">
+          {% for permissionType in form.permissionTypes %}
+            <div class="form-check">
+              {{ form_widget(permissionType, { attr: { class: 'form-check-input' ~ (permissionType.vars.valid ? '' : ' is-invalid') } }) }}
+
+              {{ form_label(permissionType, permissionType, { label_attr: { class: 'form-check-label' } }) }}
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+
+      <div class="row mb-1">
+        <div class="col-lg-3 col-md-6 col-12">
+          {{ form_row(form.submit, { attr: { 'data-mdb-ripple-init': '', class: 'btn btn-primary' } }) }}
+        </div>
+      </div>
+
+      <div class="row mb-1">
+        <div class="col-lg-3 col-md-6 col-12">
+          {% include 'partial/_back-to-list.html.twig' with { route: path('user_role_list') } %}
+        </div>
+      </div>
+
+      {{ form_end(form) }}
+    </div>
+  </div>
+{% endblock %}

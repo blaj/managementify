@@ -17,12 +17,12 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\Translation\TranslatableMessage;
 
-#[IsGranted('ROLE_USER')]
 #[Route(path: '/visit/type', name: 'visit_type_')]
 class VisitTypeController extends AbstractController {
 
   public function __construct(private readonly VisitTypeService $visitTypeService) {}
 
+  #[IsGranted('ROLE_VISIT_TYPE_LIST')]
   #[Route(path: '/', name: 'list', methods: ['GET'])]
   public function list(UserData $userData): Response {
     return $this->render(
@@ -30,6 +30,7 @@ class VisitTypeController extends AbstractController {
         ['visitTypesDtoList' => $this->visitTypeService->getList($userData->getCompanyId())]);
   }
 
+  #[IsGranted('ROLE_VISIT_TYPE_DETAILS')]
   #[Route(path: '/{id}', name: 'details', requirements: ['id' => '\d+'], methods: ['GET'])]
   public function details(int $id, UserData $userData): Response {
     $visitTypeDetailsDto = $this->visitTypeService->getDetails(
@@ -45,6 +46,7 @@ class VisitTypeController extends AbstractController {
         ['visitTypeDetailsDto' => $visitTypeDetailsDto]);
   }
 
+  #[IsGranted('ROLE_VISIT_TYPE_CREATE')]
   #[Route(path: '/create', name: 'create', methods: ['GET', 'POST'])]
   public function create(UserData $userData, Request $request): Response {
     $visitTypeCreateRequest =
@@ -74,6 +76,7 @@ class VisitTypeController extends AbstractController {
   }
 
 
+  #[IsGranted('ROLE_VISIT_TYPE_UPDATE')]
   #[Route(path: '/{id}/update', name: 'update', requirements: ['id' => '\d+'], methods: [
       'GET',
       'PUT'])]
@@ -107,6 +110,7 @@ class VisitTypeController extends AbstractController {
     return $this->render('visit/type/update/update.html.twig', ['form' => $form]);
   }
 
+  #[IsGranted('ROLE_VISIT_TYPE_ARCHIVE')]
   #[Route(path: '/{id}/archive', name: 'archive', requirements: ['id' => '\d+'], methods: ['PUT'])]
   public function archive(int $id, UserData $userData): Response {
     $this->visitTypeService->archive($id, $userData->getCompanyId());
@@ -118,6 +122,7 @@ class VisitTypeController extends AbstractController {
     return $this->redirectToRoute('visit_type_list');
   }
 
+  #[IsGranted('ROLE_VISIT_TYPE_UN_ARCHIVE')]
   #[Route(path: '/{id}/un-archive', name: 'un_archive', requirements: ['id' => '\d+'], methods: ['PUT'])]
   public function unArchive(int $id, UserData $userData): Response {
     $this->visitTypeService->unArchive($id, $userData->getCompanyId());

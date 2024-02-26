@@ -1,0 +1,58 @@
+<tr class="{{ roleDto.archived ? 'table-danger' : '' }}">
+  <td>
+    {{ loop.index }}
+  </td>
+
+  <td>
+    {{ roleDto.name }}
+  </td>
+
+  <td>
+    {{ roleDto.code }}
+  </td>
+
+  <td>
+    <div class="btn-group">
+      <button
+          type="button"
+          class="btn btn-primary btn-sm dropdown-toggle"
+          data-mdb-dropdown-init data-mdb-ripple-init aria-expanded="false">
+        {{ 'actions'|trans }}
+      </button>
+
+      <ul class="dropdown-menu">
+        <li>
+          <a class="dropdown-item" href="{{ path('user_role_details', { id: roleDto.id }) }}">
+            {{ 'view'|trans }}
+          </a>
+        </li>
+
+        <li>
+          <a class="dropdown-item" href="{{ path('user_role_update', { id: roleDto.id }) }}">
+            {{ 'edit'|trans }}
+          </a>
+        </li>
+
+        <li>
+          {% if roleDto.archived %}
+            <form action="{{ path('user_role_un_archive', { id: roleDto.id }) }}" method="post">
+              <button type="submit" class="dropdown-item">
+                {{ 'un-archive'|trans }}
+              </button>
+
+              <input type="hidden" name="_method" value="PUT">
+            </form>
+          {% else %}
+            <form action="{{ path('user_role_archive', { id: roleDto.id }) }}" method="post">
+              <button type="submit" class="dropdown-item">
+                {{ 'archive'|trans }}
+              </button>
+
+              <input type="hidden" name="_method" value="PUT">
+            </form>
+          {% endif %}
+        </li>
+      </ul>
+    </div>
+  </td>
+</tr>

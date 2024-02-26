@@ -1,0 +1,31 @@
+<table class="table table-sm">
+  <thead>
+    <tr>
+      <th colspan="2">
+        {{ 'general'|trans }}
+      </th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr>
+      <td>
+        {{ 'dashboard'|trans }}
+      </td>
+
+      <td>
+        {{ (PermissionType.DASHBOARD in roleDetailsDto.permissionTypes)|yesOrNo }}
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        {{ 'visits'|trans }}
+      </td>
+
+      <td>
+        {{ (PermissionType.VISIT in roleDetailsDto.permissionTypes)|yesOrNo }}
+      </td>
+    </tr>
+  </tbody>
+</table>

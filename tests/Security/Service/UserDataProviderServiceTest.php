@@ -5,6 +5,9 @@ namespace App\Tests\Security\Service;
 use App\Company\Entity\Company;
 use App\Security\Dto\UserData;
 use App\Security\Service\UserDataProviderService;
+use App\User\Entity\PermissionType;
+use App\User\Entity\Role;
+use App\User\Entity\RolePermission;
 use App\User\Entity\User;
 use App\User\Repository\UserRepository;
 use PHPUnit\Framework\Assert;
@@ -72,7 +75,7 @@ class UserDataProviderServiceTest extends TestCase {
     Assert::assertEquals($dto->getUserIdentifier(), $identifier);
     Assert::assertEquals($dto->getPassword(), $password);
     Assert::assertEquals($dto->getCompanyId(), $companyId);
-    Assert::assertEquals(['ROLE_USER'], $dto->getRoles());
+    Assert::assertEquals(['ROLE_DASHBOARD'], $dto->getRoles());
   }
 
   /**
@@ -142,7 +145,7 @@ class UserDataProviderServiceTest extends TestCase {
     Assert::assertEquals($dto->getUserIdentifier(), $identifier);
     Assert::assertEquals($dto->getPassword(), $password);
     Assert::assertEquals($dto->getCompanyId(), $companyId);
-    Assert::assertEquals(['ROLE_USER'], $dto->getRoles());
+    Assert::assertEquals(['ROLE_DASHBOARD'], $dto->getRoles());
   }
 
   /**
@@ -177,6 +180,11 @@ class UserDataProviderServiceTest extends TestCase {
     return (new User())
         ->setUsername($username)
         ->setPassword($password)
-        ->setCompany((new Company())->setId($companyId));
+        ->setCompany((new Company())->setId($companyId))
+        ->setRole(
+            (new Role())
+                ->addPermission(
+                    (new RolePermission())
+                        ->setType(PermissionType::DASHBOARD)));
   }
 }
