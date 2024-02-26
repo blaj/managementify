@@ -17,7 +17,6 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\Translation\TranslatableMessage;
 
-#[IsGranted('ROLE_USER')]
 #[Route(path: '/client/{clientId}/preferred-hour', name: 'client_preferred_hour_', requirements: ['clientId' => '\d+'])]
 class PreferredHourController extends AbstractController {
 
@@ -25,6 +24,7 @@ class PreferredHourController extends AbstractController {
       private readonly ClientService $clientService,
       private readonly PreferredHourService $preferredHourService) {}
 
+  #[IsGranted('ROLE_CLIENT_PREFERRED_HOUR_LIST')]
   #[Route(path: '/', name: 'list', methods: ['GET'])]
   public function list(int $clientId, UserData $userData): Response {
     $clientDetailsDto = $this->clientService->getDetails($clientId, $userData->getCompanyId());
@@ -42,6 +42,7 @@ class PreferredHourController extends AbstractController {
                 $userData->getCompanyId())]);
   }
 
+  #[IsGranted('ROLE_CLIENT_PREFERRED_HOUR_CREATE')]
   #[Route(path: '/create', name: 'create', methods: ['GET', 'POST'])]
   public function create(int $clientId, UserData $userData, Request $request): Response {
     $preferredHourCreateRequest =
@@ -70,6 +71,7 @@ class PreferredHourController extends AbstractController {
         ['clientId' => $clientId, 'form' => $form]);
   }
 
+  #[IsGranted('ROLE_CLIENT_PREFERRED_HOUR_UPDATE')]
   #[Route(path: '/{id}/update', name: 'update', requirements: ['id' => '\d+'], methods: [
       'GET',
       'PUT'])]
@@ -106,6 +108,7 @@ class PreferredHourController extends AbstractController {
         ['clientId' => $clientId, 'form' => $form]);
   }
 
+  #[IsGranted('ROLE_CLIENT_PREFERRED_HOUR_DELETE')]
   #[Route(path: '/{id}/delete', name: 'delete', requirements: ['id' => '\d+'], methods: [
       'GET',
       'DELETE'])]

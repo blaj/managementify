@@ -1,0 +1,67 @@
+{% extends 'authorized-base.html.twig' %}
+
+{% set PermissionType = enum('\\App\\User\\Entity\\PermissionType') %}
+
+{% block content %}
+  <div class="card">
+    <div class="card-header py-3">
+      <h5 class="mb-0">
+        <strong>
+          {{ roleDetailsDto.name }}
+        </strong>
+      </h5>
+    </div>
+
+    <div class="card-body">
+      <table class="table">
+        <tr>
+          <td>
+            {{ 'name'|trans }}:
+          </td>
+
+          <td>
+            {{ roleDetailsDto.name }}
+          </td>
+        </tr>
+
+        <tr>
+          <td>
+            {{ 'code'|trans }}:
+          </td>
+
+          <td>
+            {{ roleDetailsDto.code }}
+          </td>
+        </tr>
+
+        <tr>
+          <td>
+            {{ 'archived'|trans }}:
+          </td>
+
+          <td>
+            {{ roleDetailsDto.archived|yesOrNo }}
+          </td>
+        </tr>
+      </table>
+
+      {% include 'user/role/details/partial/_general-permissions.html.twig' %}
+
+      {% include 'user/role/details/partial/_specialist-permissions.html.twig' %}
+
+      {% include 'user/role/details/partial/_client-permissions.html.twig' %}
+
+      {% include 'user/role/details/partial/_client-preferred-hour-permissions.html.twig' %}
+
+      {% include 'user/role/details/partial/_client-specialist-permissions.html.twig' %}
+
+      {% include 'user/role/details/partial/_client-contact-permissions.html.twig' %}
+
+      {% include 'user/role/details/partial/_visit-type-permissions.html.twig' %}
+
+      {% include 'user/role/details/partial/_role-permissions.html.twig' %}
+    </div>
+
+    {% include 'partial/_back-to-list.html.twig' with { route: path('user_role_list') } %}
+  </div>
+{% endblock %}

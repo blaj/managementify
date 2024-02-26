@@ -20,12 +20,12 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\Translation\TranslatableMessage;
 
-#[IsGranted('ROLE_USER')]
 #[Route(path: '/specialist', name: 'specialist_')]
 class SpecialistController extends AbstractController {
 
   public function __construct(private readonly SpecialistService $specialistService) {}
 
+  #[IsGranted('ROLE_SPECIALIST_LIST')]
   #[Route(path: '/', name: 'list', methods: ['GET'])]
   public function list(UserData $userData, Request $request): Response {
     $specialistPaginatedListCriteria =
@@ -48,6 +48,7 @@ class SpecialistController extends AbstractController {
             'sortableFields' => SpecialistPaginatedListCriteria::sortableFields]);
   }
 
+  #[IsGranted('ROLE_SPECIALIST_DETAILS')]
   #[Route(path: '/{id}', name: 'details', requirements: ['id' => '\d+'], methods: ['GET'])]
   public function details(int $id, UserData $userData): Response {
     $specialistDetailsDto = $this->specialistService->getDetails($id, $userData->getCompanyId());
@@ -61,6 +62,7 @@ class SpecialistController extends AbstractController {
         ['specialistDetailsDto' => $specialistDetailsDto]);
   }
 
+  #[IsGranted('ROLE_SPECIALIST_CREATE')]
   #[Route(path: '/create', name: 'create', methods: ['GET', 'POST'])]
   public function create(UserData $userData, Request $request): Response {
     $form =
@@ -83,6 +85,7 @@ class SpecialistController extends AbstractController {
   }
 
 
+  #[IsGranted('ROLE_SPECIALIST_UPDATE')]
   #[Route(path: '/{id}/update', name: 'update', requirements: ['id' => '\d+'], methods: [
       'GET',
       'PUT'])]
@@ -114,6 +117,7 @@ class SpecialistController extends AbstractController {
     return $this->render('specialist/update/update.html.twig', ['form' => $form]);
   }
 
+  #[IsGranted('ROLE_SPECIALIST_DELETE')]
   #[Route(path: '/{id}/delete', name: 'delete', requirements: ['id' => '\d+'], methods: ['DELETE'])]
   public function delete(int $id, UserData $userData): Response {
     $this->specialistService->delete($id, $userData->getCompanyId());

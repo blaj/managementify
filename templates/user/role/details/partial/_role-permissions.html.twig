@@ -1,0 +1,71 @@
+<table class="table table-sm">
+  <thead>
+    <tr>
+      <th colspan="2">
+        {{ 'permissions-to-role'|trans }}
+      </th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr>
+      <td>
+        {{ 'list'|trans }}
+      </td>
+
+      <td>
+        {{ (PermissionType.ROLE_LIST in roleDetailsDto.permissionTypes)|yesOrNo }}
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        {{ 'details'|trans }}
+      </td>
+
+      <td>
+        {{ (PermissionType.ROLE_DETAILS in roleDetailsDto.permissionTypes)|yesOrNo }}
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        {{ 'creation'|trans }}
+      </td>
+
+      <td>
+        {{ (PermissionType.ROLE_CREATE in roleDetailsDto.permissionTypes)|yesOrNo }}
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        {{ 'update'|trans }}
+      </td>
+
+      <td>
+        {{ (PermissionType.ROLE_UPDATE in roleDetailsDto.permissionTypes)|yesOrNo }}
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        {{ 'archive'|trans }}
+      </td>
+
+      <td>
+        {{ (PermissionType.ROLE_ARCHIVE in roleDetailsDto.permissionTypes)|yesOrNo }}
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        {{ 'un-archive'|trans }}
+      </td>
+
+      <td>
+        {{ (PermissionType.ROLE_UN_ARCHIVE in roleDetailsDto.permissionTypes)|yesOrNo }}
+      </td>
+    </tr>
+  </tbody>
+</table>

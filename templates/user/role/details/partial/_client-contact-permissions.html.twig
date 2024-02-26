@@ -1,0 +1,51 @@
+<table class="table table-sm">
+  <thead>
+    <tr>
+      <th colspan="2">
+        {{ 'permissions-to-client-contact'|trans }}
+      </th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr>
+      <td>
+        {{ 'list'|trans }}
+      </td>
+
+      <td>
+        {{ (PermissionType.CLIENT_CONTACT_LIST in roleDetailsDto.permissionTypes)|yesOrNo }}
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        {{ 'creation'|trans }}
+      </td>
+
+      <td>
+        {{ (PermissionType.CLIENT_CONTACT_CREATE in roleDetailsDto.permissionTypes)|yesOrNo }}
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        {{ 'update'|trans }}
+      </td>
+
+      <td>
+        {{ (PermissionType.CLIENT_CONTACT_UPDATE in roleDetailsDto.permissionTypes)|yesOrNo }}
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        {{ 'removal'|trans }}
+      </td>
+
+      <td>
+        {{ (PermissionType.CLIENT_CONTACT_DELETE in roleDetailsDto.permissionTypes)|yesOrNo }}
+      </td>
+    </tr>
+  </tbody>
+</table>

@@ -13,6 +13,11 @@ class UserData implements UserInterface, PasswordAuthenticatedUserInterface {
 
   private int $companyId;
 
+  /**
+   * @var array<string>
+   */
+  private array $roles = [];
+
   public function eraseCredentials(): void {
   }
 
@@ -20,7 +25,16 @@ class UserData implements UserInterface, PasswordAuthenticatedUserInterface {
    * @return array<string>
    */
   public function getRoles(): array {
-    return ['ROLE_USER'];
+    return $this->roles;
+  }
+
+  /**
+   * @param array<string> $roles
+   */
+  public function setRoles(array $roles): UserData {
+    $this->roles = $roles;
+
+    return $this;
   }
 
   public function getUserIdentifier(): string {

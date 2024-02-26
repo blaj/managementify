@@ -5,7 +5,11 @@ namespace App\Tests\User\Service;
 use App\Company\Entity\Company;
 use App\Company\Repository\CompanyRepository;
 use App\User\Dto\UserRegisterRequest;
+use App\User\Entity\PermissionType;
+use App\User\Entity\Role;
 use App\User\Entity\User;
+use App\User\Repository\RolePermissionRepository;
+use App\User\Repository\RoleRepository;
 use App\User\Repository\UserRepository;
 use App\User\Service\UserService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -15,6 +19,8 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 class UserServiceTest extends TestCase {
 
   private UserRepository $userRepository;
+  private RoleRepository $roleRepository;
+  private RolePermissionRepository $rolePermissionRepository;
   private CompanyRepository $companyRepository;
   private EntityManagerInterface $entityManager;
   private UserPasswordHasherInterface $userPasswordHasher;
@@ -23,6 +29,8 @@ class UserServiceTest extends TestCase {
 
   public function setUp(): void {
     $this->userRepository = $this->createMock(UserRepository::class);
+    $this->roleRepository = $this->createMock(RoleRepository::class);
+    $this->rolePermissionRepository = $this->createMock(RolePermissionRepository::class);
     $this->companyRepository = $this->createMock(CompanyRepository::class);
     $this->entityManager = $this->createMock(EntityManagerInterface::class);
     $this->userPasswordHasher = $this->createMock(UserPasswordHasherInterface::class);
@@ -30,6 +38,8 @@ class UserServiceTest extends TestCase {
     $this->userService =
         new UserService(
             $this->userRepository,
+            $this->roleRepository,
+            $this->rolePermissionRepository,
             $this->companyRepository,
             $this->entityManager,
             $this->userPasswordHasher);
@@ -73,6 +83,17 @@ class UserServiceTest extends TestCase {
                     === $userRegisterRequest->getCompanyStreet()
                     && $company->getAddress()->getPostcode()
                     === $userRegisterRequest->getCompanyPostcode()));
+
+    $this->roleRepository
+        ->expects(static::once())
+        ->method('save')
+        ->with(
+            static::callback(
+                fn (Role $role) => $role->getCode() === 'ADMIN' && $role->getName() === 'Admin'));
+
+    $this->rolePermissionRepository
+      ->expects(static::exactly(count(PermissionType::cases())))
+      ->method('save');
 
     $this->userRepository
         ->expects(static::once())

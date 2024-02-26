@@ -1,0 +1,51 @@
+<table class="table table-sm">
+  <thead>
+    <tr>
+      <th colspan="2">
+        {{ 'permissions-to-client-preferred-hour'|trans }}
+      </th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr>
+      <td>
+        {{ 'list'|trans }}
+      </td>
+
+      <td>
+        {{ (PermissionType.CLIENT_PREFERRED_HOUR_LIST in roleDetailsDto.permissionTypes)|yesOrNo }}
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        {{ 'creation'|trans }}
+      </td>
+
+      <td>
+        {{ (PermissionType.CLIENT_PREFERRED_HOUR_CREATE in roleDetailsDto.permissionTypes)|yesOrNo }}
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        {{ 'update'|trans }}
+      </td>
+
+      <td>
+        {{ (PermissionType.CLIENT_PREFERRED_HOUR_UPDATE in roleDetailsDto.permissionTypes)|yesOrNo }}
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        {{ 'removal'|trans }}
+      </td>
+
+      <td>
+        {{ (PermissionType.CLIENT_PREFERRED_HOUR_DELETE in roleDetailsDto.permissionTypes)|yesOrNo }}
+      </td>
+    </tr>
+  </tbody>
+</table>

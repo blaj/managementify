@@ -1,0 +1,71 @@
+<table class="table table-sm">
+  <thead>
+    <tr>
+      <th colspan="2">
+        {{ 'permissions-to-visit-type'|trans }}
+      </th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr>
+      <td>
+        {{ 'list'|trans }}
+      </td>
+
+      <td>
+        {{ (PermissionType.VISIT_TYPE_LIST in roleDetailsDto.permissionTypes)|yesOrNo }}
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        {{ 'details'|trans }}
+      </td>
+
+      <td>
+        {{ (PermissionType.VISIT_TYPE_DETAILS in roleDetailsDto.permissionTypes)|yesOrNo }}
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        {{ 'creation'|trans }}
+      </td>
+
+      <td>
+        {{ (PermissionType.VISIT_TYPE_CREATE in roleDetailsDto.permissionTypes)|yesOrNo }}
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        {{ 'update'|trans }}
+      </td>
+
+      <td>
+        {{ (PermissionType.VISIT_TYPE_UPDATE in roleDetailsDto.permissionTypes)|yesOrNo }}
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        {{ 'archive'|trans }}
+      </td>
+
+      <td>
+        {{ (PermissionType.VISIT_TYPE_ARCHIVE in roleDetailsDto.permissionTypes)|yesOrNo }}
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        {{ 'un-archive'|trans }}
+      </td>
+
+      <td>
+        {{ (PermissionType.VISIT_TYPE_UN_ARCHIVE in roleDetailsDto.permissionTypes)|yesOrNo }}
+      </td>
+    </tr>
+  </tbody>
+</table>

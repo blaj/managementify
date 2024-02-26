@@ -1,0 +1,61 @@
+<table class="table table-sm">
+  <thead>
+    <tr>
+      <th colspan="2">
+        {{ 'permissions-to-specialist'|trans }}
+      </th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr>
+      <td>
+        {{ 'list'|trans }}
+      </td>
+
+      <td>
+        {{ (PermissionType.SPECIALIST_LIST in roleDetailsDto.permissionTypes)|yesOrNo }}
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        {{ 'details'|trans }}
+      </td>
+
+      <td>
+        {{ (PermissionType.SPECIALIST_DETAILS in roleDetailsDto.permissionTypes)|yesOrNo }}
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        {{ 'creation'|trans }}
+      </td>
+
+      <td>
+        {{ (PermissionType.SPECIALIST_CREATE in roleDetailsDto.permissionTypes)|yesOrNo }}
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        {{ 'update'|trans }}
+      </td>
+
+      <td>
+        {{ (PermissionType.SPECIALIST_UPDATE in roleDetailsDto.permissionTypes)|yesOrNo }}
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        {{ 'removal'|trans }}
+      </td>
+
+      <td>
+        {{ (PermissionType.SPECIALIST_DELETE in roleDetailsDto.permissionTypes)|yesOrNo }}
+      </td>
+    </tr>
+  </tbody>
+</table>

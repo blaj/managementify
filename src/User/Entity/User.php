@@ -31,6 +31,10 @@ class User extends SoftDeleteEntity implements CompanyContextInterface, Password
   #[Column(name: 'email', type: Types::STRING, length: 100, nullable: false)]
   private string $email;
 
+  #[JoinColumn(name: 'role_id', referencedColumnName: 'id', nullable: true, columnDefinition: 'BIGINT')]
+  #[ManyToOne(targetEntity: Role::class, fetch: 'LAZY', inversedBy: 'users')]
+  private ?Role $role = null;
+
   public function getUsername(): string {
     return $this->username;
   }
@@ -67,6 +71,16 @@ class User extends SoftDeleteEntity implements CompanyContextInterface, Password
 
   public function setEmail(string $email): self {
     $this->email = $email;
+
+    return $this;
+  }
+
+  public function getRole(): ?Role {
+    return $this->role;
+  }
+
+  public function setRole(?Role $role): self {
+    $this->role = $role;
 
     return $this;
   }
