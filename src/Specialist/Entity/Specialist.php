@@ -6,6 +6,7 @@ use App\Common\Entity\CompanyContextInterface;
 use App\Common\Entity\SoftDeleteEntity;
 use App\Company\Entity\Company;
 use App\Specialist\Repository\SpecialistRepository;
+use App\User\Entity\User;
 use App\Visit\Entity\Visit;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -40,8 +41,15 @@ class Specialist extends SoftDeleteEntity implements CompanyContextInterface {
   #[ManyToOne(targetEntity: Company::class, fetch: 'LAZY')]
   private Company $company;
 
+  /**
+   * @var Collection<int, User>
+   */
+  #[OneToMany(targetEntity: User::class, mappedBy: 'specialist')]
+  private Collection $users;
+
   public function __construct() {
     $this->visits = new ArrayCollection();
+    $this->users = new ArrayCollection();
   }
 
   public function getFirstname(): string {
@@ -110,6 +118,36 @@ class Specialist extends SoftDeleteEntity implements CompanyContextInterface {
 
   public function setCompany(Company $company): self {
     $this->company = $company;
+
+    return $this;
+  }
+
+  /**
+   * @return Collection<int, User>
+   */
+  public function getUsers(): Collection {
+    return $this->users;
+  }
+
+  /**
+   * @param Collection<int, User> $users
+   */
+  public function setUsers(Collection $users): self {
+    $this->users = $users;
+
+    return $this;
+  }
+
+  public function addUser(User $user): self {
+    if (!$this->users->contains($user)) {
+      $this->users->add($user);
+    }
+
+    return $this;
+  }
+
+  public function removeUser(User $user): self {
+    $this->users->removeElement($user);
 
     return $this;
   }

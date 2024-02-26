@@ -6,6 +6,7 @@ use App\Client\Repository\ClientRepository;
 use App\Common\Entity\CompanyContextInterface;
 use App\Common\Entity\SoftDeleteEntity;
 use App\Company\Entity\Company;
+use App\User\Entity\User;
 use App\Visit\Entity\Visit;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -46,9 +47,16 @@ class Client extends SoftDeleteEntity implements CompanyContextInterface {
   #[OneToMany(targetEntity: PreferredHour::class, mappedBy: 'client')]
   private Collection $preferredHours;
 
+  /**
+   * @var Collection<int, User>
+   */
+  #[OneToMany(targetEntity: User::class, mappedBy: 'client')]
+  private Collection $users;
+
   public function __construct() {
     $this->visits = new ArrayCollection();
     $this->preferredHours = new ArrayCollection();
+    $this->users = new ArrayCollection();
   }
 
   public function getFirstname(): string {
@@ -147,6 +155,36 @@ class Client extends SoftDeleteEntity implements CompanyContextInterface {
 
   public function removePreferredHour(PreferredHour $preferredHour): self {
     $this->preferredHours->removeElement($preferredHour);
+
+    return $this;
+  }
+
+  /**
+   * @return Collection<int, User>
+   */
+  public function getUsers(): Collection {
+    return $this->users;
+  }
+
+  /**
+   * @param Collection<int, User> $users
+   */
+  public function setUsers(Collection $users): self {
+    $this->users = $users;
+
+    return $this;
+  }
+
+  public function addUser(User $user): self {
+    if (!$this->users->contains($user)) {
+      $this->users->add($user);
+    }
+
+    return $this;
+  }
+
+  public function removeUser(User $user): self {
+    $this->users->removeElement($user);
 
     return $this;
   }
