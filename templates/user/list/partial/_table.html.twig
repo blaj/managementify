@@ -1,0 +1,19 @@
+<table class="table table-striped mb-0">
+  <thead>
+    <tr>
+      {% include 'user/list/partial/_table-header-item.html.twig' with { nameKey: '#' } %}
+
+      {% include 'user/list/partial/_table-header-item.html.twig' with { nameKey: 'username', sortKolumnKey: 'user.username' } %}
+
+      {% include 'user/list/partial/_table-header-item.html.twig' with { nameKey: 'email', sortKolumnKey: 'user.email' } %}
+
+      {% include 'user/list/partial/_table-header-item.html.twig' with { nameKey: 'actions' } %}
+    </tr>
+  </thead>
+
+  <tbody>
+    {% for userPaginatedListItemDto in usersDtoPaginatedList.items %}
+      {% include 'user/list/partial/_table-item.html.twig' %}
+    {% endfor %}
+  </tbody>
+</table>

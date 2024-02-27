@@ -1,0 +1,66 @@
+{% extends 'authorized-base.html.twig' %}
+
+{% block content %}
+  <div class="card">
+    <div class="card-header py-3">
+      <h5 class="mb-0">
+        <strong>
+          {{ userDetailsDto.username }}
+        </strong>
+      </h5>
+    </div>
+
+    <div class="card-body">
+      <table class="table">
+        <tr>
+          <td>
+            {{ 'username'|trans }}:
+          </td>
+
+          <td>
+            {{ userDetailsDto.username }}
+          </td>
+        </tr>
+
+        <tr>
+          <td>
+            {{ 'email'|trans }}:
+          </td>
+
+          <td>
+            {{ userDetailsDto.email }}
+          </td>
+
+        <tr>
+          <td>
+            {{ 'role'|trans }}:
+          </td>
+
+          <td>
+            {{ userDetailsDto.roleName }}
+          </td>
+
+        <tr>
+          <td>
+            {{ 'specialist-name'|trans }}:
+          </td>
+
+          <td>
+            {{ userDetailsDto.specialistName }}
+          </td>
+
+        <tr>
+          <td>
+            {{ 'client-name'|trans }}:
+          </td>
+
+          <td>
+            {{ userDetailsDto.clientName }}
+          </td>
+        </tr>
+      </table>
+    </div>
+
+    {% include 'partial/_back-to-list.html.twig' with { route: path('user_list') } %}
+  </div>
+{% endblock %}

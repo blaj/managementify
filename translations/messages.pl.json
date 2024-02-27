@@ -157,4 +157,13 @@
   "company-update": "Edycja firmy",
   "company": "Firma",
   "edit-company": "Edytuj dane firmy",
-  "company-edited-successfully": "Firma została pomyślnie zaktualizowana"}
+  "company-edited-successfully": "Firma została pomyślnie zaktualizowana",
+  "users": "Użytkownicy",
+  "add-user": "Dodaj użytkownika",
+  "role": "Rola",
+  "user-added-successfully": "Użytkownik został dodany pomyślnie",
+  "user-edited-successfully": "Użytkownik został pomyślnie zaktualizowany",
+  "user-deleted-successfully": "Użytkownik został pomyślnie usunięty",
+  "client-name": "Nazwa klienta",
+  "client": "Klient"
+}

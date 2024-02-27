@@ -8,11 +8,10 @@ use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\NotCompromisedPassword;
-use Symfony\Component\Validator\Constraints\Regex;
 
 #[EmailIsFree(isCreate: true)]
 #[UsernameIsFree(isCreate: true)]
-class UserRegisterRequest implements EmailInterface, UsernameInterface {
+class UserCreateRequest implements EmailInterface, UsernameInterface {
 
   #[NotBlank]
   #[Length(min: 3, max: 50)]
@@ -28,22 +27,11 @@ class UserRegisterRequest implements EmailInterface, UsernameInterface {
   #[NotCompromisedPassword]
   private string $password;
 
-  #[NotBlank]
-  #[Length(min: 3, max: 100)]
-  private string $companyName;
+  private ?int $roleId = null;
 
-  #[NotBlank]
-  #[Length(min: 3, max: 100)]
-  private string $companyCity;
+  private ?int $specialistId = null;
 
-  #[NotBlank]
-  #[Length(min: 3, max: 100)]
-  private string $companyStreet;
-
-  #[NotBlank]
-  #[Length(exactly: 6)]
-  #[Regex(pattern: '^[0-9]{2}-[0-9]{3}$^')]
-  private string $companyPostcode;
+  private ?int $clientId = null;
 
   public function getUsername(): string {
     return $this->username;
@@ -75,42 +63,32 @@ class UserRegisterRequest implements EmailInterface, UsernameInterface {
     return $this;
   }
 
-  public function getCompanyName(): string {
-    return $this->companyName;
+  public function getRoleId(): ?int {
+    return $this->roleId;
   }
 
-  public function setCompanyName(string $companyName): self {
-    $this->companyName = $companyName;
+  public function setRoleId(?int $roleId): self {
+    $this->roleId = $roleId;
 
     return $this;
   }
 
-  public function getCompanyCity(): string {
-    return $this->companyCity;
+  public function getSpecialistId(): ?int {
+    return $this->specialistId;
   }
 
-  public function setCompanyCity(string $companyCity): self {
-    $this->companyCity = $companyCity;
+  public function setSpecialistId(?int $specialistId): self {
+    $this->specialistId = $specialistId;
 
     return $this;
   }
 
-  public function getCompanyStreet(): string {
-    return $this->companyStreet;
+  public function getClientId(): ?int {
+    return $this->clientId;
   }
 
-  public function setCompanyStreet(string $companyStreet): self {
-    $this->companyStreet = $companyStreet;
-
-    return $this;
-  }
-
-  public function getCompanyPostcode(): string {
-    return $this->companyPostcode;
-  }
-
-  public function setCompanyPostcode(string $companyPostcode): self {
-    $this->companyPostcode = $companyPostcode;
+  public function setClientId(?int $clientId): self {
+    $this->clientId = $clientId;
 
     return $this;
   }
