@@ -2,9 +2,11 @@
 
 namespace App\User\Entity;
 
+use App\Client\Entity\Client;
 use App\Common\Entity\CompanyContextInterface;
 use App\Common\Entity\SoftDeleteEntity;
 use App\Company\Entity\Company;
+use App\Specialist\Entity\Specialist;
 use App\User\Repository\UserRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping\Column;
@@ -34,6 +36,14 @@ class User extends SoftDeleteEntity implements CompanyContextInterface, Password
   #[JoinColumn(name: 'role_id', referencedColumnName: 'id', nullable: true, columnDefinition: 'BIGINT')]
   #[ManyToOne(targetEntity: Role::class, fetch: 'LAZY', inversedBy: 'users')]
   private ?Role $role = null;
+
+  #[JoinColumn(name: 'client_id', referencedColumnName: 'id', nullable: true, columnDefinition: 'BIGINT')]
+  #[ManyToOne(targetEntity: Client::class, fetch: 'LAZY', inversedBy: 'users')]
+  private ?Client $client = null;
+
+  #[JoinColumn(name: 'specialist_id', referencedColumnName: 'id', nullable: true, columnDefinition: 'BIGINT')]
+  #[ManyToOne(targetEntity: Specialist::class, fetch: 'LAZY', inversedBy: 'users')]
+  private ?Specialist $specialist = null;
 
   public function getUsername(): string {
     return $this->username;
@@ -81,6 +91,26 @@ class User extends SoftDeleteEntity implements CompanyContextInterface, Password
 
   public function setRole(?Role $role): self {
     $this->role = $role;
+
+    return $this;
+  }
+
+  public function getClient(): ?Client {
+    return $this->client;
+  }
+
+  public function setClient(?Client $client): self {
+    $this->client = $client;
+
+    return $this;
+  }
+
+  public function getSpecialist(): ?Specialist {
+    return $this->specialist;
+  }
+
+  public function setSpecialist(?Specialist $specialist): self {
+    $this->specialist = $specialist;
 
     return $this;
   }

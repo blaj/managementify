@@ -25,13 +25,13 @@ class Role extends Dictionary {
   /**
    * @var Collection<int, User>
    */
-  #[OneToMany(mappedBy: 'role', targetEntity: User::class)]
+  #[OneToMany(targetEntity: User::class, mappedBy: 'role')]
   private Collection $users;
 
   /**
    * @var Collection<int, RolePermission>
    */
-  #[OneToMany(mappedBy: 'role', targetEntity: RolePermission::class)]
+  #[OneToMany(targetEntity: RolePermission::class, mappedBy: 'role')]
   private Collection $permissions;
 
   public function __construct() {
