@@ -17,7 +17,6 @@ use App\Common\PaginatedList\Dto\CriteriaWithEntityPageWrapper;
 use App\Common\PaginatedList\Dto\PaginatedList;
 use App\Common\PaginatedList\Mapper\PageMapper;
 use App\Company\Service\CompanyFetchService;
-use Doctrine\ORM\EntityNotFoundException;
 
 class ClientService {
 
@@ -25,6 +24,17 @@ class ClientService {
       private readonly ClientRepository $clientRepository,
       private readonly CompanyFetchService $companyFetchService,
       private readonly ClientFetchService $clientFetchService) {}
+
+  /**
+   * @return array<ClientListItemDto>
+   */
+  public function getList(int $companyId): array {
+    return array_filter(
+        array_map(
+            fn (?Client $client) => ClientListItemDtoMapper::map($client),
+            $this->clientRepository->findAllByCompanyId($companyId)),
+        fn (?ClientListItemDto $dto) => $dto !== null);
+  }
 
   /**
    * @return PaginatedList<ClientListItemDto>

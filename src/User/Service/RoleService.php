@@ -24,6 +24,7 @@ class RoleService {
       private readonly RoleRepository $roleRepository,
       private readonly RolePermissionRepository $rolePermissionRepository,
       private readonly CompanyFetchService $companyFetchService,
+      private readonly RoleFetchService $roleFetchService,
       private readonly EntityManagerInterface $entityManager) {}
 
   /**
@@ -72,7 +73,7 @@ class RoleService {
   }
 
   public function update(int $id, RoleUpdateRequest $roleUpdateRequest, int $companyId): void {
-    $role = $this->fetchRole($id, $companyId);
+    $role = $this->roleFetchService->fetchRole($id, $companyId);
 
     $newRolePermissions =
         $this->getNewRolePermissions($role, $roleUpdateRequest->getPermissionTypes());
@@ -96,17 +97,11 @@ class RoleService {
   }
 
   public function archive(int $id, int $companyId): void {
-    $this->roleRepository->archiveById($this->fetchRole($id, $companyId)->getId());
+    $this->roleRepository->archiveById($this->roleFetchService->fetchRole($id, $companyId)->getId());
   }
 
   public function unArchive(int $id, int $companyId): void {
-    $this->roleRepository->unArchiveById($this->fetchRole($id, $companyId)->getId());
-  }
-
-  private function fetchRole(int $id, int $companyId): Role {
-    return $this->roleRepository->findOneByIdAndCompanyId($id, $companyId)
-        ??
-        throw new EntityNotFoundException('Role not found');
+    $this->roleRepository->unArchiveById($this->roleFetchService->fetchRole($id, $companyId)->getId());
   }
 
   /**

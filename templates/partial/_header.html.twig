@@ -12,21 +12,23 @@
 
         {% include 'partial/_side-bar-item.html.twig' with { name: 'specialists'|trans, path: path('specialist_list'), iconClass: 'fas fa-user-graduate' } %}
 
-        {% include 'partial/_side-bar-item.html.twig' with { name: 'clients'|trans, path: path('client_list'), iconClass: 'fas fa-users' } %}
+        {% include 'partial/_side-bar-item.html.twig' with { name: 'clients'|trans, path: path('client_list'), iconClass: 'fas fa-person' } %}
+
+        {% include 'partial/_side-bar-item.html.twig' with { name: 'users'|trans, path: path('user_list'), iconClass: 'fas fa-users' } %}
 
         <h6 class="bg-body-tertiary p-2 border-bottom">
           {{ 'dictionaries'|trans }}
         </h6>
 
-        {% include 'partial/_side-bar-item.html.twig' with { name: 'visit-types'|trans, path: path('visit_type_list'), iconClass: 'fas fa-users' } %}
+        {% include 'partial/_side-bar-item.html.twig' with { name: 'visit-types'|trans, path: path('visit_type_list'), iconClass: 'fas fa-door-open' } %}
 
         <h6 class="bg-body-tertiary p-2 border-bottom">
           {{ 'settings'|trans }}
         </h6>
 
-        {% include 'partial/_side-bar-item.html.twig' with { name: 'roles'|trans, path: path('user_role_list'), iconClass: 'fas fa-users' } %}
+        {% include 'partial/_side-bar-item.html.twig' with { name: 'roles'|trans, path: path('user_role_list'), iconClass: 'fas fa-user-shield' } %}
 
-        {% include 'partial/_side-bar-item.html.twig' with { name: 'company'|trans, path: path('company_details', { id: app.user.companyId }), iconClass: 'fas fa-users' } %}
+        {% include 'partial/_side-bar-item.html.twig' with { name: 'company'|trans, path: path('company_details', { id: app.user.companyId }), iconClass: 'fas fa-building' } %}
       </div>
     </div>
   </nav>

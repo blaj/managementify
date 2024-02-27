@@ -2,8 +2,11 @@
 
 namespace App\Tests\User\Service;
 
+use App\Client\Service\ClientFetchService;
 use App\Company\Entity\Company;
 use App\Company\Repository\CompanyRepository;
+use App\Company\Service\CompanyFetchService;
+use App\Specialist\Service\SpecialistFetchService;
 use App\User\Dto\UserRegisterRequest;
 use App\User\Entity\PermissionType;
 use App\User\Entity\Role;
@@ -11,6 +14,7 @@ use App\User\Entity\User;
 use App\User\Repository\RolePermissionRepository;
 use App\User\Repository\RoleRepository;
 use App\User\Repository\UserRepository;
+use App\User\Service\RoleFetchService;
 use App\User\Service\UserService;
 use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\TestCase;
@@ -22,6 +26,10 @@ class UserServiceTest extends TestCase {
   private RoleRepository $roleRepository;
   private RolePermissionRepository $rolePermissionRepository;
   private CompanyRepository $companyRepository;
+  private CompanyFetchService $companyFetchService;
+  private RoleFetchService $roleFetchService;
+  private SpecialistFetchService $specialistFetchService;
+  private ClientFetchService $clientFetchService;
   private EntityManagerInterface $entityManager;
   private UserPasswordHasherInterface $userPasswordHasher;
 
@@ -32,6 +40,10 @@ class UserServiceTest extends TestCase {
     $this->roleRepository = $this->createMock(RoleRepository::class);
     $this->rolePermissionRepository = $this->createMock(RolePermissionRepository::class);
     $this->companyRepository = $this->createMock(CompanyRepository::class);
+    $this->companyFetchService = $this->createMock(CompanyFetchService::class);
+    $this->roleFetchService = $this->createMock(RoleFetchService::class);
+    $this->specialistFetchService = $this->createMock(SpecialistFetchService::class);
+    $this->clientFetchService = $this->createMock(ClientFetchService::class);
     $this->entityManager = $this->createMock(EntityManagerInterface::class);
     $this->userPasswordHasher = $this->createMock(UserPasswordHasherInterface::class);
 
@@ -41,6 +53,10 @@ class UserServiceTest extends TestCase {
             $this->roleRepository,
             $this->rolePermissionRepository,
             $this->companyRepository,
+            $this->companyFetchService,
+            $this->roleFetchService,
+            $this->specialistFetchService,
+            $this->clientFetchService,
             $this->entityManager,
             $this->userPasswordHasher);
   }
@@ -92,8 +108,8 @@ class UserServiceTest extends TestCase {
                 fn (Role $role) => $role->getCode() === 'ADMIN' && $role->getName() === 'Admin'));
 
     $this->rolePermissionRepository
-      ->expects(static::exactly(count(PermissionType::cases())))
-      ->method('save');
+        ->expects(static::exactly(count(PermissionType::cases())))
+        ->method('save');
 
     $this->userRepository
         ->expects(static::once())

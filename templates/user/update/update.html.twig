@@ -1,0 +1,133 @@
+{% extends 'authorized-base.html.twig' %}
+
+{% block content %}
+  <div class="card">
+    <div class="card-header py-3">
+      <h5 class="mb-0">
+        <strong>
+          {{ 'add-user'|trans }}
+        </strong>
+      </h5>
+    </div>
+
+    <div class="card-body">
+      {{ form_start(form) }}
+
+      {% if not form.vars.valid %}
+        <div class="alert alert-danger">
+          {{ form_errors(form) }}
+        </div>
+      {% endif %}
+
+      <div class="row mb-1">
+        <div class="col-lg-3 col-md-6 col-12">
+          <div data-mdb-input-init class="form-outline">
+            {{ form_widget(form.username, { attr: { class: 'form-control' ~ (form.username.vars.valid ? '' : ' is-invalid') } }) }}
+
+            {{ form_label(form.username, 'username', { label_attr: { class: 'form-label' } }) }}
+
+            {% if not form.username.vars.valid %}
+              <div class="invalid-feedback">
+                {{ form_errors(form.username) }}
+              </div>
+            {% endif %}
+          </div>
+        </div>
+
+        <div class="row mb-1">
+          <div class="col-lg-3 col-md-6 col-12">
+            <div data-mdb-input-init class="form-outline">
+              {{ form_widget(form.email, { attr: { class: 'form-control' ~ (form.email.vars.valid ? '' : ' is-invalid') } }) }}
+
+              {{ form_label(form.email, 'email', { label_attr: { class: 'form-label' } }) }}
+
+              {% if not form.email.vars.valid %}
+                <div class="invalid-feedback">
+                  {{ form_errors(form.email) }}
+                </div>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+
+        <div class="row mb-1">
+          <div class="col-lg-3 col-md-6 col-12">
+            <div data-mdb-input-init class="form-outline">
+              {{ form_widget(form.password, { attr: { class: 'form-control' ~ (form.password.vars.valid ? '' : ' is-invalid') } }) }}
+
+              {{ form_label(form.password, 'password', { label_attr: { class: 'form-label' } }) }}
+
+              {% if not form.password.vars.valid %}
+                <div class="invalid-feedback">
+                  {{ form_errors(form.password) }}
+                </div>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+
+        <div class="row mb-1">
+          <div class="col-lg-3 col-md-6 col-12">
+            <div data-mdb-input-init class="form-outline">
+              {{ form_label(form.roleId, 'role', { label_attr: { class: '' } }) }}
+
+              {{ form_widget(form.roleId, { attr: { class: 'form-control' ~ (form.roleId.vars.valid ? '' : ' is-invalid') } }) }}
+
+              {% if not form.roleId.vars.valid %}
+                <div class="invalid-feedback">
+                  {{ form_errors(form.roleId) }}
+                </div>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+
+        <div class="row mb-1">
+          <div class="col-lg-3 col-md-6 col-12">
+            <div data-mdb-input-init class="form-outline">
+              {{ form_label(form.specialistId, 'specialist', { label_attr: { class: '' } }) }}
+
+              {{ form_widget(form.specialistId, { attr: { class: 'form-control' ~ (form.specialistId.vars.valid ? '' : ' is-invalid') } }) }}
+
+              {% if not form.specialistId.vars.valid %}
+                <div class="invalid-feedback">
+                  {{ form_errors(form.specialistId) }}
+                </div>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+
+        <div class="row mb-1">
+          <div class="col-lg-3 col-md-6 col-12">
+            <div data-mdb-input-init class="form-outline">
+              {{ form_label(form.clientId, 'client', { label_attr: { class: '' } }) }}
+
+              {{ form_widget(form.clientId, { attr: { class: 'form-control' ~ (form.clientId.vars.valid ? '' : ' is-invalid') } }) }}
+
+              {% if not form.clientId.vars.valid %}
+                <div class="invalid-feedback">
+                  {{ form_errors(form.clientId) }}
+                </div>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+
+        <div class="row mb-1">
+          <div class="col-lg-3 col-md-6 col-12">
+            {{ form_row(form.submit, { attr: { 'data-mdb-ripple-init': '', class: 'btn btn-primary' } }) }}
+          </div>
+        </div>
+
+        <div class="row mb-1">
+          <div class="col-lg-3 col-md-6 col-12">
+            {% include 'partial/_back-to-list.html.twig' with { route: path('user_list') } %}
+          </div>
+        </div>
+
+        {{ form_end(form) }}
+      </div>
+    </div>
+  </div>
+{% endblock %}
