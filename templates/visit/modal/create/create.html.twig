@@ -1,0 +1,111 @@
+<turbo-frame id="visit-modal-create" target="_top">
+  {{ form_start(form) }}
+
+  {% if not form.vars.valid %}
+    <div class="alert alert-danger">
+      {{ form_errors(form) }}
+    </div>
+  {% endif %}
+
+  <div class="row mb-1">
+    <div class="col-12">
+      <div data-mdb-input-init class="form-outline">
+        {{ form_label(form.specialistId, 'specialist', { label_attr: { class: '' } }) }}
+
+        {{ form_widget(form.specialistId, { attr: { class: 'form-control' ~ (form.specialistId.vars.valid ? '' : ' is-invalid') } }) }}
+
+        {% if not form.specialistId.vars.valid %}
+          <div class="invalid-feedback">
+            {{ form_errors(form.specialistId) }}
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-1">
+    <div class="col-12">
+      <div data-mdb-input-init class="form-outline">
+        {{ form_label(form.date, 'date', { label_attr: { class: '' } }) }}
+
+        {{ form_widget(form.date, { attr: { class: 'form-control' ~ (form.date.vars.valid ? '' : ' is-invalid') } }) }}
+
+        {% if not form.date.vars.valid %}
+          <div class="invalid-feedback">
+            {{ form_errors(form.date) }}
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-1">
+    <div class="col-12">
+      <div data-mdb-input-init class="form-outline">
+        {{ form_label(form.clientId, 'client', { label_attr: { class: '' } }) }}
+
+        {{ form_widget(form.clientId, { attr: { class: 'form-control' ~ (form.clientId.vars.valid ? '' : ' is-invalid') } }) }}
+
+        {% if not form.clientId.vars.valid %}
+          <div class="invalid-feedback">
+            {{ form_errors(form.clientId) }}
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-1">
+    <div class="col-6">
+      <div data-mdb-input-init class="form-outline">
+        {{ form_label(form.fromTime, 'from-time', { label_attr: { class: '' } }) }}
+
+        {{ form_widget(form.fromTime, { attr: { class: 'form-control' ~ (form.fromTime.vars.valid ? '' : ' is-invalid') } }) }}
+
+        {% if not form.fromTime.vars.valid %}
+          <div class="invalid-feedback">
+            {{ form_errors(form.fromTime) }}
+          </div>
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="col-6">
+      <div data-mdb-input-init class="form-outline">
+        {{ form_label(form.toTime, 'to-time', { label_attr: { class: '' } }) }}
+
+        {{ form_widget(form.toTime, { attr: { class: 'form-control' ~ (form.toTime.vars.valid ? '' : ' is-invalid') } }) }}
+
+        {% if not form.toTime.vars.valid %}
+          <div class="invalid-feedback">
+            {{ form_errors(form.toTime) }}
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-1">
+    <div class="col-12">
+      <div data-mdb-input-init class="form-outline">
+        {{ form_label(form.note, 'note', { label_attr: { class: '' } }) }}
+
+        {{ form_widget(form.note, { attr: { class: 'form-control' ~ (form.note.vars.valid ? '' : ' is-invalid') } }) }}
+
+        {% if not form.note.vars.valid %}
+          <div class="invalid-feedback">
+            {{ form_errors(form.note) }}
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-1">
+    <div class="col-12">
+      {{ form_row(form.submit, { attr: { 'data-mdb-ripple-init': '', class: 'btn btn-primary' } }) }}
+    </div>
+  </div>
+
+  {{ form_end(form) }}
+</turbo-frame>

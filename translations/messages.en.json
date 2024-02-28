@@ -165,5 +165,8 @@
   "user-edited-successfully": "The user has been edited successfully",
   "user-deleted-successfully": "The user has been deleted successfully",
   "client-name": "Client name",
-  "client": "Client"
+  "client": "Client",
+  "date": "Date",
+  "visit-create": "Add visit",
+  "note": "Note"
 }
