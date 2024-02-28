@@ -45,13 +45,15 @@ class VisitCalendarService {
                             (new DateTimeImmutableRange())
                                 ->setFrom($visit->getFromTime())
                                 ->setTo($visit->getToTime())),
-                        $visits));
+                        $visits),
+                    $date);
               });
 
       $calendarRows[] =
           new CalendarRowDto(
               new CalendarInfoColDto($specialist->getFirstname(), $specialist->getSurname()),
-              $dataCols);
+              $dataCols,
+              $specialist->getId());
     }
 
     return new CalendarDto($this->getHeaders($range), $calendarRows);

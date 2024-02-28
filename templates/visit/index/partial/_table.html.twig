@@ -1,33 +1,39 @@
-<table class="table table-bordered border-primary">
-  <thead class="table-dark">
-    <tr>
-      <th></th>
-
-      {% for headerDto in calendarDto.headerCols %}
-        <th>
-          {{ headerDto.date|dateFormat }}
-        </th>
-      {% endfor %}
-    </tr>
-  </thead>
-
-  <tbody>
-    {% for rowDto in calendarDto.rows %}
+<div {{ stimulus_controller('modal-form') }}>
+  <table class="table table-bordered border-primary">
+    <thead class="table-dark">
       <tr>
-        <td>
-          {{ rowDto.infoCol.specialistFirstname }} {{ rowDto.infoCol.specialistSurname }}
-        </td>
+        <th></th>
 
-        {% for dataColDto in rowDto.dataCols %}
-          <td>
-            {% for dataVisitDto in dataColDto.visits %}
-              {{ dataVisitDto.range.from|dateFormat('H:i') }}
-              -
-              {{ dataVisitDto.range.to|dateFormat('H:i') }}
-            {% endfor %}
-          </td>
+        {% for headerDto in calendarDto.headerCols %}
+          <th>
+            {{ headerDto.date|dateFormat }}
+          </th>
         {% endfor %}
       </tr>
-    {% endfor %}
-  </tbody>
-</table>
+    </thead>
+
+    <tbody>
+      {% for rowDto in calendarDto.rows %}
+        <tr>
+          <td>
+            {{ rowDto.infoCol.specialistFirstname }} {{ rowDto.infoCol.specialistSurname }}
+          </td>
+
+          {% for dataColDto in rowDto.dataCols %}
+            <td
+                data-action="click->modal-form#openModal"
+                data-modal-form-src-param="{{ path('visit_modal_create', { date: dataColDto.date|dateFormat('Y-m-d'), specialistId: rowDto.specialistId }) }}">
+              {% for dataVisitDto in dataColDto.visits %}
+                {{ dataVisitDto.range.from|dateFormat('H:i') }}
+                -
+                {{ dataVisitDto.range.to|dateFormat('H:i') }}
+              {% endfor %}
+            </td>
+          {% endfor %}
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  {{ include('common/_modal.html.twig', { modalTitle: 'visit-create'|trans, id: 'visit-modal-create' }) }}
+</div>

@@ -165,5 +165,8 @@
   "user-edited-successfully": "Użytkownik został pomyślnie zaktualizowany",
   "user-deleted-successfully": "Użytkownik został pomyślnie usunięty",
   "client-name": "Nazwa klienta",
-  "client": "Klient"
+  "client": "Klient",
+  "date": "Data",
+  "visit-create": "Dodaj wizytę",
+  "note": "Notatka"
 }

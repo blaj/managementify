@@ -12,6 +12,9 @@ class DateTimeImmutableUtils {
   private static string $fullYearFormat = 'Y';
   private static string $monthNoFormat = 'm';
   private static string $weekNoFormat = 'W';
+  private static string $hourFormat = 'H';
+  private static string $minuteFormat = 'i';
+  private static string $secondFormat = 's';
 
   public static function firstDayOfMonth(DateTimeImmutable $date): DateTimeImmutable {
     return (new DateTimeImmutable())
@@ -47,7 +50,25 @@ class DateTimeImmutableUtils {
     return intval($date->format(self::$weekNoFormat));
   }
 
+  public static function hour(DateTimeImmutable $date): int {
+    return intval($date->format(self::$hourFormat));
+  }
+
+  public static function minute(DateTimeImmutable $date): int {
+    return intval($date->format(self::$minuteFormat));
+  }
+
+  public static function second(DateTimeImmutable $date): int {
+    return intval($date->format(self::$secondFormat));
+  }
+
   public static function addDay(DateTimeImmutable $date): DateTimeImmutable {
     return $date->add(new DateInterval('P1D'));
+  }
+
+  public static function appendTimeToDate(
+      DateTimeImmutable $date,
+      DateTimeImmutable $time): DateTimeImmutable {
+    return $date->setTime(self::hour($time), self::minute($time), 0);
   }
 }
