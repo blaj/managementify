@@ -168,5 +168,6 @@
   "client": "Klient",
   "date": "Data",
   "visit-create": "Dodaj wizytę",
-  "note": "Notatka"
+  "note": "Notatka",
+  "visit-type": "Typ wizyty"
 }

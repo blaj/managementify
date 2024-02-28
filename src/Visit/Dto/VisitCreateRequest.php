@@ -18,6 +18,8 @@ class VisitCreateRequest {
 
   private ?string $note = null;
 
+  private ?int $visitTypeId = null;
+
   public function getDate(): DateTimeImmutable {
     return $this->date;
   }
@@ -74,6 +76,16 @@ class VisitCreateRequest {
 
   public function setNote(?string $note): self {
     $this->note = $note;
+
+    return $this;
+  }
+
+  public function getVisitTypeId(): ?int {
+    return $this->visitTypeId;
+  }
+
+  public function setVisitTypeId(?int $visitTypeId): self {
+    $this->visitTypeId = $visitTypeId;
 
     return $this;
   }
