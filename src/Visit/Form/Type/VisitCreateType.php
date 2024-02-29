@@ -35,6 +35,10 @@ class VisitCreateType extends AbstractType {
             ClientChoiceType::class,
             ['label' => 'client', 'companyId' => $options['companyId']])
         ->add('note', TextareaType::class, ['label' => 'note', 'required' => false])
+        ->add(
+            'visitTypeId',
+            VisitTypeChoiceType::class,
+            ['label' => 'visit-type', 'companyId' => $options['companyId'], 'required' => false])
         ->add('submit', SubmitType::class, ['label' => 'save']);
   }
 }

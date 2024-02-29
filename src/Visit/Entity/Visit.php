@@ -41,6 +41,10 @@ class Visit extends SoftDeleteEntity implements CompanyContextInterface {
   #[ManyToOne(targetEntity: Company::class, fetch: 'LAZY')]
   private Company $company;
 
+  #[JoinColumn(name: 'visit_type_id', referencedColumnName: 'id', nullable: false, columnDefinition: 'BIGINT')]
+  #[ManyToOne(targetEntity: VisitType::class, fetch: 'LAZY')]
+  private VisitType $visitType;
+
   public function getFromTime(): DateTimeImmutable {
     return $this->fromTime;
   }
@@ -97,6 +101,16 @@ class Visit extends SoftDeleteEntity implements CompanyContextInterface {
 
   public function setCompany(Company $company): self {
     $this->company = $company;
+
+    return $this;
+  }
+
+  public function getVisitType(): VisitType {
+    return $this->visitType;
+  }
+
+  public function setVisitType(VisitType $visitType): self {
+    $this->visitType = $visitType;
 
     return $this;
   }

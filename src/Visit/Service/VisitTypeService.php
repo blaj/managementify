@@ -18,7 +18,8 @@ class VisitTypeService {
 
   public function __construct(
       private readonly VisitTypeRepository $visitTypeRepository,
-      private readonly CompanyFetchService $companyFetchService) {}
+      private readonly CompanyFetchService $companyFetchService,
+      private readonly VisitTypeFetchService $visitTypeFetchService) {}
 
   /**
    * @return array<VisitTypeListItemDto>
@@ -55,7 +56,7 @@ class VisitTypeService {
       int $id,
       VisitTypeUpdateRequest $visitTypeUpdateRequest,
       int $companyId): void {
-    $visitType = $this->fetchVisitType($id, $companyId);
+    $visitType = $this->visitTypeFetchService->fetchVisitType($id, $companyId);
     $visitType
         ->setPreferredPrice($visitTypeUpdateRequest->getPreferredPrice())
         ->setName($visitTypeUpdateRequest->getName());
@@ -64,16 +65,12 @@ class VisitTypeService {
   }
 
   public function archive(int $id, int $companyId): void {
-    $this->visitTypeRepository->archiveById($this->fetchVisitType($id, $companyId)->getId());
+    $this->visitTypeRepository->archiveById(
+        $this->visitTypeFetchService->fetchVisitType($id, $companyId)->getId());
   }
 
   public function unArchive(int $id, int $companyId): void {
-    $this->visitTypeRepository->unArchiveById($this->fetchVisitType($id, $companyId)->getId());
-  }
-
-  private function fetchVisitType(int $id, int $companyId): VisitType {
-    return $this->visitTypeRepository->findOneByIdAndCompanyId($id, $companyId)
-        ??
-        throw new EntityNotFoundException('Visit type not found');
+    $this->visitTypeRepository->unArchiveById(
+        $this->visitTypeFetchService->fetchVisitType($id, $companyId)->getId());
   }
 }

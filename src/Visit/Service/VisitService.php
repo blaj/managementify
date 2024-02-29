@@ -18,7 +18,8 @@ class VisitService {
       private readonly VisitRepository $visitRepository,
       private readonly ClientFetchService $clientFetchService,
       private readonly SpecialistFetchService $specialistFetchService,
-      private readonly CompanyFetchService $companyFetchService) {}
+      private readonly CompanyFetchService $companyFetchService,
+      private readonly VisitTypeFetchService $visitTypeFetchService) {}
 
   public function getCreateRequest(VisitCellDataRequest $visitCellDataRequest): VisitCreateRequest {
     return (new VisitCreateRequest())
@@ -53,6 +54,13 @@ class VisitService {
                 $visitCreateRequest->getSpecialistId(),
                 $companyId))
         ->setCompany($this->companyFetchService->fetchCompany($companyId));
+
+    if ($visitCreateRequest->getVisitTypeId() !== null) {
+      $visit->setVisitType(
+          $this->visitTypeFetchService->fetchVisitType(
+              $visitCreateRequest->getVisitTypeId(),
+              $companyId));
+    }
 
     $this->visitRepository->save($visit);
   }
