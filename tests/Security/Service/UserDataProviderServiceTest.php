@@ -75,6 +75,7 @@ class UserDataProviderServiceTest extends TestCase {
     Assert::assertEquals($dto->getUserIdentifier(), $identifier);
     Assert::assertEquals($dto->getPassword(), $password);
     Assert::assertEquals($dto->getCompanyId(), $companyId);
+    Assert::assertEquals($dto->getUserId(), 123);
     Assert::assertEquals(['ROLE_DASHBOARD'], $dto->getRoles());
   }
 
@@ -145,6 +146,7 @@ class UserDataProviderServiceTest extends TestCase {
     Assert::assertEquals($dto->getUserIdentifier(), $identifier);
     Assert::assertEquals($dto->getPassword(), $password);
     Assert::assertEquals($dto->getCompanyId(), $companyId);
+    Assert::assertEquals($dto->getUserId(), 123);
     Assert::assertEquals(['ROLE_DASHBOARD'], $dto->getRoles());
   }
 
@@ -178,6 +180,7 @@ class UserDataProviderServiceTest extends TestCase {
 
   private function user(string $username, string $password, int $companyId): User {
     return (new User())
+        ->setId(123)
         ->setUsername($username)
         ->setPassword($password)
         ->setCompany((new Company())->setId($companyId))

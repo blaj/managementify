@@ -169,5 +169,7 @@
   "date": "Data",
   "visit-create": "Dodaj wizytę",
   "note": "Notatka",
-  "visit-type": "Typ wizyty"
+  "visit-type": "Typ wizyty",
+  "reports": "Raporty",
+  "file-type": "Format pliku"
 }

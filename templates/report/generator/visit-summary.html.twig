@@ -1,0 +1,37 @@
+{% extends 'report-base.html.twig' %}
+
+{% block content %}
+  <table>
+    {% for row in rows %}
+      <tr>
+        <td>
+          {{ row.specialistName }}
+        </td>
+
+        <td>
+          {{ row.clientName }}
+        </td>
+
+        <td>
+          {{ row.fromTime|dateFormat('Y-m-d H:i') }}
+        </td>
+
+        <td>
+          {{ row.toTime|dateFormat('Y-m-d H:i') }}
+        </td>
+
+        <td>
+          {{ row.note }}
+        </td>
+
+        <td>
+          {{ row.visitTypeName }}
+        </td>
+
+        <td>
+          {{ row.preferredPrice }}
+        </td>
+      </tr>
+    {% endfor %}
+  </table>
+{% endblock %}

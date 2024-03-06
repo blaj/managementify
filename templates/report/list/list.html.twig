@@ -1,0 +1,28 @@
+{% extends 'authorized-base.html.twig' %}
+
+{% block content %}
+  <div class="card" {{ stimulus_controller('modal-form') }}>
+    <div class="card-header py-3 d-flex justify-content-between align-items-center">
+      <h5 class="mb-0">
+        <strong>
+          {{ 'reports'|trans }}
+        </strong>
+      </h5>
+    </div>
+
+    <div class="card-body">
+      <ul class="list-group list-group-light">
+        <li class="list-group-item">
+          <a
+              href="#"
+              data-action="click->modal-form#openModal"
+              data-modal-form-src-param="{{ path('report_generate_visit_summary') }}">
+            Raport wizyt
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    {{ include('common/_modal.html.twig', { modalTitle: 'visit-create'|trans, id: 'visit-modal-create' }) }}
+  </div>
+{% endblock %}

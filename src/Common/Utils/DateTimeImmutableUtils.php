@@ -8,6 +8,7 @@ use DateTimeImmutable;
 class DateTimeImmutableUtils {
 
   public static string $dateFormat = 'Y-m-d';
+  public static string $dateTimeFormat = 'Y-m-d H:i';
 
   private static string $fullYearFormat = 'Y';
   private static string $monthNoFormat = 'm';

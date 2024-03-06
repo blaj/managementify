@@ -69,6 +69,7 @@ class UserDataProviderService implements UserProviderInterface {
         ->setUserIdentifier($user->getUsername())
         ->setPassword($user->getPassword())
         ->setCompanyId($user->getCompany()->getId())
+        ->setUserId($user->getId())
         ->setRoles(self::roles($user->getRole()));
   }
 
