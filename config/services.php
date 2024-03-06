@@ -2,6 +2,10 @@
 
 declare(strict_types = 1);
 
+use App\Report\Service\Generator\CsvReportGeneratorServiceInterface;
+use App\Report\Service\Generator\ReportGeneratorServiceInterface;
+use App\Report\Service\Generator\XlsxReportGeneratorServiceInterface;
+use App\Report\Service\ReportGeneratorServiceFactory;
 use App\Visit\ValueResolver\VisitCellDataRequestValueResolver;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symfony\Component\HttpKernel\Controller\ArgumentResolver\RequestPayloadValueResolver;
@@ -13,6 +17,21 @@ return static function(ContainerConfigurator $containerConfigurator): void {
   $services->defaults()
       ->autowire()
       ->autoconfigure();
+
+  $services
+      ->instanceof(ReportGeneratorServiceInterface::class)
+      ->tag('app.report-generator-service')
+      ->lazy(false);
+
+  $services
+      ->instanceof(CsvReportGeneratorServiceInterface::class)
+      ->tag('app.csv-report-generator-service')
+      ->lazy(false);
+
+  $services
+      ->instanceof(XlsxReportGeneratorServiceInterface::class)
+      ->tag('app.xlsx-report-generator-service')
+      ->lazy(false);
 
   $services->load('App\\', __DIR__ . '/../src/')
       ->exclude([

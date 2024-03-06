@@ -13,6 +13,8 @@ class UserData implements UserInterface, PasswordAuthenticatedUserInterface {
 
   private int $companyId;
 
+  private int $userId;
+
   /**
    * @var array<string>
    */
@@ -53,6 +55,16 @@ class UserData implements UserInterface, PasswordAuthenticatedUserInterface {
 
   public function setPassword(string $password): self {
     $this->password = $password;
+
+    return $this;
+  }
+
+  public function getUserId(): int {
+    return $this->userId;
+  }
+
+  public function setUserId(int $userId): self {
+    $this->userId = $userId;
 
     return $this;
   }

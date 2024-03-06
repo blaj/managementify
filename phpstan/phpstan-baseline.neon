@@ -24,3 +24,18 @@ parameters:
 			message: "#^Return type \\(array\\<T of App\\\\Common\\\\Entity\\\\SoftDeleteEntity\\>\\) of method App\\\\Common\\\\Repository\\\\AbstractSoftDeleteRepository\\:\\:findAll\\(\\) should be covariant with return type \\(array\\<int, App\\\\Common\\\\Entity\\\\SoftDeleteEntity\\>\\) of method Doctrine\\\\Persistence\\\\ObjectRepository\\<T of App\\\\Common\\\\Entity\\\\SoftDeleteEntity\\>\\:\\:findAll\\(\\)$#"
 			count: 1
 			path: ../src/Common/Repository/AbstractSoftDeleteRepository.php
+
+		-
+			message: "#^Method App\\\\FileStorage\\\\Service\\\\FileStorageService\\:\\:getReportPath\\(\\) should return string but returns mixed\\.$#"
+			count: 1
+			path: ../src/FileStorage/Service/FileStorageService.php
+
+		-
+			message: "#^Parameter \\#1 \\$callback of function call_user_func expects callable\\(\\)\\: mixed, array\\{\\$this\\(App\\\\FileStorage\\\\Service\\\\FileStorageService\\), string\\} given\\.$#"
+			count: 1
+			path: ../src/FileStorage/Service/FileStorageService.php
+
+		-
+			message: "#^Parameter \\#2 \\$context of method Twig\\\\Environment\\:\\:render\\(\\) expects array, mixed given\\.$#"
+			count: 1
+			path: ../src/Report/Service/Generator/PdfReportGeneratorService.php

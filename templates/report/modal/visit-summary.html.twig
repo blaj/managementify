@@ -1,0 +1,33 @@
+<turbo-frame id="visit-modal-create" target="_top">
+  {{ form_start(form) }}
+
+  {% if not form.vars.valid %}
+    <div class="alert alert-danger">
+      {{ form_errors(form) }}
+    </div>
+  {% endif %}
+
+  <div class="row mb-1">
+    <div class="col-12">
+      <div data-mdb-input-init class="form-outline">
+        {{ form_label(form.reportFileType, 'file-type', { label_attr: { class: '' } }) }}
+
+        {{ form_widget(form.reportFileType, { attr: { class: 'form-control' ~ (form.reportFileType.vars.valid ? '' : ' is-invalid') } }) }}
+
+        {% if not form.reportFileType.vars.valid %}
+          <div class="invalid-feedback">
+            {{ form_errors(form.reportFileType) }}
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-1">
+    <div class="col-12">
+      {{ form_row(form.submit, { attr: { 'data-mdb-ripple-init': '', class: 'btn btn-primary' } }) }}
+    </div>
+  </div>
+
+  {{ form_end(form) }}
+</turbo-frame>

@@ -1,6 +1,7 @@
 import { Controller } from '@hotwired/stimulus';
 import { Modal } from 'mdb-ui-kit';
 import { FrameElement, TurboBeforeFetchResponseEvent, visit } from '@hotwired/turbo';
+import { FileUtils } from '@assets/utils';
 
 export default class extends Controller<HTMLElement> {
   static targets = ['modal', 'frame'];
@@ -42,11 +43,28 @@ export default class extends Controller<HTMLElement> {
     }
 
     const fetchResponse = event.detail.fetchResponse;
+    const responseHeaders = fetchResponse.response.headers;
+    const hasDownloadFile = responseHeaders.has('content-disposition');
 
-    if (fetchResponse.succeeded && fetchResponse.redirected) {
+    if (fetchResponse.succeeded) {
       event.preventDefault();
       this.modal.hide();
-      visit(fetchResponse.location);
+
+      if (hasDownloadFile) {
+        const filename = responseHeaders
+          .get('content-disposition')
+          .split('filename=')[1]
+          .split(';')[0];
+
+        fetchResponse.response
+          .blob()
+          .then(blob => FileUtils.downloadFile(blob, filename))
+          .catch(error => console.log(error));
+      }
+
+      if (fetchResponse.redirected) {
+        visit(fetchResponse.location);
+      }
     }
   };
 }

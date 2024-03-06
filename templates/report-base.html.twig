@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html
+    lang="{{ app.request.locale }}"
+    data-textdirection="ltr">
+  <head>
+    <meta charset="UTF-8">
+    <style>
+        body, p, h1, h2, h3, table, th, td {
+            font-family: "Roboto", sans-serif;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        table, th, td {
+            border: 1px solid black;
+        }
+
+        th, td {
+            text-align: center;
+            padding: 8px;
+        }
+    </style>
+  </head>
+  <body>
+    {% block content %}{% endblock %}
+  </body>
+</html>

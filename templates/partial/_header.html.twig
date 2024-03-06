@@ -16,6 +16,8 @@
 
         {% include 'partial/_side-bar-item.html.twig' with { name: 'users'|trans, path: path('user_list'), iconClass: 'fas fa-users' } %}
 
+        {% include 'partial/_side-bar-item.html.twig' with { name: 'reports'|trans, path: path('report_list'), iconClass: 'fas fa-chart-simple' } %}
+
         <h6 class="bg-body-tertiary p-2 border-bottom">
           {{ 'dictionaries'|trans }}
         </h6>

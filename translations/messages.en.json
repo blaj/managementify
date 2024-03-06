@@ -169,5 +169,7 @@
   "date": "Date",
   "visit-create": "Add visit",
   "note": "Note",
-  "visit-type": "Visit type"
+  "visit-type": "Visit type",
+  "reports": "Reports",
+  "file-type": "File type"
 }
